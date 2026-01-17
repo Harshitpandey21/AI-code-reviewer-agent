@@ -1,0 +1,9 @@
+Rewrite this code applying the review suggestions.
+Do NOT change functionality.
+Return only code.
+
+Original Code:
+{code}
+
+Review Report:
+{review}
