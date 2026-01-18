@@ -1,5 +1,7 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+from dotenv import load_dotenv
+load_dotenv()
 
 llm = ChatOpenAI(model = "gpt-4o", temperature=0.2)
 
@@ -19,7 +21,7 @@ def code_reviewer_node(CodeState):
     return CodeState 
 
 def refactored_code(CodeState):
-    prompt = PromptTemplate.from_template(load_prompt("prompts/refactor.txt"))
+    prompt = PromptTemplate.from_template(load_prompt("prompts/refactor_code.txt"))
     result = llm.invoke(prompt.format(code=CodeState["raw_code"],
                                       review = CodeState["review_code"]))
     CodeState["refactored_code"] = result.content
@@ -32,15 +34,4 @@ def test_code(CodeState):
     return CodeState 
 
 def human_approval(CodeState):
-    print("\n===== REVIEW REPORT =====\n")
-    print(CodeState["review_report"])
-
-    print("\n===== TEST REPORT =====\n")
-    print(CodeState["test_report"])
-
-    print("\n===== REFACTORED CODE =====\n")
-    print(CodeState["refactored_code"])
-
-    approval = input("\nApprove refactored code? (yes/no): ")
-    CodeState["user_approval"] = approval.lower()
     return CodeState
