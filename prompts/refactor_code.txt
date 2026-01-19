@@ -1,4 +1,4 @@
-Rewrite this code applying the review suggestions.
+Rewrite this {language} code applying the review suggestions.
 Do NOT change functionality.
 Return only code.
 

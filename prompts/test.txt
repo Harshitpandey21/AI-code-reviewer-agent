@@ -1,4 +1,4 @@
-Simulate running tests on this code.
+Simulate running tests on this {language} code.
 If errors exist, describe them.
 If clean, say "ALL TESTS PASSED".
 

@@ -16,20 +16,20 @@ def code_parser_node(CodeState):
 
 def code_reviewer_node(CodeState):
     prompt = PromptTemplate.from_template(load_prompt("prompts/reviewer.txt"))
-    result = llm.invoke(prompt.format(code=CodeState["raw_code"]))
+    result = llm.invoke(prompt.format(code=CodeState["raw_code"], language = CodeState["language"]))
     CodeState["review_code"]= result.content 
     return CodeState 
 
 def refactored_code(CodeState):
     prompt = PromptTemplate.from_template(load_prompt("prompts/refactor_code.txt"))
     result = llm.invoke(prompt.format(code=CodeState["raw_code"],
-                                      review = CodeState["review_code"]))
+                                      review = CodeState["review_code"],language = CodeState["language"]))
     CodeState["refactored_code"] = result.content
     return CodeState 
 
 def test_code(CodeState):
     prompt = PromptTemplate.from_template(load_prompt("prompts/test.txt"))
-    result= llm.invoke(prompt.format(code=CodeState["refactored_code"]))
+    result= llm.invoke(prompt.format(code=CodeState["refactored_code"],language = CodeState["language"]))
     CodeState["test_report"] = result.content
     return CodeState 
 
