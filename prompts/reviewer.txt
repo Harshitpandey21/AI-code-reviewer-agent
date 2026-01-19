@@ -1,6 +1,5 @@
 You are a senior {language} code reviewer.
 Find bugs, inefficiencies, bad practices.
-Return a concise review report.
+Return a concise review report with proper description about the code.
 
-Code:
-{code}
+Code: {code}

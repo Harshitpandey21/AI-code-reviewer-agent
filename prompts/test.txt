@@ -2,5 +2,4 @@ Simulate running tests on this {language} code.
 If errors exist, describe them.
 If clean, say "ALL TESTS PASSED".
 
-Code:
-{code}
+Code: {code}

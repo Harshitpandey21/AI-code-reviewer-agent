@@ -1,9 +1,7 @@
 Rewrite this {language} code applying the review suggestions.
-Do NOT change functionality.
+Do NOT change functionality and make the code more precise.
 Return only code.
 
-Original Code:
-{code}
+Original Code: {code}
 
-Review Report:
-{review}
+Review Report: {review}
