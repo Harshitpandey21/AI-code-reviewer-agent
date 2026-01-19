@@ -5,14 +5,37 @@ st.set_page_config(page_title="AI Code Reviewer Agent", layout="wide")
 
 st.title("🧠 AI Code Reviewer + Refactor Agent")
 
-uploaded_file = st.file_uploader("Upload a Python file", type=["py"])
+uploaded_file = st.file_uploader(
+    "Upload code file",
+    type=["py","js","ts","java","cpp","c","cs","go","rs","php","html"]
+)
 
 if uploaded_file:
     raw_code = uploaded_file.read().decode("utf-8")
+    filename = uploaded_file.name
+
+    ext = filename.split(".")[-1]
+
+    language_map = {
+        "py": "python",
+        "js": "javascript",
+        "ts": "typescript",
+        "java": "java",
+        "cpp": "c++",
+        "c": "c",
+        "cs": "c#",
+        "go": "go",
+        "rs": "rust",
+        "php": "php",
+        "html": "html"
+    }
+
+    language = language_map.get(ext, "unknown")
 
     if "state" not in st.session_state:
         st.session_state.CodeState = {
-            "raw_code": raw_code
+            "raw_code": raw_code,
+            "language": language
         }
 
     if st.button("Run Code Review Agent"):
@@ -30,14 +53,14 @@ if uploaded_file:
         st.text(result["test_report"])
 
         st.subheader("🛠️ Refactored Code")
-        st.code(result["refactored_code"], language="python")
+        st.code(result["refactored_code"], language=st.session_state.CodeState["language"])
 
         col1, col2 = st.columns(2)
 
         with col1:
             if st.button("✅ Approve"):
                 st.success("Final Approved Code:")
-                st.code(result["refactored_code"], language="python")
+                st.code(result["refactored_code"],language=st.session_state.CodeState["language"])
 
         with col2:
             if st.button("❌ Reject and Improve Again"):
