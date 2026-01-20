@@ -75,7 +75,8 @@ page = st.sidebar.radio(
     index=pages.index(st.session_state.page)
 )
 st.session_state.page = page
-
+st.sidebar.markdown("---")
+st.sidebar.markdown("## **Feel free to use and test it 😜** ")
 if page == "Upload Code":
 
     st.markdown("<div class='main-title'>AI Code Review Platform</div>", unsafe_allow_html=True)
