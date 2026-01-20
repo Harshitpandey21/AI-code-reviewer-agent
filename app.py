@@ -68,16 +68,13 @@ if "page" not in st.session_state:
     st.session_state.page = "Upload Code"
 
 pages = ["Upload Code", "Review Results", "Final Approval"]
-
+st.sidebar.markdown("## **🧠 AI Code Reviewer + Refactor Agent**")
 page = st.sidebar.radio(
-    "Navigation",
+    "Features",
     pages,
     index=pages.index(st.session_state.page)
 )
-
 st.session_state.page = page
-st.sidebar.markdown("---")
-st.sidebar.caption("AI Code Reviewer Agent")
 
 if page == "Upload Code":
 
