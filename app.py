@@ -95,7 +95,7 @@ if uploaded_file:
         st.download_button(
           label="📄 Download Full Report as PDF",
           data=pdf_buffer,
-          file_name="code_review_report.pdf",
+          file_name="code_report.pdf",
           mime="application/pdf"
         )
 
@@ -109,7 +109,6 @@ if uploaded_file:
 
         with col2:
             if st.button("❌ Reject and Improve Again"):
-                # Feed refactored code back as new raw_code
                 st.session_state.CodeState["raw_code"] = result["refactored_code"]
                 del st.session_state.result
                 st.experimental_rerun()
