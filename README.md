@@ -111,8 +111,8 @@ dotenv
 # 🔧 Installation
 # 1. Clone repository
 ```
-git clone <https://github.com/Harshitpandey21/AI-code-reviewer-agent>
-cd <AI-code-reviewer-agent>
+git clone https://github.com/Harshitpandey21/AI-code-reviewer-agent
+cd AI-code-reviewer-agent
 ```
 # 2. Install dependencies
 ```
