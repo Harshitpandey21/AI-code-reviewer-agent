@@ -5,23 +5,14 @@ An interactive web application that automatically reviews source code, generates
 # 🚀 What This Application Does
 
 1. Accepts a source code file upload
-
 2. Detects the programming language automatically
-
 3. Sends code to an AI agent pipeline for:
-
-  * Code review analysis
-
-  * Test report generation
-
-  * Refactored code generation
-
+   - Code review analysis
+   - Test report generation
+   - Refactored code generation
 4. Displays structured reports in a web UI
-
 5. Shows unified diff between original and refactored code
-
 6. Allows approval or iterative improvement cycles
-
 7. Exports a complete PDF review report
 
 # 🧩 Core Features
