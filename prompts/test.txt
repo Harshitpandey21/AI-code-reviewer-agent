@@ -1,5 +1,6 @@
-Simulate running tests on this {language} code.
-If errors exist, describe them.
+You are a QA engineer.
+Simulate tests for this {language} code.
+If issues exist, describe them.
 If clean, say "ALL TESTS PASSED".
 
 Code: {code}
