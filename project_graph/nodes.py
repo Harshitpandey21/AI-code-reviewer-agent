@@ -8,3 +8,6 @@ llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
 def load_prompt(path):
     return open(path).read()
 
+def project_reviw_node():
+    prompt = load_prompt("prompts/project_review.txt")
+    return prompt
