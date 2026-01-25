@@ -1,0 +1,9 @@
+Explain the project architecture and workflow.
+
+Rules:
+Plain text only.
+No markdown.
+No symbols.
+
+Project Code:
+{project_code}
