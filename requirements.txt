@@ -1,6 +1,0 @@
-langgraph
-langchain
-langchain-openai
-dotenv
-streamlit
-reportlab

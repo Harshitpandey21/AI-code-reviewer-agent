@@ -1,0 +1,15 @@
+Generate 15 hard and medium level technical interview questions and their proper answers from this project.
+
+Structure of question answer should be:
+Question: and then the question 
+then from next line 
+ANSWER: the detailed answer of the question
+
+Rules:
+Plain text only.
+Number questions.
+No markdown.
+No symbols.
+
+Project Code:
+{project_files}

@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+python-multipart
+langgraph
+langchain-openai
+python-dotenv
+reportlab
