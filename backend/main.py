@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 import zipfile, io
 
@@ -14,20 +14,39 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# ------------------------
+# SINGLE FILE REVIEW
+# ------------------------
 @app.post("/single-review")
 async def single_review(file: UploadFile = File(...)):
     raw_code = (await file.read()).decode("utf-8", errors="ignore")
-    
-    state = {"raw_code": raw_code, "language": "python"}
-    result = SingleFileGraph.invoke(state)
 
-    return result
+    state = {
+        "raw_code": raw_code,
+        "language": "python"
+    }
+
+    graph_state = SingleFileGraph.invoke(state)
+
+    # Enforce output contract
+    return {
+        "review_report": graph_state.get("review_report", ""),
+        "refactored_code": graph_state.get("refactored_code", ""),
+        "test_report": graph_state.get("test_report", "")
+    }
 
 
+# ------------------------
+# FULL PROJECT INTELLIGENCE
+# ------------------------
 @app.post("/project-review")
-async def project_review(file: UploadFile = File(...), action: str = "PROJECT_REVIEW"):
-    
+async def project_review(
+    file: UploadFile = File(...),
+    action: str = Form(...)
+):
+    # Read ZIP
     zip_bytes = io.BytesIO(await file.read())
+
     with zipfile.ZipFile(zip_bytes) as z:
         project_files = {
             name: z.read(name).decode("utf-8", errors="ignore")
@@ -35,38 +54,30 @@ async def project_review(file: UploadFile = File(...), action: str = "PROJECT_RE
             if not name.endswith("/")
         }
 
+    # Build graph state
     state = {
         "project_files": project_files,
         "user_request": action
     }
 
-    graph_result = FinalProjectGraph.invoke(state)
+    graph_state = FinalProjectGraph.invoke(state)
 
-    # ---- NORMALIZE OUTPUT ----
-    text = None
+    # ---- Strict output mapping ----
+    # LangGraph returns final state dictionary.
+    # Each node must write its result into state.
 
-    # Handle common LangGraph output shapes
-    if isinstance(graph_result, dict):
-        # if graph already returns a text field
-        if "result" in graph_result:
-            text = graph_result["result"]
-        elif "final" in graph_result:
-            text = graph_result["final"]
-        else:
-            # fallback: stringify whole dict
-            text = str(graph_result)
-    else:
-        text = str(graph_result)
+    response = {}
 
-    # ---- Map to frontend expected keys ----
     if action == "PROJECT_REVIEW":
-        return {"review_report": text}
+        response["review_report"] = graph_state.get("review_report", "")
 
-    if action == "PROJECT_EXPLAIN":
-        return {"project_explanation": text}
+    elif action == "PROJECT_EXPLAIN":
+        response["project_explanation"] = graph_state.get("project_explanation", "")
 
-    if action == "INTERVIEW":
-        return {"interview_questions": text}
+    elif action == "INTERVIEW":
+        response["interview_questions"] = graph_state.get("interview_questions", "")
 
-    return {"error": "Unknown action"}
+    else:
+        response["error"] = "Invalid action"
 
+    return response
