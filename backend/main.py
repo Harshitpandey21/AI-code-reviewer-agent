@@ -14,9 +14,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ------------------------
-# SINGLE FILE REVIEW
-# ------------------------
 @app.post("/single-review")
 async def single_review(file: UploadFile = File(...)):
     raw_code = (await file.read()).decode("utf-8", errors="ignore")
