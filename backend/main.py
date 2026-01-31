@@ -55,10 +55,6 @@ async def project_review(
 
     graph_state = FinalProjectGraph.invoke(state)
 
-    # ---- Strict output mapping ----
-    # LangGraph returns final state dictionary.
-    # Each node must write its result into state.
-
     response = {}
 
     if action == "PROJECT_REVIEW":
