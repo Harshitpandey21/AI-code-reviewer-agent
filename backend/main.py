@@ -32,10 +32,6 @@ async def single_review(file: UploadFile = File(...)):
         "test_report": graph_state.get("test_report", "")
     }
 
-
-# ------------------------
-# FULL PROJECT INTELLIGENCE
-# ------------------------
 @app.post("/project-review")
 async def project_review(
     file: UploadFile = File(...),
