@@ -25,7 +25,6 @@ async def single_review(file: UploadFile = File(...)):
 
     graph_state = SingleFileGraph.invoke(state)
 
-    # Enforce output contract
     return {
         "review_report": graph_state.get("review_report", ""),
         "refactored_code": graph_state.get("refactored_code", ""),
