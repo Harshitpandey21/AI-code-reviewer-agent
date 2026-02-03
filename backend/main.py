@@ -45,8 +45,7 @@ async def project_review(
             for name in z.namelist()
             if not name.endswith("/")
         }
-
-    # Build graph state
+        
     state = {
         "project_files": project_files,
         "user_request": action
