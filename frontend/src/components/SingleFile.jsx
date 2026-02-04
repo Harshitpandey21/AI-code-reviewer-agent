@@ -121,7 +121,6 @@ export default function SingleFile() {
             </div>
           </section>
 
-          {/* RESULTS */}
           {result && (
             <div className="space-y-10">
 
