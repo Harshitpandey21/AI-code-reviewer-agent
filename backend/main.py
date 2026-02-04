@@ -1,9 +1,8 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.responses import FileResponse
 import zipfile, io
 from utils.project_pdf_generator import generate_project_pdf
-
 from graph.graph_builder import Final as SingleFileGraph
 from project_graph.graph_builder import FinalProjectGraph
 from utils.pdf_generator import generate_single_review_pdf
@@ -17,9 +16,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ------------------------
-# SINGLE FILE REVIEW (JSON)
-# ------------------------
 @app.post("/single-review")
 async def single_review(file: UploadFile = File(...)):
     raw_code = (await file.read()).decode("utf-8", errors="ignore")
@@ -61,10 +57,6 @@ async def single_review_pdf(file: UploadFile = File(...)):
         filename="AI_Code_Review_Report.pdf"
     )
 
-
-# ------------------------
-# FULL PROJECT INTELLIGENCE
-# ------------------------
 @app.post("/project-review")
 async def project_review(
     file: UploadFile = File(...),

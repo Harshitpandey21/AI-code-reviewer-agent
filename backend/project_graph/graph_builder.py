@@ -6,22 +6,12 @@ from project_graph.nodes import (
     interview_node
 )
 
-# ---------------------------
-# Router NODE (must return dict)
-# ---------------------------
 def router_node(state):
-    # No state update needed
     return {}
 
-# ---------------------------
-# Condition function (returns string)
-# ---------------------------
 def route_condition(state):
     return state["user_request"]
 
-# ---------------------------
-# Build Graph
-# ---------------------------
 graph = StateGraph(ProjectState)
 
 graph.add_node("router", router_node)
@@ -33,7 +23,7 @@ graph.set_entry_point("router")
 
 graph.add_conditional_edges(
     "router",
-    route_condition,   # <-- separate function
+    route_condition,
     {
         "PROJECT_REVIEW": "PROJECT_REVIEW",
         "PROJECT_EXPLAIN": "PROJECT_EXPLAIN",

@@ -28,19 +28,12 @@ def generate_project_pdf(title: str, content: str) -> str:
     )
 
     story = []
-
-    # Title
     story.append(Paragraph(escape(title), styles["Title"]))
     story.append(Spacer(1, 0.3 * inch))
-
-    # IMPORTANT: use Preformatted
     safe_text = escape(content)
-
     story.append(Preformatted(safe_text, code_style))
-
     doc.build(story)
 
-    # HARD CHECK
     if not os.path.exists(path) or os.path.getsize(path) < 1000:
         raise RuntimeError("PDF generation failed")
 

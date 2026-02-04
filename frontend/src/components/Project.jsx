@@ -2,10 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
-/* =========================
-   MAIN PAGE
-========================= */
-
 export default function ProjectAgent() {
   const [file, setFile] = useState(null);
   const [activeTab, setActiveTab] = useState("PROJECT_REVIEW");
@@ -63,7 +59,6 @@ export default function ProjectAgent() {
 
       <div className="flex-1 flex flex-col">
 
-        {/* TOP BAR */}
         <header className="sticky top-0 z-50 bg-black/60 backdrop-blur border-b border-slate-800">
           <div className="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
             <div>
@@ -85,7 +80,6 @@ export default function ProjectAgent() {
 
         <main className="max-w-7xl mx-auto px-8 py-10 space-y-10 w-full">
 
-          {/* UPLOAD */}
           <section className="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 shadow-xl">
             <div className="flex gap-6 items-center">
               <input
@@ -139,10 +133,6 @@ export default function ProjectAgent() {
   );
 }
 
-/* =========================
-   SIDEBAR
-========================= */
-
 function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -174,10 +164,6 @@ function NavItem({ children, active, onClick }) {
     </div>
   );
 }
-
-/* =========================
-   COMPONENTS
-========================= */
 
 function Tabs({ active, setActive }) {
   const tabs = [
@@ -221,12 +207,7 @@ function ResultCard({ title, subtitle, children, onDownload }) {
   );
 }
 
-/* =========================
-   INTERVIEW FORMAT FIX
-========================= */
-
 function InterviewRenderer({ text }) {
-  // Normalize: remove leading numbering like "1. "
   const cleaned = text.replace(/^\s*\d+\.\s*/g, "");
 
   const blocks = cleaned

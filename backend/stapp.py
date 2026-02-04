@@ -8,10 +8,6 @@ from project_graph.graph_builder import FinalProjectGraph
 st.set_page_config(page_title="AI Agent Studio", layout="wide")
 st.title("🧠 AI Agent Studio")
 
-# -------------------------------------------------
-# Utility Functions
-# -------------------------------------------------
-
 def detect_language(filename):
     ext = filename.split(".")[-1].lower()
     mapping = {
@@ -42,20 +38,11 @@ def generate_diff_html(original, refactored):
     """
     return custom_css + html
 
-
-# -------------------------------------------------
-# Mode Selector
-# -------------------------------------------------
-
 mode = st.radio(
     "Select Mode",
     ["Single File Code Review", "Full Project Intelligence"],
     horizontal=True
 )
-
-# =================================================
-# MODE 1 — SINGLE FILE CODE REVIEW
-# =================================================
 
 if mode == "Single File Code Review":
 
@@ -99,11 +86,6 @@ if mode == "Single File Code Review":
             r["refactored_code"]
         )
         st.components.v1.html(diff_html, height=600, scrolling=True)
-
-
-# =================================================
-# MODE 2 — FULL PROJECT INTELLIGENCE (ZIP)
-# =================================================
 
 if mode == "Full Project Intelligence":
 

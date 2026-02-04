@@ -10,3 +10,4 @@ postcss.config.js
 tailwind.config.js
 vite.config.js
 .gitignore
+Navbar.jsx

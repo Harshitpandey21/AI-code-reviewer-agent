@@ -12,8 +12,6 @@ from reportlab.lib.units import inch
 import uuid
 import os
 
-
-
 def generate_single_review_pdf(review, tests, refactored):
     filename = f"single_review_{uuid.uuid4().hex}.pdf"
     path = f"/tmp/{filename}"
@@ -61,7 +59,6 @@ def generate_single_review_pdf(review, tests, refactored):
     content.append(Paragraph("AI Code Review Report", title))
     content.append(Spacer(1, 12))
 
-    # Review
     content.append(Paragraph("Review Report", header))
     for para in review.split("\n\n"):
         content.append(Paragraph(para.replace("&", "&amp;"), body))
@@ -69,7 +66,6 @@ def generate_single_review_pdf(review, tests, refactored):
 
     content.append(PageBreak())
 
-    # Tests
     content.append(Paragraph("Test Suggestions", header))
     for para in tests.split("\n\n"):
         content.append(Paragraph(para.replace("&", "&amp;"), body))
@@ -77,7 +73,6 @@ def generate_single_review_pdf(review, tests, refactored):
 
     content.append(PageBreak())
 
-    # Refactored Code
     content.append(Paragraph("Refactored Code", header))
     content.append(
         Preformatted(

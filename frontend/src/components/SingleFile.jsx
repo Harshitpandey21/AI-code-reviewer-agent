@@ -63,7 +63,6 @@ export default function SingleFile() {
 
       <div className="flex-1 flex flex-col">
 
-        {/* TOP BAR */}
         <header className="sticky top-0 z-50 bg-black/60 backdrop-blur border-b border-slate-800">
           <div className="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
             <div>
@@ -85,10 +84,8 @@ export default function SingleFile() {
           </div>
         </header>
 
-        {/* CONTENT */}
         <main className="max-w-7xl mx-auto px-8 py-10 space-y-10 w-full">
 
-          {/* UPLOAD */}
           <section className="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 shadow-xl">
             <div className="flex flex-col md:flex-row gap-6 items-center">
 
@@ -160,8 +157,6 @@ export default function SingleFile() {
   );
 }
 
-/* ================= SIDEBAR ================= */
-
 function Sidebar() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -202,8 +197,6 @@ function NavItem({ children, active, onClick }) {
     </div>
   );
 }
-
-/* ================= UI COMPONENTS ================= */
 
 function Section({ title, subtitle, accent, children }) {
   const accentMap = {
