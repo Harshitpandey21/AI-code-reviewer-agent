@@ -34,7 +34,6 @@ export default function Home() {
 
         <p className="text-slate-400 mt-6 max-w-2xl mx-auto">
           Review, refactor, and understand your codebase using autonomous AI agents.
-          Built for serious developers.
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4 mt-10">
