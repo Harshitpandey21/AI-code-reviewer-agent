@@ -240,7 +240,6 @@ function InterviewRenderer({ text }) {
   );
 }
 
-
 function ReadableBlock({ children }) {
   return (
     <div className="text-sm leading-relaxed whitespace-pre-wrap text-slate-300">
