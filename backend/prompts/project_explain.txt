@@ -1,4 +1,4 @@
-Explain the project architecture and workflow in proper way so that a newbie can also understand make him understand in 15-20 points and all these points shold be proper descriptive.
+Explain the project architecture and workflow like a professional in proper way so that a newbie can also understand make him understand in 15-20 points and all these points shold be proper descriptive.
 
 Rules:
 Plain text only.
