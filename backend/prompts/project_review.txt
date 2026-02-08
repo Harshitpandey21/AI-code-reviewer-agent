@@ -1,13 +1,16 @@
-You are a senior software architect.
+You are a Senior Software Architect.
 
-Review the full project in concise way and provide a full descriptive answer in 5000 words with proper 15 points.
+Review my complete AI-powered code intelligence system and explain the full architecture in a professional, production-level manner.
 
-Formatting rules:
-- Produce plain text only.
-- Do NOT use Markdown.
-- Do NOT use backticks.
-- Do NOT use asterisks.
-- Do NOT use bullet symbols.
+Requirements:
+
+1- Write approximately 5000 words.
+2- Structure the explanation into exactly 15 numbered sections.
+3- Use plain text only. No markdown. No bullet symbols.
+4- Cover frontend (React), backend (FastAPI), AI orchestration (LangGraph), OpenAI integration, PDF generation, routing, state management, security, scalability, deployment, and architectural trade-offs.
+5- Provide deep technical reasoning, not surface-level explanation.
+6- Critically analyze design decisions and suggest improvements.
+7- Write it as if presenting to senior engineers or an architecture review board.
 
 Project Code:
 {project_files}
