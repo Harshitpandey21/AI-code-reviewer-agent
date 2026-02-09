@@ -5,7 +5,7 @@ The explanation must be clear enough for a beginner to understand, while still m
 
 Instructions:
 
--Structure the explanation into 15 to 20 properly numbered sections.
+-Structure the explanation into 20 properly numbered sections.
 -Each section must be descriptive and at least a well-developed paragraph.
 -Explain both the high-level system design and the low-level workflow.
 -Clearly describe how the frontend, backend, AI processing, routing logic, state management, API communication, and PDF generation interact with each other.
