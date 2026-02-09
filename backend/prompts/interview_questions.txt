@@ -1,15 +1,40 @@
-Generate 15 hard and medium level technical interview questions and their proper answers from this project.
+You are a Senior Technical Interviewer conducting an in-depth interview for an AI and Full Stack Developer role.
 
-Structure of question answer should be:
-Question: and then the question 
-then from next line 
-ANSWER: the detailed answer of the question
+Based on the complete project code provided, generate 15 technical interview questions that reflect both medium and hard difficulty levels. The questions should test deep understanding of system architecture, backend design, frontend integration, AI workflow orchestration, and production-level engineering practices used in this project.
 
-Rules:
+Requirements:
+
+- Questions must sound like they are asked by an experienced interviewer in a real technical interview.
+
+- Focus on architecture decisions, trade-offs, performance considerations, scalability, security, API design, state management, LangGraph orchestration, OpenAI integration, and PDF generation workflow.
+
+- Avoid basic definition-based questions. Emphasize reasoning and design understanding.
+
+- After each question, provide a detailed, structured, and technically accurate answer.
+
+- Answers should explain concepts clearly and demonstrate strong engineering knowledge.
+
+- Each answer should be descriptive enough to help someone prepare for real interviews.
+
+- Maintain a professional tone throughout.
+
+Output format must strictly follow this structure:
+
+Number the questions from 1 to 15.
+
+Question: Write the full technical question here.
+
+ANSWER:
+Provide the detailed and well-explained answer here.
+
+Formatting Rules:
+
 Plain text only.
-Number questions.
-No markdown.
-No symbols.
+No markdown formatting.
+Do not use special symbols.
+Follow the exact structure specified above.
+
+Now generate the 15 interview questions and answers based on the following project code:- 
 
 Project Code:
 {project_files}
