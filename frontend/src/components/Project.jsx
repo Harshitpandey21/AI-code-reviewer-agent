@@ -10,6 +10,7 @@ export default function ProjectAgent() {
 
   async function runAgent() {
     if (!file) return;
+
     setLoading(true);
     setResult(null);
 
@@ -23,6 +24,8 @@ export default function ProjectAgent() {
         form
       );
       setResult(res.data);
+    } catch (error) {
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -35,34 +38,40 @@ export default function ProjectAgent() {
     form.append("file", file);
     form.append("action", activeTab);
 
-    const res = await axios.post(
-      "http://localhost:8000/project-review/pdf",
-      form,
-      { responseType: "blob" }
-    );
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/project-review/pdf",
+        form,
+        { responseType: "blob" }
+      );
 
-    const url = window.URL.createObjectURL(
-      new Blob([res.data], { type: "application/pdf" })
-    );
+      const blob = new Blob([res.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "ai_project_report.pdf";
-    a.click();
-    window.URL.revokeObjectURL(url);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "ai_project_report.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
     <div className="min-h-screen flex bg-[#020617] text-slate-200">
-
       <Sidebar />
 
       <div className="flex-1 flex flex-col">
-
         <header className="sticky top-0 z-50 bg-black/60 backdrop-blur border-b border-slate-800">
           <div className="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
             <div>
-              <h1 className="text-xl font-semibold">AI Project Intelligence</h1>
+              <h1 className="text-xl font-semibold">
+                AI Project Intelligence
+              </h1>
               <p className="text-xs text-slate-400">
                 Review • Architecture • Interview Insights
               </p>
@@ -70,16 +79,19 @@ export default function ProjectAgent() {
 
             <div className="text-sm">
               {loading ? (
-                <span className="text-blue-400 animate-pulse">● Analyzing…</span>
+                <span className="text-blue-400 animate-pulse">
+                  ● Analyzing…
+                </span>
               ) : (
-                <span className="text-emerald-400">● Idle</span>
+                <span className="text-emerald-400">
+                  ● Idle
+                </span>
               )}
             </div>
           </div>
         </header>
 
         <main className="max-w-7xl mx-auto px-8 py-10 space-y-10 w-full">
-
           <section className="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 shadow-xl">
             <div className="flex gap-6 items-center">
               <input
@@ -88,10 +100,11 @@ export default function ProjectAgent() {
                 onChange={(e) => setFile(e.target.files[0])}
                 className="flex-1 text-sm text-slate-300 file:bg-slate-800 file:text-white"
               />
+
               <button
                 onClick={runAgent}
                 disabled={!file || loading}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-3 rounded-xl shadow-lg"
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-3 rounded-xl shadow-lg disabled:opacity-50"
               >
                 Run AI Analysis
               </button>
@@ -102,29 +115,40 @@ export default function ProjectAgent() {
 
           {result && (
             <div className="space-y-10">
+              {activeTab === "INTERVIEW" &&
+                result.interview_questions && (
+                  <ResultCard
+                    title="Interview Questions"
+                    subtitle="Clean structured Q&A"
+                    onDownload={downloadPDF}
+                  >
+                    <InterviewRenderer text={result.interview_questions} />
+                  </ResultCard>
+                )}
 
-              {activeTab === "INTERVIEW" && result.interview_questions && (
-                <ResultCard
-                  title="Interview Questions"
-                  subtitle="Clean structured Q&A"
-                  onDownload={downloadPDF}
-                >
-                  <InterviewRenderer text={result.interview_questions} />
-                </ResultCard>
-              )}
+              {activeTab === "PROJECT_REVIEW" &&
+                result.review_report && (
+                  <ResultCard
+                    title="Project Review"
+                    onDownload={downloadPDF}
+                  >
+                    <ReadableBlock>
+                      {result.review_report}
+                    </ReadableBlock>
+                  </ResultCard>
+                )}
 
-              {activeTab === "PROJECT_REVIEW" && result.review_report && (
-                <ResultCard title="Project Review" onDownload={downloadPDF}>
-                  <ReadableBlock>{result.review_report}</ReadableBlock>
-                </ResultCard>
-              )}
-
-              {activeTab === "PROJECT_EXPLAIN" && result.project_explanation && (
-                <ResultCard title="Architecture Explanation" onDownload={downloadPDF}>
-                  <ReadableBlock>{result.project_explanation}</ReadableBlock>
-                </ResultCard>
-              )}
-
+              {activeTab === "PROJECT_EXPLAIN" &&
+                result.project_explanation && (
+                  <ResultCard
+                    title="Architecture Explanation"
+                    onDownload={downloadPDF}
+                  >
+                    <ReadableBlock>
+                      {result.project_explanation}
+                    </ReadableBlock>
+                  </ResultCard>
+                )}
             </div>
           )}
         </main>
@@ -139,13 +163,22 @@ function Sidebar() {
 
   return (
     <aside className="w-64 bg-black/40 border-r border-slate-800 p-6 hidden md:block">
-      <h2 className="text-lg font-semibold mb-8">AI Studio</h2>
+      <h2 className="text-lg font-semibold mb-8">
+        AI Studio
+      </h2>
 
       <nav className="space-y-4 text-sm">
-        <NavItem active={location.pathname === "/project"} onClick={() => navigate("/project")}>
+        <NavItem
+          active={location.pathname === "/project"}
+          onClick={() => navigate("/project")}
+        >
           Project Intelligence
         </NavItem>
-        <NavItem active={location.pathname === "/single"} onClick={() => navigate("/single")}>
+
+        <NavItem
+          active={location.pathname === "/single"}
+          onClick={() => navigate("/single")}
+        >
           Single File Review
         </NavItem>
       </nav>
@@ -157,8 +190,10 @@ function NavItem({ children, active, onClick }) {
   return (
     <div
       onClick={onClick}
-      className={`px-3 py-2 rounded-md cursor-pointer
-        ${active ? "bg-blue-600/20 text-blue-400" : "hover:bg-slate-800"}`}
+      className={`px-3 py-2 rounded-md cursor-pointer transition
+        ${active
+          ? "bg-blue-600/20 text-blue-400"
+          : "hover:bg-slate-800 text-slate-300"}`}
     >
       {children}
     </div>
@@ -174,14 +209,14 @@ function Tabs({ active, setActive }) {
 
   return (
     <div className="flex gap-3 border-b border-slate-800">
-      {tabs.map(tab => (
+      {tabs.map((tab) => (
         <button
           key={tab.id}
           onClick={() => setActive(tab.id)}
-          className={`px-4 py-2 border-b-2
+          className={`px-4 py-2 border-b-2 transition
             ${active === tab.id
               ? "border-blue-500 text-blue-400"
-              : "border-transparent text-slate-400"}`}
+              : "border-transparent text-slate-400 hover:text-slate-200"}`}
         >
           {tab.label}
         </button>
@@ -196,42 +231,56 @@ function ResultCard({ title, subtitle, children, onDownload }) {
       <div className="flex justify-between mb-4">
         <div>
           <h3 className="text-xl font-semibold">{title}</h3>
-          {subtitle && <p className="text-xs text-slate-400">{subtitle}</p>}
+          {subtitle && (
+            <p className="text-xs text-slate-400">
+              {subtitle}
+            </p>
+          )}
         </div>
-        <button onClick={onDownload} className="bg-slate-800 px-4 py-2 rounded">
+
+        <button
+          onClick={onDownload}
+          className="bg-slate-800 px-4 py-2 rounded hover:bg-slate-700 transition"
+        >
           Download PDF
         </button>
       </div>
+
       {children}
     </section>
   );
 }
 
 function InterviewRenderer({ text }) {
-  const cleaned = text.replace(/^\s*\d+\.\s*/g, "");
+  if (!text) return null;
+
+  const cleaned = text
+    .replace(/^\s*\d+\.\s*/gm, "")
+    .trim();
 
   const blocks = cleaned
-    .split("Question:")
-    .map(b => b.trim())
-    .filter(b => b.length > 0);
+    .split(/Question:/g)
+    .map((b) => b.trim())
+    .filter((b) => b.length > 0);
 
   return (
     <div className="space-y-6">
-      {blocks.map((block, i) => {
-        const [question, ...rest] = block.split("ANSWER:");
-        const answer = rest.join("ANSWER:");
+      {blocks.map((block, index) => {
+        const parts = block.split(/ANSWER:/g);
+        const question = parts[0]?.trim() || "";
+        const answer = parts[1]?.trim() || "";
 
         return (
           <div
-            key={i}
+            key={index}
             className="bg-slate-950 border border-slate-800 rounded-xl p-5"
           >
             <p className="text-blue-400 font-semibold mb-2">
-              Q{i + 1}. {question.trim()}
+              Q{index + 1}. {question}
             </p>
 
             <p className="text-slate-300 leading-relaxed">
-              {answer?.trim()}
+              {answer}
             </p>
           </div>
         );
