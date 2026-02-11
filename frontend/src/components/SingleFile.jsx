@@ -57,54 +57,59 @@ export default function SingleFile() {
   }
 
   return (
-    <div className="min-h-screen flex bg-[#020617] text-slate-200">
+    <div className="min-h-screen flex bg-gradient-to-br from-[#020617] via-[#0b1224] to-[#020617] text-slate-200">
 
       <Sidebar />
 
       <div className="flex-1 flex flex-col">
 
-        <header className="sticky top-0 z-50 bg-black/60 backdrop-blur border-b border-slate-800">
-          <div className="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+        <header className="sticky top-0 z-50 bg-black/40 backdrop-blur-xl border-b border-white/5">
+          <div className="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
+
             <div>
-              <h1 className="text-xl font-semibold">Single File Code Review</h1>
-              <p className="text-xs text-slate-400">
+              <h1 className="text-xl font-semibold tracking-tight">
+                Single File Code Review
+              </h1>
+              <p className="text-xs text-slate-400 mt-1">
                 AI-powered review, refactoring, and test analysis
               </p>
             </div>
 
             <div className="text-sm">
               {loading ? (
-                <span className="text-blue-400 animate-pulse">
-                  ● Analyzing…
-                </span>
+                <div className="flex items-center gap-2 text-blue-400">
+                  <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></div>
+                  Processing
+                </div>
               ) : (
-                <span className="text-emerald-400">● Idle</span>
+                <div className="flex items-center gap-2 text-emerald-400">
+                  <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
+                  Ready
+                </div>
               )}
             </div>
+
           </div>
         </header>
 
-        <main className="max-w-7xl mx-auto px-8 py-10 space-y-10 w-full">
+        <main className="max-w-7xl mx-auto px-8 py-12 space-y-12 w-full">
 
-          <section className="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 shadow-xl">
-            <div className="flex flex-col md:flex-row gap-6 items-center">
+          <section className="relative bg-slate-900/60 border border-white/5 rounded-2xl p-8 shadow-2xl backdrop-blur-xl transition hover:border-blue-500/30">
+
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none"></div>
+
+            <div className="relative flex flex-col md:flex-row gap-6 items-center">
 
               <input
                 type="file"
                 onChange={(e) => setFile(e.target.files[0])}
-                className="flex-1 text-sm text-slate-300
-                  file:mr-4 file:py-2 file:px-4
-                  file:rounded-md file:border-0
-                  file:bg-slate-800 file:text-slate-200"
+                className="flex-1 text-sm text-slate-300 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-slate-800 file:text-white hover:file:bg-slate-700 transition"
               />
 
               <button
                 onClick={runReview}
                 disabled={!file || loading}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600
-                           hover:from-blue-500 hover:to-indigo-500
-                           disabled:opacity-50
-                           px-8 py-3 rounded-xl font-medium shadow-lg"
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-blue-500/30 transition-all duration-300 disabled:opacity-40 px-8 py-3 rounded-xl shadow-lg"
               >
                 {loading ? "Analyzing…" : "Run AI Review"}
               </button>
@@ -112,17 +117,16 @@ export default function SingleFile() {
               <button
                 onClick={downloadPDF}
                 disabled={!result || downloading}
-                className="bg-slate-800 hover:bg-slate-700
-                           disabled:opacity-50
-                           px-6 py-3 rounded-xl font-medium border border-slate-700"
+                className="bg-slate-800 hover:bg-slate-700 transition disabled:opacity-40 px-6 py-3 rounded-xl border border-white/5"
               >
                 {downloading ? "Preparing PDF…" : "Download PDF"}
               </button>
+
             </div>
           </section>
 
           {result && (
-            <div className="space-y-10">
+            <div className="space-y-12">
 
               <Section
                 title="Review Report"
@@ -134,7 +138,7 @@ export default function SingleFile() {
 
               <Section
                 title="Test Suggestions"
-                subtitle="Recommended test cases & edge conditions"
+                subtitle="Recommended test cases and edge conditions"
                 accent="emerald"
               >
                 <ReadableBlock>{result.test_report}</ReadableBlock>
@@ -150,6 +154,7 @@ export default function SingleFile() {
 
             </div>
           )}
+
         </main>
       </div>
     </div>
@@ -161,10 +166,13 @@ function Sidebar() {
   const location = useLocation();
 
   return (
-    <aside className="w-64 bg-black/40 border-r border-slate-800 p-6 hidden md:block">
-      <h2 className="text-lg font-semibold mb-8">AI Studio</h2>
+    <aside className="w-64 bg-black/40 backdrop-blur-xl border-r border-white/5 p-8 hidden md:block">
 
-      <nav className="space-y-4 text-sm">
+      <h2 className="text-lg font-semibold mb-10 tracking-tight">
+        AI Studio
+      </h2>
+
+      <nav className="space-y-3 text-sm">
         <NavItem
           active={location.pathname === "/project"}
           onClick={() => navigate("/project")}
@@ -179,6 +187,7 @@ function Sidebar() {
           Single File Review
         </NavItem>
       </nav>
+
     </aside>
   );
 }
@@ -187,10 +196,10 @@ function NavItem({ children, active, onClick }) {
   return (
     <div
       onClick={onClick}
-      className={`px-3 py-2 rounded-md cursor-pointer transition
+      className={`px-4 py-2 rounded-lg cursor-pointer transition-all duration-200
         ${active
-          ? "bg-blue-600/20 text-blue-400"
-          : "hover:bg-slate-800 text-slate-300"}`}
+          ? "bg-blue-600/20 text-blue-400 border border-blue-500/20"
+          : "text-slate-300 hover:bg-slate-800 hover:text-white"}`}
     >
       {children}
     </div>
@@ -199,15 +208,19 @@ function NavItem({ children, active, onClick }) {
 
 function Section({ title, subtitle, accent, children }) {
   const accentMap = {
-    blue: "border-blue-600/30 text-blue-400",
-    emerald: "border-emerald-600/30 text-emerald-400",
-    purple: "border-purple-600/30 text-purple-400",
+    blue: "border-blue-500/20",
+    emerald: "border-emerald-500/20",
+    purple: "border-purple-500/20",
   };
 
   return (
-    <section className={`bg-slate-900/70 border ${accentMap[accent]} rounded-2xl p-6 shadow-lg`}>
-      <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="text-xs text-slate-400 mb-4">{subtitle}</p>
+    <section className={`bg-slate-900/70 backdrop-blur-xl border ${accentMap[accent]} rounded-2xl p-10 shadow-2xl transition hover:border-blue-500/20`}>
+      <h3 className="text-xl font-semibold tracking-tight">
+        {title}
+      </h3>
+      <p className="text-xs text-slate-400 mt-1 mb-6">
+        {subtitle}
+      </p>
       {children}
     </section>
   );
@@ -223,7 +236,7 @@ function ReadableBlock({ children }) {
 
 function CodeBlock({ children }) {
   return (
-    <pre className="bg-slate-950 border border-slate-800 rounded-xl p-4 overflow-x-auto text-sm font-mono text-slate-200">
+    <pre className="bg-slate-950 border border-white/5 rounded-xl p-6 overflow-x-auto text-sm font-mono text-slate-200 shadow-inner">
       {children}
     </pre>
   );
