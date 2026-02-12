@@ -36,11 +36,11 @@ Provide a structured, detailed, and professional explanation as if evaluating a 
 
 Formatting rules:
 
-- - Plain text only.
-- - No markdown.
-- - No special symbols.
-- - Do not shorten answers.
-- - Do not provide generic responses.
+- Plain text only.
+- No markdown.
+- No special symbols.
+- Do not shorten answers.
+- Do not provide generic responses.
 
 Project Code:
 {project_files}
