@@ -6,16 +6,19 @@ load_dotenv()
 
 llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
 
+def load_prompt(path,encoding):
+    return open(path, encoding=encoding).read()
+
 PROJECT_REVIEW_PROMPT = PromptTemplate.from_template(
-    open("prompts/project_review.txt", encoding="utf-8").read()
+    load_prompt("prompts/project_review.txt", encoding="utf-8")
 )
 
 PROJECT_EXPLAIN_PROMPT = PromptTemplate.from_template(
-    open("prompts/project_explain.txt", encoding="utf-8").read()
+    load_prompt("prompts/project_explain.txt", encoding="utf-8")
 )
 
 INTERVIEW_PROMPT = PromptTemplate.from_template(
-    open("prompts/interview_questions.txt", encoding="utf-8").read()
+    load_prompt("prompts/interview_questions.txt", encoding="utf-8")
 )
 
 def stringify_project_files(project_files: dict) -> str:
