@@ -54,7 +54,6 @@ export default function ProjectAgent() {
       document.body.appendChild(a);
       a.click();
       a.remove();
-
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error(error);
@@ -63,13 +62,11 @@ export default function ProjectAgent() {
 
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-[#020617] via-[#0b1224] to-[#020617] text-slate-200">
-
       <Sidebar />
 
       <div className="flex-1 flex flex-col">
         <header className="sticky top-0 z-50 bg-black/40 backdrop-blur-xl border-b border-white/5">
           <div className="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
-
             <div>
               <h1 className="text-xl font-semibold tracking-tight">
                 AI Project Intelligence
@@ -83,7 +80,7 @@ export default function ProjectAgent() {
               {loading ? (
                 <div className="flex items-center gap-2 text-blue-400">
                   <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></div>
-                  Processing
+                  Analyzing
                 </div>
               ) : (
                 <div className="flex items-center gap-2 text-emerald-400">
@@ -92,18 +89,15 @@ export default function ProjectAgent() {
                 </div>
               )}
             </div>
-
           </div>
         </header>
 
         <main className="max-w-7xl mx-auto px-8 py-12 space-y-12 w-full">
 
           <section className="relative bg-slate-900/60 border border-white/5 rounded-2xl p-8 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:border-blue-500/30">
-
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none"></div>
 
             <div className="relative flex gap-6 items-center">
-
               <input
                 type="file"
                 accept=".zip"
@@ -118,49 +112,53 @@ export default function ProjectAgent() {
               >
                 Run AI Analysis
               </button>
-
             </div>
           </section>
 
           <Tabs active={activeTab} setActive={setActiveTab} />
 
           {result && (
-            <div className="space-y-12">
+            <div className="relative min-h-[200px]">
+              <div
+                key={activeTab}
+                className="space-y-12 animate-fade-slide"
+              >
 
-              {activeTab === "INTERVIEW" && result.interview_questions && (
-                <ResultCard
-                  title="Interview Questions"
-                  subtitle="Structured technical Q&A"
-                  onDownload={downloadPDF}
-                >
-                  <InterviewRenderer text={result.interview_questions} />
-                </ResultCard>
-              )}
+                {activeTab === "INTERVIEW" && result.interview_questions && (
+                  <ResultCard
+                    title="Interview Questions"
+                    subtitle="Structured technical Q&A"
+                    onDownload={downloadPDF}
+                  >
+                    <InterviewRenderer text={result.interview_questions} />
+                  </ResultCard>
+                )}
 
-              {activeTab === "PROJECT_REVIEW" && result.review_report && (
-                <ResultCard
-                  title="Project Review"
-                  subtitle="Architecture and quality analysis"
-                  onDownload={downloadPDF}
-                >
-                  <ReadableBlock>
-                    {result.review_report}
-                  </ReadableBlock>
-                </ResultCard>
-              )}
+                {activeTab === "PROJECT_REVIEW" && result.review_report && (
+                  <ResultCard
+                    title="Project Review"
+                    subtitle="Architecture and quality analysis"
+                    onDownload={downloadPDF}
+                  >
+                    <ReadableBlock>
+                      {result.review_report}
+                    </ReadableBlock>
+                  </ResultCard>
+                )}
 
-              {activeTab === "PROJECT_EXPLAIN" && result.project_explanation && (
-                <ResultCard
-                  title="Architecture Explanation"
-                  subtitle="System design breakdown"
-                  onDownload={downloadPDF}
-                >
-                  <ReadableBlock>
-                    {result.project_explanation}
-                  </ReadableBlock>
-                </ResultCard>
-              )}
+                {activeTab === "PROJECT_EXPLAIN" && result.project_explanation && (
+                  <ResultCard
+                    title="Architecture Explanation"
+                    subtitle="System design breakdown"
+                    onDownload={downloadPDF}
+                  >
+                    <ReadableBlock>
+                      {result.project_explanation}
+                    </ReadableBlock>
+                  </ResultCard>
+                )}
 
+              </div>
             </div>
           )}
 
@@ -176,7 +174,6 @@ function Sidebar() {
 
   return (
     <aside className="w-64 bg-black/40 backdrop-blur-xl border-r border-white/5 p-8 hidden md:block">
-
       <h2 className="text-lg font-semibold mb-10 tracking-tight">
         AI Studio
       </h2>
@@ -196,7 +193,6 @@ function Sidebar() {
           Single File Review
         </NavItem>
       </nav>
-
     </aside>
   );
 }
@@ -246,7 +242,6 @@ function Tabs({ active, setActive }) {
 function ResultCard({ title, subtitle, children, onDownload }) {
   return (
     <section className="bg-slate-900/70 backdrop-blur-xl border border-white/5 rounded-2xl p-10 shadow-2xl transition hover:border-blue-500/20">
-
       <div className="flex justify-between mb-6 items-start">
         <div>
           <h3 className="text-xl font-semibold tracking-tight">
@@ -268,7 +263,6 @@ function ResultCard({ title, subtitle, children, onDownload }) {
       </div>
 
       {children}
-
     </section>
   );
 }
@@ -276,9 +270,7 @@ function ResultCard({ title, subtitle, children, onDownload }) {
 function InterviewRenderer({ text }) {
   if (!text) return null;
 
-  const cleaned = text
-    .replace(/^\s*\d+\.\s*/gm, "")
-    .trim();
+  const cleaned = text.replace(/^\s*\d+\.\s*/gm, "").trim();
 
   const blocks = cleaned
     .split(/Question:/g)
