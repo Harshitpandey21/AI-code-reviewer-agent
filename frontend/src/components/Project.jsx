@@ -85,7 +85,7 @@ export default function ProjectAgent() {
               ) : (
                 <div className="flex items-center gap-2 text-emerald-400">
                   <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
-                  Ready
+                  Ready to Analyze
                 </div>
               )}
             </div>
