@@ -79,12 +79,12 @@ export default function SingleFile() {
               {loading ? (
                 <div className="flex items-center gap-2 text-blue-400">
                   <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></div>
-                  Processing
+                  Analyzing
                 </div>
               ) : (
                 <div className="flex items-center gap-2 text-emerald-400">
                   <div className="h-2 w-2 rounded-full bg-emerald-500"></div>
-                  Ready
+                  Ready to Analyze
                 </div>
               )}
             </div>
