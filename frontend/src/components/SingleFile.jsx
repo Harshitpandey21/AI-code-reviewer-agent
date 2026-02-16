@@ -173,6 +173,14 @@ function Sidebar() {
       </h2>
 
       <nav className="space-y-3 text-sm">
+
+        <NavItem
+          active={location.pathname === "/"}
+          onClick={() => navigate("/")}
+        >
+          Home
+        </NavItem>
+        
         <NavItem
           active={location.pathname === "/project"}
           onClick={() => navigate("/project")}
