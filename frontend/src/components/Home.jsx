@@ -8,7 +8,7 @@ export default function Home() {
       <nav className="sticky top-0 z-50 backdrop-blur bg-black/30 border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-8 py-4 flex items-center justify-between">
           <div className="text-xl font-bold tracking-wide flex items-center gap-2">
-            🧠 AI Agent Studio
+            🧠 AI Code Reviewer
           </div>
 
           <div className="hidden md:flex gap-6 text-sm text-slate-300">
@@ -112,7 +112,7 @@ export default function Home() {
       </section>
 
       <footer className="mt-28 pb-10 text-center text-slate-500 text-sm">
-        Built with LangGraph, FastAPI, and React · AI Agent Studio
+        Built with LangGraph, FastAPI, and React · AI Code Reviewer
       </footer>
     </div>
   )

@@ -69,7 +69,7 @@ export default function ProjectAgent() {
           <div className="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
             <div>
               <h1 className="text-xl font-semibold tracking-tight">
-                AI Project Intelligence
+                Full Project Intelligence
               </h1>
               <p className="text-xs text-slate-400 mt-1">
                 Review • Architecture • Interview Insights
@@ -175,7 +175,7 @@ function Sidebar() {
   return (
     <aside className="w-64 bg-black/40 backdrop-blur-xl border-r border-white/5 p-8 hidden md:block">
       <h2 className="text-lg font-semibold mb-10 tracking-tight">
-        AI Studio
+        AI Reviewer
       </h2>
 
       <nav className="space-y-3 text-sm">
@@ -186,7 +186,7 @@ function Sidebar() {
         >
           Home
         </NavItem>
-        
+
         <NavItem
           active={location.pathname === "/project"}
           onClick={() => navigate("/project")}

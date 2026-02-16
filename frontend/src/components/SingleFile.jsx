@@ -169,7 +169,7 @@ function Sidebar() {
     <aside className="w-64 bg-black/40 backdrop-blur-xl border-r border-white/5 p-8 hidden md:block">
 
       <h2 className="text-lg font-semibold mb-10 tracking-tight">
-        AI Studio
+        AI Reviewer
       </h2>
 
       <nav className="space-y-3 text-sm">
@@ -180,7 +180,7 @@ function Sidebar() {
         >
           Home
         </NavItem>
-        
+
         <NavItem
           active={location.pathname === "/project"}
           onClick={() => navigate("/project")}
