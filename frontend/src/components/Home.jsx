@@ -75,7 +75,12 @@ export default function Home() {
               Get instant AI feedback on a single source file — including review,
               refactoring suggestions, and test recommendations.
             </p>
+            <button
+              onClick={() => navigate("/single")}
+              className="mt-8 inline-flex items-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-500 rounded-md transition"
+            >
               Get Started →
+            </button>
             </button>
           </div>
         </div>
@@ -102,7 +107,12 @@ export default function Home() {
               Upload an entire project and let AI understand architecture,
               design decisions, risks, and interview-ready explanations.
             </p>
+            <button
+              onClick={() => navigate("/project")}
+              className="mt-8 inline-flex items-center gap-2 px-6 py-2 bg-purple-600 hover:bg-purple-500 rounded-md transition"
+            >
               Get Started →
+            </button>
             </button>
           </div>
         </div>
