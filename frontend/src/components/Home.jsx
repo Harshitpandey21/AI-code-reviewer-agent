@@ -64,6 +64,9 @@ export default function Home() {
                           bg-gradient-to-br from-blue-500/10 to-cyan-500/10 blur-xl"></div>
 
           <div className="relative z-10">
+            <button
+              onClick={() => navigate("/single")}
+            >
             <div className="text-5xl mb-6">📄</div>
             <h2 className="text-2xl font-semibold">
               Single File Code Review
@@ -77,6 +80,7 @@ export default function Home() {
               className="mt-8 inline-flex items-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-500 rounded-md transition"
             >
               Get Started →
+            </button>
             </button>
           </div>
         </div>
@@ -92,6 +96,9 @@ export default function Home() {
                           bg-gradient-to-br from-purple-500/10 to-pink-500/10 blur-xl"></div>
 
           <div className="relative z-10">
+            <button
+              onClick={() => navigate("/project")}
+            >
             <div className="text-5xl mb-6">📁</div>
             <h2 className="text-2xl font-semibold">
               Full Project Intelligence
@@ -105,6 +112,7 @@ export default function Home() {
               className="mt-8 inline-flex items-center gap-2 px-6 py-2 bg-purple-600 hover:bg-purple-500 rounded-md transition"
             >
               Get Started →
+            </button>
             </button>
           </div>
         </div>
