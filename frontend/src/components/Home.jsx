@@ -121,8 +121,18 @@ export default function Home() {
 
       </section>
 
-      <footer className="mt-28 pb-10 text-center text-slate-500 text-sm">
-        Built with LangGraph, FastAPI, and React · AI Code Reviewer
+      <footer className="mt-28 pb-16">
+        <div className="max-w-4xl mx-auto px-6 flex items-center justify-center gap-6">
+    
+          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-700 to-slate-800"></div>
+
+          <p className="text-slate-400 text-sm italic tracking-wide whitespace-nowrap">
+              Boost your coding productivity with AI-powered insights.
+          </p>
+
+          <div className="flex-1 h-px bg-gradient-to-l from-transparent via-slate-700 to-slate-800"></div>
+
+        </div>
       </footer>
     </div>
   )
