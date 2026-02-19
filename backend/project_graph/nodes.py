@@ -22,10 +22,10 @@ INTERVIEW_PROMPT = PromptTemplate.from_template(
 )
 
 def stringify_project_files(project_files: dict) -> str:
-    combined = []
+    list = []
     for name, content in project_files.items():
-        combined.append(f"\n--- File: {name} ---\n{content}\n")
-    return "\n".join(combined)
+        list.append(f"\n--- File: {name} ---\n{content}\n")
+    return "\n".join(list)
 
 def project_review_node(state: dict):
     files_text = stringify_project_files(state["project_files"])
