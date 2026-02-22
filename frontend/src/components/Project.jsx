@@ -63,7 +63,6 @@ export default function ProjectAgent() {
   return (
     <div className="min-h-screen flex relative bg-gradient-to-br from-[#020617] via-[#0b1224] to-[#020617] text-slate-200 overflow-hidden">
 
-      {/* Background glow */}
       <div className="absolute top-[-300px] left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-blue-600/10 blur-[200px] rounded-full pointer-events-none"></div>
 
       <Sidebar />
