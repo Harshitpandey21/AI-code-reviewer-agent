@@ -41,7 +41,7 @@ export default function Home() {
             onClick={() => navigate("/single")}
             className="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition shadow-lg shadow-blue-600/30"
           >
-            Try Single File Review
+            Analyze Single File
           </button>
           <button
             onClick={() => navigate("/project")}
