@@ -3,27 +3,39 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function ProjectAgent() {
+
   const [file, setFile] = useState(null);
   const [activeTab, setActiveTab] = useState("PROJECT_REVIEW");
-  const [result, setResult] = useState(null);
+
+  const [results, setResults] = useState({
+    PROJECT_REVIEW: null,
+    PROJECT_EXPLAIN: null,
+    INTERVIEW: null
+  });
+
   const [loading, setLoading] = useState(false);
 
   async function runAgent() {
     if (!file) return;
 
     setLoading(true);
-    setResult(null);
 
     const form = new FormData();
     form.append("file", file);
     form.append("action", activeTab);
 
     try {
+
       const res = await axios.post(
         "http://localhost:8000/project-review",
         form
       );
-      setResult(res.data);
+
+      setResults(prev => ({
+        ...prev,
+        [activeTab]: res.data
+      }));
+
     } catch (error) {
       console.error(error);
     } finally {
@@ -32,6 +44,7 @@ export default function ProjectAgent() {
   }
 
   async function downloadPDF() {
+
     if (!file) return;
 
     const form = new FormData();
@@ -39,6 +52,7 @@ export default function ProjectAgent() {
     form.append("action", activeTab);
 
     try {
+
       const res = await axios.post(
         "http://localhost:8000/project-review/pdf",
         form,
@@ -46,15 +60,20 @@ export default function ProjectAgent() {
       );
 
       const blob = new Blob([res.data], { type: "application/pdf" });
+
       const url = window.URL.createObjectURL(blob);
 
       const a = document.createElement("a");
+
       a.href = url;
       a.download = "ai_project_report.pdf";
+
       document.body.appendChild(a);
       a.click();
       a.remove();
+
       window.URL.revokeObjectURL(url);
+
     } catch (error) {
       console.error(error);
     }
@@ -70,18 +89,21 @@ export default function ProjectAgent() {
       <div className="flex-1 flex flex-col relative z-10">
 
         <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-2xl border-b border-white/5">
+
           <div className="max-w-7xl mx-auto px-10 py-6 flex justify-between items-center">
 
             <div>
               <h1 className="text-2xl font-semibold tracking-tight">
                 Full Project Intelligence
               </h1>
+
               <p className="text-xs text-slate-400 mt-1">
                 Review • Explanation • Interview Insights
               </p>
             </div>
 
             <div className="text-sm font-medium">
+
               {loading ? (
                 <div className="flex items-center gap-2 text-blue-400">
                   <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></div>
@@ -93,14 +115,17 @@ export default function ProjectAgent() {
                   Ready to Analyze
                 </div>
               )}
+
             </div>
 
           </div>
+
         </header>
 
         <main className="max-w-7xl mx-auto px-10 py-16 space-y-16 w-full">
 
           <section className="relative bg-slate-900/70 border border-white/5 rounded-3xl p-10 shadow-[0_0_40px_rgba(0,0,0,0.4)] backdrop-blur-xl transition hover:border-blue-500/40 hover:shadow-[0_0_60px_rgba(59,130,246,0.25)]">
+
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none"></div>
 
             <div className="relative flex gap-8 items-center">
@@ -117,51 +142,66 @@ export default function ProjectAgent() {
                 disabled={!file || loading}
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 px-10 py-3 rounded-xl shadow-lg hover:scale-105 hover:shadow-blue-500/40 transition-all duration-300 disabled:opacity-40"
               >
-                Run AI Analysis
+                {loading ? "Running..." : "Run AI Analysis"}
               </button>
+
             </div>
+
           </section>
 
           <Tabs active={activeTab} setActive={setActiveTab} />
 
-          {result && (
-            <div className="relative min-h-[200px] space-y-16">
 
-              {activeTab === "INTERVIEW" && result.interview_questions && (
-                <ResultCard
-                  title="Interview Questions"
-                  subtitle="Structured technical Q&A"
-                  onDownload={downloadPDF}
-                >
-                  <InterviewRenderer text={result.interview_questions} />
-                </ResultCard>
-              )}
+          {(results.PROJECT_REVIEW ||
+            results.PROJECT_EXPLAIN ||
+            results.INTERVIEW) && (
 
-              {activeTab === "PROJECT_REVIEW" && result.review_report && (
+            <div className="space-y-16">
+
+              {activeTab === "PROJECT_REVIEW" &&
+                results.PROJECT_REVIEW?.review_report && (
+
                 <ResultCard
                   title="Project Review"
                   subtitle="Architecture and quality analysis"
                   onDownload={downloadPDF}
                 >
                   <ReadableBlock>
-                    {result.review_report}
+                    {results.PROJECT_REVIEW.review_report}
                   </ReadableBlock>
                 </ResultCard>
               )}
 
-              {activeTab === "PROJECT_EXPLAIN" && result.project_explanation && (
+              {activeTab === "PROJECT_EXPLAIN" &&
+                results.PROJECT_EXPLAIN?.project_explanation && (
+
                 <ResultCard
                   title="Architecture Explanation"
                   subtitle="System design breakdown"
                   onDownload={downloadPDF}
                 >
                   <ReadableBlock>
-                    {result.project_explanation}
+                    {results.PROJECT_EXPLAIN.project_explanation}
                   </ReadableBlock>
                 </ResultCard>
               )}
 
+              {activeTab === "INTERVIEW" &&
+                results.INTERVIEW?.interview_questions && (
+
+                <ResultCard
+                  title="Interview Questions"
+                  subtitle="Structured technical Q&A"
+                  onDownload={downloadPDF}
+                >
+                  <InterviewRenderer
+                    text={results.INTERVIEW.interview_questions}
+                  />
+                </ResultCard>
+              )}
+
             </div>
+
           )}
 
         </main>
@@ -171,10 +211,12 @@ export default function ProjectAgent() {
 }
 
 function Sidebar() {
+
   const navigate = useNavigate();
   const location = useLocation();
 
   return (
+
     <aside className="w-64 bg-black/50 backdrop-blur-2xl border-r border-white/5 p-10 hidden md:block relative">
 
       <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent pointer-events-none"></div>
@@ -205,13 +247,17 @@ function Sidebar() {
         >
           Single File Review
         </NavItem>
+
       </nav>
+
     </aside>
   );
 }
 
 function NavItem({ children, active, onClick }) {
+
   return (
+
     <div
       onClick={onClick}
       className={`px-4 py-3 rounded-xl cursor-pointer transition-all duration-200
@@ -221,19 +267,24 @@ function NavItem({ children, active, onClick }) {
     >
       {children}
     </div>
+
   );
 }
 
 function Tabs({ active, setActive }) {
+
   const tabs = [
     { id: "PROJECT_REVIEW", label: "Project Review" },
-    { id: "PROJECT_EXPLAIN", label: "Architecture" },
+    { id: "PROJECT_EXPLAIN", label: "Project Explanation" },
     { id: "INTERVIEW", label: "Interview Q&A" },
   ];
 
   return (
+
     <div className="flex gap-8 border-b border-white/5 pb-4">
+
       {tabs.map((tab) => (
+
         <button
           key={tab.id}
           onClick={() => setActive(tab.id)}
@@ -242,29 +293,41 @@ function Tabs({ active, setActive }) {
               ? "text-blue-400"
               : "text-slate-400 hover:text-white"}`}
         >
+
           {tab.label}
+
           {active === tab.id && (
             <div className="absolute left-0 bottom-0 w-full h-[2px] bg-blue-500 rounded-full shadow-blue-500/50 shadow-md"></div>
           )}
+
         </button>
+
       ))}
+
     </div>
   );
 }
 
 function ResultCard({ title, subtitle, children, onDownload }) {
+
   return (
+
     <section className="relative bg-slate-900/80 backdrop-blur-xl border border-white/5 rounded-3xl p-12 shadow-[0_0_40px_rgba(0,0,0,0.5)] transition hover:border-blue-500/30 hover:shadow-[0_0_60px_rgba(59,130,246,0.15)]">
+
       <div className="flex justify-between mb-8 items-start">
+
         <div>
+
           <h3 className="text-xl font-semibold tracking-tight">
             {title}
           </h3>
+
           {subtitle && (
             <p className="text-xs text-slate-400 mt-1">
               {subtitle}
             </p>
           )}
+
         </div>
 
         <button
@@ -273,14 +336,17 @@ function ResultCard({ title, subtitle, children, onDownload }) {
         >
           Download PDF
         </button>
+
       </div>
 
       {children}
+
     </section>
   );
 }
 
 function InterviewRenderer({ text }) {
+
   if (!text) return null;
 
   const cleaned = text.replace(/^\s*\d+\.\s*/gm, "").trim();
@@ -291,17 +357,23 @@ function InterviewRenderer({ text }) {
     .filter((b) => b.length > 0);
 
   return (
+
     <div className="space-y-10">
+
       {blocks.map((block, index) => {
+
         const parts = block.split(/ANSWER:/g);
+
         const question = parts[0]?.trim() || "";
         const answer = parts[1]?.trim() || "";
 
         return (
+
           <div
             key={index}
             className="bg-slate-950 border border-white/5 rounded-2xl p-8 shadow-inner transition hover:border-blue-500/20"
           >
+
             <p className="text-blue-400 font-semibold mb-4">
               Q{index + 1}. {question}
             </p>
@@ -309,14 +381,19 @@ function InterviewRenderer({ text }) {
             <p className="text-slate-300 leading-relaxed text-sm">
               {answer}
             </p>
+
           </div>
+
         );
+
       })}
+
     </div>
   );
 }
 
 function ReadableBlock({ children }) {
+
   return (
     <div className="text-sm leading-relaxed whitespace-pre-wrap text-slate-300">
       {children}
