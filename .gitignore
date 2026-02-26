@@ -11,3 +11,4 @@ tailwind.config.js
 vite.config.js
 .gitignore
 Navbar.jsx
+.DS_Store
