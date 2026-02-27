@@ -54,7 +54,7 @@ async def single_review_pdf(file: UploadFile = File(...)):
     return FileResponse(
         pdf_path,
         media_type="application/pdf",
-        filename="AI_Code_Review_Report.pdf"
+        filename="AI_Single_Code_Review_Report.pdf"
     )
 
 @app.post("/project-review")
