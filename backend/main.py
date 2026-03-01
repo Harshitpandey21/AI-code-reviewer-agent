@@ -22,7 +22,7 @@ async def single_review(file: UploadFile = File(...)):
 
     state = {
         "raw_code": raw_code,
-        "language": "python, go, html, css"
+        "language": "python, go, html, css, java"
     }
 
     graph_state = SingleFileGraph.invoke(state)
@@ -40,7 +40,7 @@ async def single_review_pdf(file: UploadFile = File(...)):
 
     state = {
         "raw_code": raw_code,
-        "language": "python, go, html, css"
+        "language": "python, go, html, css, java"
     }
 
     graph_state = SingleFileGraph.invoke(state)
