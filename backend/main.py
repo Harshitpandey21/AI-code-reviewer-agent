@@ -112,25 +112,25 @@ async def project_review_pdf(
     graph_state = FinalProjectGraph.invoke(state)
 
     if action == "PROJECT_REVIEW":
-        title = "AI Project Review Report"
+        Name = "AI Project Review Report"
         content = graph_state.get("review_report", "")
 
     elif action == "PROJECT_EXPLAIN":
-        title = "AI Architecture Explanation"
+        Name = "AI Architecture Explanation"
         content = graph_state.get("project_explanation", "")
 
     elif action == "INTERVIEW":
-        title = "AI Interview Questions"
+        Name = "AI Interview Questions"
         content = graph_state.get("interview_questions", "")
 
     else:
         return {"error": "Invalid action"}
 
-    pdf_path = generate_project_pdf(title, content)
+    pdf_path = generate_project_pdf(Name, content)
 
     return FileResponse(
         pdf_path,
         media_type="application/pdf",
-        filename=f"{title.replace(' ', '_')}.pdf"
+        filename=f"{Name.replace(' ', '_')}.pdf"
     )
 
