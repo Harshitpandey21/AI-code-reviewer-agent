@@ -61,13 +61,14 @@ async def single_review_pdf(file: UploadFile = File(...)):
 async def project_review(
     file: UploadFile = File(...),
     action: str = Form(...)
-):
+    ):
     zip_bytes = io.BytesIO(await file.read())
+    Files = zipfile
 
-    with zipfile.ZipFile(zip_bytes) as z:
+    with Files.ZipFile(zip_bytes) as f:
         project_files = {
-            name: z.read(name).decode("utf-8", errors="ignore")
-            for name in z.namelist()
+            name: f.read(name).decode("utf-8", errors="ignore")
+            for name in f.namelist()
             if not name.endswith("/")
         }
 
@@ -95,11 +96,11 @@ async def project_review_pdf(
     action: str = Form(...)
 ):
     zip_bytes = io.BytesIO(await file.read())
-
-    with zipfile.ZipFile(zip_bytes) as z:
+    Files = zipfile 
+    with Files.ZipFile(zip_bytes) as f:
         project_files = {
-            name: z.read(name).decode("utf-8", errors="ignore")
-            for name in z.namelist()
+            name: f.read(name).decode("utf-8", errors="ignore")
+            for name in f.namelist()
             if not name.endswith("/")
         }
 
