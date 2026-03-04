@@ -62,33 +62,38 @@ async def project_review(
     file: UploadFile = File(...),
     action: str = Form(...)
     ):
-    zip_bytes = io.BytesIO(await file.read())
-    Files = zipfile
+    try:
+      zip_bytes = io.BytesIO(await file.read())
+      Files = zipfile
 
-    with Files.ZipFile(zip_bytes) as f:
+      with Files.ZipFile(zip_bytes) as f:
         project_files = {
             name: f.read(name).decode("utf-8", errors="ignore")
             for name in f.namelist()
             if not name.endswith("/")
         }
 
-    state = {
+      state = {
         "project_files": project_files,
         "user_request": action
-    }
+      }
 
-    graph_state = FinalProjectGraph.invoke(state)
+      graph_state = FinalProjectGraph.invoke(state)
 
-    if action == "PROJECT_REVIEW":
+      if action == "PROJECT_REVIEW":
         return {"review_report": graph_state.get("review_report", "")}
 
-    if action == "PROJECT_EXPLAIN":
+      if action == "PROJECT_EXPLAIN":
         return {"project_explanation": graph_state.get("project_explanation", "")}
 
-    if action == "INTERVIEW":
+      if action == "INTERVIEW":
         return {"interview_questions": graph_state.get("interview_questions", "")}
-
-    return {"error": "Invalid action"}
+      
+      if action not in ["PROJECT_REVIEW", "PROJECT_EXPLAIN", "INTERVIEW"]:
+        raise Exception("Invalid action")
+    
+    except Exception as e:
+       print(e)
 
 @app.post("/project-review/pdf")
 async def project_review_pdf(
@@ -116,7 +121,7 @@ async def project_review_pdf(
         content = graph_state.get("review_report", "")
 
     elif action == "PROJECT_EXPLAIN":
-        Name = "AI Architecture Explanation"
+        Name = "AI Project Explanation"
         content = graph_state.get("project_explanation", "")
 
     elif action == "INTERVIEW":
