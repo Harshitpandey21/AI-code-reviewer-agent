@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi import HTTPException
 import zipfile, io
 from utils.project_pdf_generator import generate_project_pdf
 from graph.graph_builder import Final as SingleFileGraph
@@ -90,9 +91,9 @@ async def project_review(
         return {"interview_questions": graph_state.get("interview_questions", "")}
       
       if action not in ["PROJECT_REVIEW", "PROJECT_EXPLAIN", "INTERVIEW"]:
-        raise Exception("Invalid action")
+        raise HTTPException(status_code = 400 , detail = "Invalid action")
     
-    except Exception as e:
+    except HTTPException as e:
        print(e)
 
 @app.post("/project-review/pdf")
