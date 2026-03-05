@@ -29,9 +29,9 @@ async def single_review(file: UploadFile = File(...)):
     graph_state = SingleFileGraph.invoke(state)
 
     return {
-        "review_code": graph_state.get("review_code", ""),
-        "refactored_code": graph_state.get("refactored_code", ""),
-        "test_report": graph_state.get("test_report", "")
+        "review_code": graph_state.get("review_code"),
+        "refactored_code": graph_state.get("refactored_code"),
+        "test_report": graph_state.get("test_report")
     }
 
 
@@ -47,9 +47,9 @@ async def single_review_pdf(file: UploadFile = File(...)):
     graph_state = SingleFileGraph.invoke(state)
 
     pdf_path = generate_single_review_pdf(
-        graph_state.get("review_code", ""),
-        graph_state.get("test_report", ""),
-        graph_state.get("refactored_code", "")
+        graph_state.get("review_code"),
+        graph_state.get("test_report"),
+        graph_state.get("refactored_code")
     )
 
     return FileResponse(
