@@ -21,6 +21,10 @@ INTERVIEW_PROMPT = PromptTemplate.from_template(
     load_prompt("prompts/interview_questions.txt", encoding="utf-8")
 )
 
+DOCUMENTATION_PROMPT = PromptTemplate.from_template(
+    load_prompt("prompts/documentation.txt", encoding = "utf-8")
+)
+
 def stringify_project_files(project_files: dict) -> str:
     list = []
     for name, content in project_files.items():
