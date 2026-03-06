@@ -6,4 +6,4 @@ class ProjectState(TypedDict):
     review_report: Optional[str]
     project_explanation: Optional[str]
     interview_questions: Optional[str]
-
+    documentation_generation: Optional[str]
