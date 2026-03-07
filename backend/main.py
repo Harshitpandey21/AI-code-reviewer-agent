@@ -90,7 +90,10 @@ async def project_review(
       if action == "INTERVIEW":
         return {"interview_questions": graph_state.get("interview_questions", "")}
       
-      if action not in ["PROJECT_REVIEW", "PROJECT_EXPLAIN", "INTERVIEW"]:
+      if action == "DOCUMENTATION":
+         return {"documentation_generation": graph_state.get("documentation_generation","")}
+      
+      if action not in ["PROJECT_REVIEW", "PROJECT_EXPLAIN", "INTERVIEW", "DOCUMENTATION"]:
         raise HTTPException(status_code = 400 , detail = "Invalid action")
     
     except HTTPException as e:
@@ -128,6 +131,10 @@ async def project_review_pdf(
     elif action == "INTERVIEW":
         Name = "AI Interview Questions"
         content = graph_state.get("interview_questions", "")
+
+    elif action == "DOCUMENTATION":
+       Name = "README FILE"
+       content = graph_state.get("documentation_generation","")
 
     else:
         return {"error": "Invalid action"}

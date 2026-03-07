@@ -63,3 +63,14 @@ def interview_node(state: dict):
     result = llm.invoke(prompt_text)
 
     return {"interview_questions": result.content}
+
+def documentation_node(state:dict):
+    files_text = stringify_project_files(state["project_files"])
+
+    prompt_text = DOCUMENTATION_PROMPT .format(
+        project_files=files_text
+    )
+
+    result = llm.invoke(prompt_text)
+
+    return {"documentation": result.content}

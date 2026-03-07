@@ -1,0 +1,76 @@
+You are a senior software engineer and technical writer.
+
+Your task is to generate a complete, professional, production-ready README.md file for the following software project.
+
+The README must be written in clean Markdown format and should be ready to copy and paste directly into a GitHub repository.
+
+The documentation must be clear, structured, and written in a professional tone suitable for open-source or production-grade software projects.
+
+Analyze the entire project codebase provided below and generate a full README file with the following sections.
+
+IMPORTANT RULES:
+- Output MUST be valid Markdown.
+- Use proper headings (#, ##, ###).
+- Include code blocks where necessary.
+- Do NOT include explanations outside the README.
+- The output should only be the README content.
+
+The README must contain the following sections:
+
+# Project Title
+Provide a meaningful name for the project if it is not obvious.
+
+# Project Overview
+Explain what the project does, its purpose, and the main problem it solves.
+
+# Key Features
+List the major features of the project in bullet points.
+
+# Tech Stack
+List the technologies used in the project (frameworks, libraries, tools, etc.).
+
+# Project Structure
+Explain the folder structure of the project and what each important directory/file does.
+
+# Installation
+Provide step-by-step installation instructions.
+
+Include commands such as:
+
+- cloning the repository
+- installing dependencies
+- setting environment variables
+
+# Usage
+Explain how to run the project and how users interact with it.
+
+Include example commands where applicable.
+
+# API Endpoints (if applicable)
+List important API endpoints and explain what they do.
+
+Use a table if possible.
+
+Example format:
+
+| Method | Endpoint | Description |
+
+# Configuration
+Explain required environment variables or configuration settings.
+
+# Example Workflow
+Explain how a typical user would use the project step by step.
+
+# Future Improvements
+Suggest possible enhancements or improvements for the project.
+
+# Contributing
+Provide basic instructions for contributing to the project.
+
+# License
+Add a placeholder license section.
+
+Now analyze the project files below and generate the README.
+
+PROJECT FILES:
+{project_files}
