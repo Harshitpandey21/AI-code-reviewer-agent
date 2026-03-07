@@ -72,5 +72,5 @@ Add a placeholder license section.
 
 Now analyze the project files below and generate the README.
 
-PROJECT FILES:
+Project Code:
 {project_files}

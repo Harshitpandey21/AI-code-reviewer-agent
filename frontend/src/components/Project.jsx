@@ -10,12 +10,14 @@ export default function ProjectAgent() {
   const [results, setResults] = useState({
     PROJECT_REVIEW: null,
     PROJECT_EXPLAIN: null,
-    INTERVIEW: null
+    INTERVIEW: null,
+    DOCUMENTATION: null
   });
 
   const [loading, setLoading] = useState(false);
 
   async function runAgent() {
+
     if (!file) return;
 
     setLoading(true);
@@ -37,9 +39,13 @@ export default function ProjectAgent() {
       }));
 
     } catch (error) {
+
       console.error(error);
+
     } finally {
+
       setLoading(false);
+
     }
   }
 
@@ -80,11 +86,12 @@ export default function ProjectAgent() {
   }
 
   return (
+
     <div className="min-h-screen flex relative bg-gradient-to-br from-[#020617] via-[#0b1224] to-[#020617] text-slate-200 overflow-hidden">
 
       <div className="absolute top-[-300px] left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-blue-600/10 blur-[200px] rounded-full pointer-events-none"></div>
 
-      <Sidebar />
+      <Sidebar/>
 
       <div className="flex-1 flex flex-col relative z-10">
 
@@ -93,6 +100,7 @@ export default function ProjectAgent() {
           <div className="max-w-7xl mx-auto px-10 py-6 flex justify-between items-center">
 
             <div>
+
               <h1 className="text-2xl font-semibold tracking-tight">
                 Full Project Intelligence
               </h1>
@@ -100,20 +108,25 @@ export default function ProjectAgent() {
               <p className="text-xs text-slate-400 mt-1">
                 Review • Explanation • Interview Insights
               </p>
+
             </div>
 
             <div className="text-sm font-medium">
 
               {loading ? (
+
                 <div className="flex items-center gap-2 text-blue-400">
                   <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></div>
                   Analyzing Code
                 </div>
+
               ) : (
+
                 <div className="flex items-center gap-2 text-emerald-400">
                   <div className="h-2 w-2 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/40"></div>
                   Ready to Analyze
                 </div>
+
               )}
 
             </div>
@@ -121,6 +134,7 @@ export default function ProjectAgent() {
           </div>
 
         </header>
+
 
         <main className="max-w-7xl mx-auto px-10 py-16 space-y-16 w-full">
 
@@ -149,12 +163,14 @@ export default function ProjectAgent() {
 
           </section>
 
-          <Tabs active={activeTab} setActive={setActiveTab} />
+
+          <Tabs active={activeTab} setActive={setActiveTab}/>
 
 
           {(results.PROJECT_REVIEW ||
             results.PROJECT_EXPLAIN ||
-            results.INTERVIEW) && (
+            results.INTERVIEW ||
+            results.DOCUMENTATION) && (
 
             <div className="space-y-16">
 
@@ -166,11 +182,14 @@ export default function ProjectAgent() {
                   subtitle="Architecture and quality analysis"
                   onDownload={downloadPDF}
                 >
+
                   <ReadableBlock>
                     {results.PROJECT_REVIEW.review_report}
                   </ReadableBlock>
+
                 </ResultCard>
               )}
+
 
               {activeTab === "PROJECT_EXPLAIN" &&
                 results.PROJECT_EXPLAIN?.project_explanation && (
@@ -180,11 +199,14 @@ export default function ProjectAgent() {
                   subtitle="System design breakdown"
                   onDownload={downloadPDF}
                 >
+
                   <ReadableBlock>
                     {results.PROJECT_EXPLAIN.project_explanation}
                   </ReadableBlock>
+
                 </ResultCard>
               )}
+
 
               {activeTab === "INTERVIEW" &&
                 results.INTERVIEW?.interview_questions && (
@@ -194,9 +216,32 @@ export default function ProjectAgent() {
                   subtitle="Structured technical Q&A"
                   onDownload={downloadPDF}
                 >
+
                   <InterviewRenderer
                     text={results.INTERVIEW.interview_questions}
                   />
+
+                </ResultCard>
+              )}
+
+
+              {activeTab === "DOCUMENTATION" &&
+                results.DOCUMENTATION?.documentation && (
+
+                <ResultCard
+                  title="Project Documentation"
+                  subtitle="AI generated README file"
+                  onDownload={downloadPDF}
+                >
+
+                  <div className="bg-slate-950 border border-white/5 rounded-xl p-6 overflow-x-auto text-sm font-mono text-slate-200">
+
+                    <pre className="whitespace-pre-wrap">
+                      {results.DOCUMENTATION.documentation}
+                    </pre>
+
+                  </div>
+
                 </ResultCard>
               )}
 
@@ -205,17 +250,21 @@ export default function ProjectAgent() {
           )}
 
         </main>
+
       </div>
+
     </div>
-  );
+
+  )
 }
 
-function Sidebar() {
 
-  const navigate = useNavigate();
-  const location = useLocation();
+function Sidebar(){
 
-  return (
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  return(
 
     <aside className="w-64 bg-black/50 backdrop-blur-2xl border-r border-white/5 p-10 hidden md:block relative">
 
@@ -227,76 +276,72 @@ function Sidebar() {
 
       <nav className="space-y-4 text-sm relative z-10">
 
-        <NavItem
-          active={location.pathname === "/"}
-          onClick={() => navigate("/")}
-        >
+        <NavItem active={location.pathname === "/"} onClick={()=>navigate("/")}>
           Home
         </NavItem>
 
-        <NavItem
-          active={location.pathname === "/project"}
-          onClick={() => navigate("/project")}
-        >
+        <NavItem active={location.pathname === "/project"} onClick={()=>navigate("/project")}>
           Project Intelligence
         </NavItem>
 
-        <NavItem
-          active={location.pathname === "/single"}
-          onClick={() => navigate("/single")}
-        >
+        <NavItem active={location.pathname === "/single"} onClick={()=>navigate("/single")}>
           Single File Review
         </NavItem>
 
       </nav>
 
     </aside>
-  );
+
+  )
 }
 
-function NavItem({ children, active, onClick }) {
 
-  return (
+function NavItem({children,active,onClick}){
+
+  return(
 
     <div
       onClick={onClick}
       className={`px-4 py-3 rounded-xl cursor-pointer transition-all duration-200
-        ${active
-          ? "bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-lg shadow-blue-500/10"
-          : "text-slate-300 hover:bg-slate-800 hover:text-white"}`}
+      ${active
+        ? "bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-lg shadow-blue-500/10"
+        : "text-slate-300 hover:bg-slate-800 hover:text-white"}`}
     >
       {children}
     </div>
 
-  );
+  )
+
 }
 
-function Tabs({ active, setActive }) {
 
-  const tabs = [
-    { id: "PROJECT_REVIEW", label: "Project Review" },
-    { id: "PROJECT_EXPLAIN", label: "Project Explanation" },
-    { id: "INTERVIEW", label: "Interview Q&A" },
-  ];
+function Tabs({active,setActive}){
 
-  return (
+  const tabs=[
+    {id:"PROJECT_REVIEW",label:"Project Review"},
+    {id:"PROJECT_EXPLAIN",label:"Project Explanation"},
+    {id:"INTERVIEW",label:"Interview Q&A"},
+    {id:"DOCUMENTATION",label:"Documentation"}
+  ]
+
+  return(
 
     <div className="flex gap-8 border-b border-white/5 pb-4">
 
-      {tabs.map((tab) => (
+      {tabs.map(tab=>(
 
         <button
           key={tab.id}
-          onClick={() => setActive(tab.id)}
+          onClick={()=>setActive(tab.id)}
           className={`relative pb-2 text-sm font-medium transition
-            ${active === tab.id
-              ? "text-blue-400"
-              : "text-slate-400 hover:text-white"}`}
+          ${active===tab.id
+            ? "text-blue-400"
+            : "text-slate-400 hover:text-white"}`}
         >
 
           {tab.label}
 
-          {active === tab.id && (
+          {active===tab.id && (
             <div className="absolute left-0 bottom-0 w-full h-[2px] bg-blue-500 rounded-full shadow-blue-500/50 shadow-md"></div>
           )}
 
@@ -305,12 +350,15 @@ function Tabs({ active, setActive }) {
       ))}
 
     </div>
-  );
+
+  )
+
 }
 
-function ResultCard({ title, subtitle, children, onDownload }) {
 
-  return (
+function ResultCard({title,subtitle,children,onDownload}){
+
+  return(
 
     <section className="relative bg-slate-900/80 backdrop-blur-xl border border-white/5 rounded-3xl p-12 shadow-[0_0_40px_rgba(0,0,0,0.5)] transition hover:border-blue-500/30 hover:shadow-[0_0_60px_rgba(59,130,246,0.15)]">
 
@@ -322,11 +370,9 @@ function ResultCard({ title, subtitle, children, onDownload }) {
             {title}
           </h3>
 
-          {subtitle && (
-            <p className="text-xs text-slate-400 mt-1">
-              {subtitle}
-            </p>
-          )}
+          <p className="text-xs text-slate-400 mt-1">
+            {subtitle}
+          </p>
 
         </div>
 
@@ -342,32 +388,35 @@ function ResultCard({ title, subtitle, children, onDownload }) {
       {children}
 
     </section>
-  );
+
+  )
+
 }
 
-function InterviewRenderer({ text }) {
 
-  if (!text) return null;
+function InterviewRenderer({text}){
 
-  const cleaned = text.replace(/^\s*\d+\.\s*/gm, "").trim();
+  if(!text) return null
+
+  const cleaned = text.replace(/^\s*\d+\.\s*/gm,"").trim()
 
   const blocks = cleaned
     .split(/Question:/g)
-    .map((b) => b.trim())
-    .filter((b) => b.length > 0);
+    .map(b=>b.trim())
+    .filter(b=>b.length>0)
 
-  return (
+  return(
 
     <div className="space-y-10">
 
-      {blocks.map((block, index) => {
+      {blocks.map((block,index)=>{
 
-        const parts = block.split(/ANSWER:/g);
+        const parts = block.split(/ANSWER:/g)
 
-        const question = parts[0]?.trim() || "";
-        const answer = parts[1]?.trim() || "";
+        const question = parts[0]?.trim() || ""
+        const answer = parts[1]?.trim() || ""
 
-        return (
+        return(
 
           <div
             key={index}
@@ -375,7 +424,7 @@ function InterviewRenderer({ text }) {
           >
 
             <p className="text-blue-400 font-semibold mb-4">
-              Q{index + 1}. {question}
+              Q{index+1}. {question}
             </p>
 
             <p className="text-slate-300 leading-relaxed text-sm">
@@ -384,19 +433,23 @@ function InterviewRenderer({ text }) {
 
           </div>
 
-        );
+        )
 
       })}
 
     </div>
-  );
+
+  )
+
 }
 
-function ReadableBlock({ children }) {
 
-  return (
+function ReadableBlock({children}){
+
+  return(
     <div className="text-sm leading-relaxed whitespace-pre-wrap text-slate-300">
       {children}
     </div>
-  );
+  )
+
 }

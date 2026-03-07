@@ -91,7 +91,7 @@ async def project_review(
         return {"interview_questions": graph_state.get("interview_questions", "")}
       
       if action == "DOCUMENTATION":
-         return {"documentation_generation": graph_state.get("documentation_generation","")}
+         return {"documentation": graph_state.get("documentation_generation","")}
       
       if action not in ["PROJECT_REVIEW", "PROJECT_EXPLAIN", "INTERVIEW", "DOCUMENTATION"]:
         raise HTTPException(status_code = 400 , detail = "Invalid action")
