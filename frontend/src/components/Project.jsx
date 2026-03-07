@@ -106,7 +106,7 @@ export default function ProjectAgent() {
               </h1>
 
               <p className="text-xs text-slate-400 mt-1">
-                Review • Explanation • Interview Insights
+                Review • Explanation • Interview Insights • Documentation
               </p>
 
             </div>
