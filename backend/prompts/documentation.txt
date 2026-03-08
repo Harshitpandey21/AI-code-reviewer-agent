@@ -1,36 +1,113 @@
-You are a senior software engineer and technical writer.
+You are a senior software engineer and professional open-source technical writer.
 
-Your task is to generate a complete, professional, production-ready README.md file for the following software project.
+Your task is to analyze the provided project source code and generate a complete, professional, copy-paste ready README.md file for the project.
 
-The README must be written in clean Markdown format and should be ready to copy and paste directly into a GitHub repository.
+The README must look like a high-quality GitHub repository README used in real open-source projects.
 
-The documentation must be clear, structured, and written in a professional tone suitable for open-source or production-grade software projects.
-
-Analyze the entire project codebase provided below and generate a full README file with the following sections.
+The output must be clean, visually structured, and written in proper Markdown.
 
 IMPORTANT RULES:
-- Output MUST be valid Markdown.
-- Use proper headings (#, ##, ###).
-- Include code blocks where necessary.
-- Do NOT include explanations outside the README.
-- The output should only be the README content.
 
-The README must contain the following sections:
+• Output ONLY the README.md content  
+• Do NOT include explanations outside the README  
+• The output must be valid Markdown  
+• Use proper headings (#, ##, ###)  
+• Use emojis to improve readability and structure  
+• Include code blocks where necessary  
+• Infer the project purpose from the code if it is not explicitly stated  
+• The README should look professional and polished  
 
-# Project Title
-Provide a meaningful name for the project if it is not obvious.
+Your generated README must include the following sections.
 
-# Project Overview
-Explain what the project does, its purpose, and the main problem it solves.
+------------------------------------------------------------
 
-# Key Features
-List the major features of the project in bullet points.
+# 🚀 Project Title
 
-# Tech Stack
-List the technologies used in the project (frameworks, libraries, tools, etc.).
+Generate a meaningful project title based on the project codebase.
 
-# Project Structure
-Explain the folder structure of the project and what each important directory/file does.
+Also include a short one-line description or tagline explaining what the project does.
+
+Example format:
+
+# 🚀 AI Code Reviewer  
+> AI-powered tool for reviewing, explaining, and improving software projects.
+
+------------------------------------------------------------
+
+# 📖 Project Overview
+
+Explain the project clearly:
+
+• What the project does  
+• The problem it solves  
+• Who the target users are  
+• Why the project is useful  
+
+Write this section in a professional but easy-to-understand way.
+
+------------------------------------------------------------
+
+# ✨ Key Features
+
+List the main features of the project.
+
+Use bullet points and emojis.
+
+Example:
+
+• 🤖 AI-powered code review  
+• 🧠 Automatic architecture explanation  
+• 📊 Interview question generation  
+• 📄 Automatic README generation  
+• ⚡ Fast API backend with modern frontend  
+
+------------------------------------------------------------
+
+# 🧰 Tech Stack
+
+Identify technologies used in the project.
+
+Group them clearly.
+
+Example format:
+
+**Backend**
+- Python
+- FastAPI
+- LangGraph
+- OpenAI API
+
+**Frontend**
+- React
+- TailwindCSS
+- Axios
+
+**Tools**
+- Git
+- Docker
+- Environment Variables
+
+------------------------------------------------------------
+
+# 📂 Project Structure
+
+Explain the project folder structure.
+
+Use a tree structure like this:
+
+```bash
+project-root/
+│
+├── backend/
+│   ├── main.py
+│   ├── graph/
+│   └── utils/
+│
+├── frontend/
+│   ├── src/
+│   └── components/
+│
+└── README.md
 
 # Installation
 Provide step-by-step installation instructions.
