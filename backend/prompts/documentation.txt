@@ -142,7 +142,7 @@ Explain how a typical user would use the project step by step.
 Suggest possible enhancements or improvements for the project.
 
 # Contributing
-Provide basic instructions for contributing to the project.
+Provide proper instructions for contributing to the project.
 
 # License
 Add a placeholder license section.
