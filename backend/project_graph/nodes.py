@@ -26,10 +26,10 @@ DOCUMENTATION_PROMPT = PromptTemplate.from_template(
 )
 
 def stringify_project_files(project_files: dict) -> str:
-    list = []
+    output = []
     for name, content in project_files.items():
-        list.append(f"\n--- File: {name} ---\n{content}\n")
-    return "\n".join(list)
+        output.append(f"\nFile:{name}\n{content}\n")
+    return "\n".join(output)
 
 def project_review_node(state: dict):
     files_text = stringify_project_files(state["project_files"])
