@@ -10,7 +10,8 @@ export default function Home() {
       <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:48px_48px]" />
 
       <div className="relative z-10">
-        <nav className="sticky top-0 z-50 border-b border-white/10 bg-black/25 backdrop-blur-xl">
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-950/40 backdrop-blur border-b border-white/10">
+          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500/60 to-transparent"></div>
           <div className="mx-auto flex max-w-7xl items-center justify-between px-8 py-5">
             <button
               onClick={() => navigate("/")}
@@ -37,6 +38,8 @@ export default function Home() {
             </div>
           </div>
         </nav>
+
+        <div className="pt-24"></div>
 
         <section className="mx-auto max-w-6xl px-6 pb-8 pt-16 text-center md:pt-20">
           <div className="mx-auto max-w-5xl">
