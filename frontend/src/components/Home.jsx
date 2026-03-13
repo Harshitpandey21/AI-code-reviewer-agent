@@ -25,7 +25,7 @@ export default function Home() {
 
       <div className="relative z-10">
         <nav
-          className={`fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-slate-950/40 backdrop-blur-2xl transition-all duration-300 ${
+          className={`fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-slate-950/40 backdrop-blur-lg transition-all duration-300 ${
             scrolled ? "py-0 shadow-[0_10px_40px_rgba(2,6,23,0.45)]" : "py-0"
           }`}
         >
