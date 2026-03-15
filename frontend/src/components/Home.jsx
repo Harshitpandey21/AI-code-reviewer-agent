@@ -133,8 +133,8 @@ export default function Home() {
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <FeaturePill icon="⚡" text="Instant Review Output" />
-                <FeaturePill icon="🧠" text="Architecture Understanding" />
-                <FeaturePill icon="📄" text="README Generation" />
+                <FeaturePill icon="🧠" text="Architecture Explanation" />
+                <FeaturePill icon="📄" text="README File Generation" />
                 <FeaturePill icon="🎤" text="Interview Preparation" />
               </div>
             </div>
