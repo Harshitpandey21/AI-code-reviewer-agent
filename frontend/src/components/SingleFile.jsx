@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -7,24 +7,170 @@ export default function SingleFile() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const reviewQueueRef = useRef([]);
+  const testQueueRef = useRef([]);
+  const refactorQueueRef = useRef([]);
+  const reviewTimerRef = useRef(null);
+  const testTimerRef = useRef(null);
+  const refactorTimerRef = useRef(null);
+
+  function startFlusher(type) {
+    const refMap = {
+      review: {
+        queue: reviewQueueRef,
+        timer: reviewTimerRef,
+        key: "review_code",
+        speed: 14,
+      },
+      test: {
+        queue: testQueueRef,
+        timer: testTimerRef,
+        key: "test_report",
+        speed: 14,
+      },
+      refactor: {
+        queue: refactorQueueRef,
+        timer: refactorTimerRef,
+        key: "refactored_code",
+        speed: 8,
+      },
+    };
+
+    const target = refMap[type];
+    if (target.timer.current) return;
+
+    target.timer.current = setInterval(() => {
+      if (target.queue.current.length === 0) {
+        clearInterval(target.timer.current);
+        target.timer.current = null;
+        return;
+      }
+
+      const nextChunk = target.queue.current.shift();
+
+      setResult((prev) => ({
+        ...prev,
+        [target.key]: prev[target.key] + nextChunk,
+      }));
+    }, target.speed);
+  }
+
+  function stopAllFlushers() {
+    [reviewTimerRef, testTimerRef, refactorTimerRef].forEach((timerRef) => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    });
+  }
+
+  useEffect(() => {
+    return () => stopAllFlushers();
+  }, []);
 
   async function runReview() {
     if (!file) return;
+
     setLoading(true);
-    setResult(null);
+    stopAllFlushers();
+
+    reviewQueueRef.current = [];
+    testQueueRef.current = [];
+    refactorQueueRef.current = [];
+
+    setResult({
+      review_code: "",
+      refactored_code: "",
+      test_report: "",
+    });
 
     const form = new FormData();
     form.append("file", file);
 
     try {
-      const res = await axios.post(
-        "http://localhost:8000/single-review",
-        form
+      const response = await fetch(
+        "http://localhost:8000/single-review-stream",
+        {
+          method: "POST",
+          body: form,
+        }
       );
-      setResult(res.data);
+
+      if (!response.ok || !response.body) {
+        throw new Error("Streaming request failed");
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          if (!line.trim()) continue;
+
+          const data = JSON.parse(line);
+
+          if (data.type === "review") {
+            for (const char of data.content) {
+              reviewQueueRef.current.push(char);
+            }
+            startFlusher("review");
+          }
+
+          if (data.type === "test") {
+            for (const char of data.content) {
+              testQueueRef.current.push(char);
+            }
+            startFlusher("test");
+          }
+
+          if (data.type === "refactor") {
+            for (const char of data.content) {
+              refactorQueueRef.current.push(char);
+            }
+            startFlusher("refactor");
+          }
+
+          if (data.type === "error") {
+            throw new Error(data.message || "Streaming error");
+          }
+        }
+      }
+      await waitForQueuesToDrain();
+    } catch (error) {
+      console.error(error);
+      setResult(null);
     } finally {
       setLoading(false);
     }
+  }
+
+  function waitForQueuesToDrain() {
+    return new Promise((resolve) => {
+      const watcher = setInterval(() => {
+        const allEmpty =
+          reviewQueueRef.current.length === 0 &&
+          testQueueRef.current.length === 0 &&
+          refactorQueueRef.current.length === 0 &&
+          !reviewTimerRef.current &&
+          !testTimerRef.current &&
+          !refactorTimerRef.current;
+
+        if (allEmpty) {
+          clearInterval(watcher);
+          resolve();
+        }
+      }, 50);
+    });
   }
 
   async function downloadPDF() {
