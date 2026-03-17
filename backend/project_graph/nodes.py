@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
@@ -6,8 +8,10 @@ load_dotenv()
 
 llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
 
-def load_prompt(path,encoding):
-    return open(path, encoding=encoding).read()
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+def load_prompt(path, encoding="utf-8"):
+    return (BASE_DIR / path).read_text(encoding=encoding)
 
 PROJECT_REVIEW_PROMPT = PromptTemplate.from_template(
     load_prompt("prompts/project_review.txt", encoding="utf-8")
@@ -22,7 +26,7 @@ INTERVIEW_PROMPT = PromptTemplate.from_template(
 )
 
 DOCUMENTATION_PROMPT = PromptTemplate.from_template(
-    load_prompt("prompts/documentation.txt", encoding = "utf-8")
+    load_prompt("prompts/documentation.txt", encoding="utf-8")
 )
 
 def stringify_project_files(project_files: dict) -> str:
@@ -39,7 +43,6 @@ def project_review_node(state: dict):
     )
 
     result = llm.invoke(prompt_text)
-
     return {"review_report": result.content}
 
 def project_explain_node(state: dict):
@@ -50,7 +53,6 @@ def project_explain_node(state: dict):
     )
 
     result = llm.invoke(prompt_text)
-
     return {"project_explanation": result.content}
 
 def interview_node(state: dict):
@@ -61,16 +63,51 @@ def interview_node(state: dict):
     )
 
     result = llm.invoke(prompt_text)
-
     return {"interview_questions": result.content}
 
 def documentation_node(state: dict):
     files_text = stringify_project_files(state["project_files"])
 
-    prompt_text = DOCUMENTATION_PROMPT .format(
+    prompt_text = DOCUMENTATION_PROMPT.format(
         project_files=files_text
     )
 
     result = llm.invoke(prompt_text)
-
     return {"documentation_generation": result.content}
+
+def _stream_text(prompt_text: str):
+    for chunk in llm.stream(prompt_text):
+        token = chunk.content or ""
+        if token:
+            yield token
+
+def stream_project_pipeline(state: dict):
+    files_text = stringify_project_files(state["project_files"])
+    action = state["user_request"]
+
+    if action == "PROJECT_REVIEW":
+        prompt_text = PROJECT_REVIEW_PROMPT.format(project_files=files_text)
+        for token in _stream_text(prompt_text):
+            yield {"type": "PROJECT_REVIEW", "content": token}
+        yield {"type": "done"}
+
+    elif action == "PROJECT_EXPLAIN":
+        prompt_text = PROJECT_EXPLAIN_PROMPT.format(project_files=files_text)
+        for token in _stream_text(prompt_text):
+            yield {"type": "PROJECT_EXPLAIN", "content": token}
+        yield {"type": "done"}
+
+    elif action == "INTERVIEW":
+        prompt_text = INTERVIEW_PROMPT.format(project_files=files_text)
+        for token in _stream_text(prompt_text):
+            yield {"type": "INTERVIEW", "content": token}
+        yield {"type": "done"}
+
+    elif action == "DOCUMENTATION":
+        prompt_text = DOCUMENTATION_PROMPT.format(project_files=files_text)
+        for token in _stream_text(prompt_text):
+            yield {"type": "DOCUMENTATION", "content": token}
+        yield {"type": "done"}
+
+    else:
+        raise ValueError("Invalid action")

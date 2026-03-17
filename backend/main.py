@@ -9,6 +9,7 @@ from graph.graph_builder import Final as SingleFileGraph
 from project_graph.graph_builder import FinalProjectGraph
 from utils.pdf_generator import generate_single_review_pdf
 from graph.nodes import stream_single_file_pipeline
+from project_graph.nodes import stream_project_pipeline
 
 app = FastAPI()
 app.add_middleware(
@@ -34,7 +35,6 @@ async def single_review_stream(file: UploadFile = File(...)):
                 "type": "error",
                 "message": str(e)
             }, ensure_ascii=False) + "\n"
-
     return StreamingResponse(
         event_generator(),
         media_type="text/plain"
@@ -73,6 +73,40 @@ async def single_review_pdf(file: UploadFile = File(...)):
         filename="AI_Single_Code_Review_Report.pdf"
     )
 
+@app.post("/project-review-stream")
+async def project_review_stream(
+    file: UploadFile = File(...),
+    action: str = Form(...)
+):
+    try:
+        zip_bytes = io.BytesIO(await file.read())
+
+        with zipfile.ZipFile(zip_bytes) as f:
+            project_files = {
+                name: f.read(name).decode("utf-8", errors="ignore")
+                for name in f.namelist()
+                if not name.endswith("/")
+            }
+        state = {
+            "project_files": project_files,
+            "user_request": action
+        }
+        def event_generator():
+            try:
+                for event in stream_project_pipeline(state):
+                    yield json.dumps(event, ensure_ascii=False) + "\n"
+            except Exception as e:
+                yield json.dumps({
+                    "type": "error",
+                    "message": str(e)
+                }, ensure_ascii=False) + "\n"
+        return StreamingResponse(
+            event_generator(),
+            media_type="text/plain"
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/project-review")
 async def project_review(
     file: UploadFile = File(...),
@@ -87,12 +121,10 @@ async def project_review(
                 for name in f.namelist()
                 if not name.endswith("/")
             }
-
         state = {
             "project_files": project_files,
             "user_request": action
         }
-
         graph_state = FinalProjectGraph.invoke(state)
 
         if action == "PROJECT_REVIEW":
@@ -108,10 +140,9 @@ async def project_review(
             return {"documentation": graph_state.get("documentation_generation", "")}
 
         raise HTTPException(status_code=400, detail="Invalid action")
-
+    
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 
 @app.post("/project-review/pdf")
 async def project_review_pdf(
@@ -126,12 +157,10 @@ async def project_review_pdf(
             for name in f.namelist()
             if not name.endswith("/")
         }
-
     state = {
         "project_files": project_files,
         "user_request": action
     }
-
     graph_state = FinalProjectGraph.invoke(state)
 
     if action == "PROJECT_REVIEW":
@@ -154,7 +183,6 @@ async def project_review_pdf(
         raise HTTPException(status_code=400, detail="Invalid action")
 
     pdf_path = generate_project_pdf(Name, content)
-
     return FileResponse(
         pdf_path,
         media_type="application/pdf",

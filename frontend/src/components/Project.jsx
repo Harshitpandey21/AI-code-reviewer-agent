@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -14,31 +14,181 @@ export default function ProjectAgent() {
   });
 
   const [loading, setLoading] = useState(false);
+  const queueRef = useRef([]);
+  const timerRef = useRef(null);
+  function getStreamConfig(tab) {
+    const configMap = {
+      PROJECT_REVIEW: {
+        key: "review_report",
+        minDelay: 28,
+        maxDelay: 46,
+        chunkMin: 1,
+        chunkMax: 3,
+      },
+      PROJECT_EXPLAIN: {
+        key: "project_explanation",
+        minDelay: 28,
+        maxDelay: 46,
+        chunkMin: 1,
+        chunkMax: 3,
+      },
+      INTERVIEW: {
+        key: "interview_questions",
+        minDelay: 24,
+        maxDelay: 40,
+        chunkMin: 1,
+        chunkMax: 3,
+      },
+      DOCUMENTATION: {
+        key: "documentation",
+        minDelay: 16,
+        maxDelay: 28,
+        chunkMin: 2,
+        chunkMax: 5,
+      },
+    };
 
+    return configMap[tab];
+  }
+
+  function randomBetween(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function scheduleFlush(tab) {
+    const config = getStreamConfig(tab);
+    if (!config) return;
+
+    if (timerRef.current) return;
+
+    const flush = () => {
+      if (queueRef.current.length === 0) {
+        timerRef.current = null;
+        return;
+      }
+
+      const take = Math.min(
+        queueRef.current.length,
+        randomBetween(config.chunkMin, config.chunkMax)
+      );
+
+      let nextText = "";
+      for (let i = 0; i < take; i++) {
+        nextText += queueRef.current.shift();
+      }
+
+      setResults((prev) => ({
+        ...prev,
+        [tab]: {
+          ...prev[tab],
+          [config.key]: (prev[tab]?.[config.key] || "") + nextText,
+        },
+      }));
+
+      const delay = randomBetween(config.minDelay, config.maxDelay);
+      timerRef.current = setTimeout(flush, delay);
+    };
+
+    timerRef.current = setTimeout(
+      flush,
+      randomBetween(config.minDelay, config.maxDelay)
+    );
+  }
+  function stopFlusher() {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }
+  useEffect(() => {
+    return () => stopFlusher();
+  }, []);
   async function runAgent() {
     if (!file) return;
-
     setLoading(true);
+    stopFlusher();
+    queueRef.current = [];
+
+    const emptyShape = {
+      PROJECT_REVIEW: { review_report: "" },
+      PROJECT_EXPLAIN: { project_explanation: "" },
+      INTERVIEW: { interview_questions: "" },
+      DOCUMENTATION: { documentation: "" },
+    };
+    setResults((prev) => ({
+      ...prev,
+      [activeTab]: emptyShape[activeTab],
+    }));
 
     const form = new FormData();
     form.append("file", file);
     form.append("action", activeTab);
 
     try {
-      const res = await axios.post(
-        "http://localhost:8000/project-review",
-        form
+      const response = await fetch(
+        "http://localhost:8000/project-review-stream",
+        {
+          method: "POST",
+          body: form,
+        }
       );
 
-      setResults((prev) => ({
-        ...prev,
-        [activeTab]: res.data,
-      }));
+      if (!response.ok || !response.body) {
+        throw new Error("Streaming request failed");
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          if (!line.trim()) continue;
+
+          const data = JSON.parse(line);
+
+          if (data.type === activeTab) {
+            for (const char of data.content) {
+              queueRef.current.push(char);
+            }
+            scheduleFlush(activeTab);
+          }
+
+          if (data.type === "error") {
+            throw new Error(data.message || "Streaming error");
+          }
+        }
+      }
+
+      await waitForQueueToDrain();
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
+  }
+
+  function waitForQueueToDrain() {
+    return new Promise((resolve) => {
+      const watcher = setInterval(() => {
+        const done =
+          queueRef.current.length === 0 &&
+          !timerRef.current;
+
+        if (done) {
+          clearInterval(watcher);
+          resolve();
+        }
+      }, 60);
+    });
   }
 
   async function downloadPDF() {
@@ -56,9 +206,11 @@ export default function ProjectAgent() {
       );
 
       const blob = new Blob([res.data], { type: "application/pdf" });
+
       const url = window.URL.createObjectURL(blob);
 
       const a = document.createElement("a");
+
       a.href = url;
       a.download = "ai_project_report.pdf";
       document.body.appendChild(a);
@@ -320,80 +472,57 @@ function NavItem({ children, active, onClick }) {
 function Tabs({ active, setActive }) {
   const tabs = [
     { id: "PROJECT_REVIEW", label: "Project Review" },
-    { id: "PROJECT_EXPLAIN", label: "Architecture" },
+    { id: "PROJECT_EXPLAIN", label: "Architecture Explanation" },
     { id: "INTERVIEW", label: "Interview Q&A" },
     { id: "DOCUMENTATION", label: "Documentation" },
   ];
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-2 backdrop-blur-xl shadow-[0_0_30px_rgba(15,23,42,0.20)]">
-      <div className="flex flex-wrap gap-2">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActive(tab.id)}
-            className={`rounded-xl px-4 py-2.5 text-sm font-medium transition-all duration-300 ${
-              active === tab.id
-                ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-[0_0_20px_rgba(59,130,246,0.30)]"
-                : "text-slate-300 hover:text-white hover:bg-white/[0.05]"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
+    <div className="flex gap-8 border-b border-white/5 pb-4 overflow-x-auto">
+      {tabs.map((tab) => (
+        <button
+          key={tab.id}
+          onClick={() => setActive(tab.id)}
+          className={`relative pb-2 text-sm font-medium transition whitespace-nowrap ${
+            active === tab.id
+              ? "text-blue-400"
+              : "text-slate-400 hover:text-white"
+          }`}
+        >
+          {tab.label}
+
+          {active === tab.id && (
+            <div className="absolute left-0 bottom-0 w-full h-[2px] bg-blue-500 rounded-full shadow-blue-500/50 shadow-md"></div>
+          )}
+        </button>
+      ))}
     </div>
   );
 }
 
 function ResultCard({ title, subtitle, children, onDownload, accent }) {
-  const accentMap = {
-    blue: {
-      border: "border-blue-500/20",
-      glow: "bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.16),transparent_35%)]",
-      beam: "via-blue-400/70",
-    },
-    emerald: {
-      border: "border-emerald-500/20",
-      glow: "bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.14),transparent_35%)]",
-      beam: "via-emerald-400/70",
-    },
-    purple: {
-      border: "border-purple-500/20",
-      glow: "bg-[radial-gradient(circle_at_top_left,rgba(168,85,247,0.14),transparent_35%)]",
-      beam: "via-fuchsia-400/70",
-    },
-  };
-
   return (
-    <section
-      className={`group relative overflow-hidden rounded-[30px] border bg-slate-950/50 p-8 md:p-10 backdrop-blur-2xl shadow-[0_0_40px_rgba(2,6,23,0.40)] transition-all duration-300 hover:-translate-y-1 ${accentMap[accent].border}`}
-    >
-      <div
-        className={`absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent ${accentMap[accent].beam} to-transparent opacity-80`}
-      />
-      <div className={`absolute inset-0 opacity-0 transition duration-300 group-hover:opacity-100 ${accentMap[accent].glow}`} />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02)_30%,transparent_60%)]" />
+    <section className="relative bg-slate-900/80 backdrop-blur-xl border border-white/5 rounded-3xl p-12 shadow-[0_0_40px_rgba(0,0,0,0.5)] transition hover:border-blue-500/30 hover:shadow-[0_0_60px_rgba(59,130,246,0.15)]">
+      <div className="flex justify-between mb-8 items-start">
+        <div>
+          <h3 className="text-xl font-semibold tracking-tight text-white">
+            {title}
+          </h3>
 
-      <div className="relative z-10">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
-          <div>
-            <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-white">
-              {title}
-            </h3>
-            <p className="text-sm text-slate-400 mt-2">{subtitle}</p>
-          </div>
-
-          <button
-            onClick={onDownload}
-            className="rounded-2xl border border-white/10 bg-white/[0.05] px-5 py-3 text-sm font-semibold text-slate-100 backdrop-blur transition duration-300 hover:bg-white/[0.08] hover:border-white/20"
-          >
-            Download PDF
-          </button>
+          <p className="text-xs text-slate-400 mt-1">
+            {subtitle}
+          </p>
         </div>
 
-        {children}
+        <button
+          onClick={onDownload}
+          className="bg-slate-800 hover:bg-slate-700 px-5 py-2 rounded-lg text-sm transition border border-white/5 hover:border-white/10"
+        >
+          Download PDF
+        </button>
       </div>
+
+      {children}
     </section>
   );
 }
@@ -409,22 +538,23 @@ function InterviewRenderer({ text }) {
     .filter((b) => b.length > 0);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-10">
       {blocks.map((block, index) => {
         const parts = block.split(/ANSWER:/g);
+
         const question = parts[0]?.trim() || "";
         const answer = parts[1]?.trim() || "";
 
         return (
           <div
             key={index}
-            className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur transition duration-300 hover:border-blue-400/20"
+            className="bg-slate-950 border border-white/5 rounded-2xl p-8 shadow-inner transition hover:border-blue-500/20"
           >
             <p className="text-blue-400 font-semibold mb-4">
               Q{index + 1}. {question}
             </p>
 
-            <p className="text-slate-300 leading-7 text-sm">
+            <p className="text-slate-300 leading-relaxed text-sm">
               {answer}
             </p>
           </div>
@@ -436,7 +566,7 @@ function InterviewRenderer({ text }) {
 
 function ReadableBlock({ children }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-sm leading-8 whitespace-pre-wrap text-slate-300">
+    <div className="text-sm leading-relaxed whitespace-pre-wrap text-slate-300">
       {children}
     </div>
   );
