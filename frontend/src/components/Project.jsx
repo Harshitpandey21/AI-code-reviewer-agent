@@ -14,41 +14,17 @@ export default function ProjectAgent() {
   });
 
   const [loading, setLoading] = useState(false);
+
   const queueRef = useRef([]);
   const timerRef = useRef(null);
-  function getStreamConfig(tab) {
-    const configMap = {
-      PROJECT_REVIEW: {
-        key: "review_report",
-        minDelay: 28,
-        maxDelay: 46,
-        chunkMin: 1,
-        chunkMax: 3,
-      },
-      PROJECT_EXPLAIN: {
-        key: "project_explanation",
-        minDelay: 28,
-        maxDelay: 46,
-        chunkMin: 1,
-        chunkMax: 3,
-      },
-      INTERVIEW: {
-        key: "interview_questions",
-        minDelay: 24,
-        maxDelay: 40,
-        chunkMin: 1,
-        chunkMax: 3,
-      },
-      DOCUMENTATION: {
-        key: "documentation",
-        minDelay: 16,
-        maxDelay: 28,
-        chunkMin: 2,
-        chunkMax: 5,
-      },
-    };
 
-    return configMap[tab];
+  function getStreamConfig(tab) {
+    return {
+      PROJECT_REVIEW: { key: "review_report" },
+      PROJECT_EXPLAIN: { key: "project_explanation" },
+      INTERVIEW: { key: "interview_questions" },
+      DOCUMENTATION: { key: "documentation" },
+    }[tab];
   }
 
   function randomBetween(min, max) {
@@ -58,7 +34,6 @@ export default function ProjectAgent() {
   function scheduleFlush(tab) {
     const config = getStreamConfig(tab);
     if (!config) return;
-
     if (timerRef.current) return;
 
     const flush = () => {
@@ -67,13 +42,11 @@ export default function ProjectAgent() {
         return;
       }
 
-      const take = Math.min(
-        queueRef.current.length,
-        randomBetween(config.chunkMin, config.chunkMax)
-      );
+      const burst = Math.random() > 0.65;
+      const take = burst ? randomBetween(3, 6) : randomBetween(1, 2);
 
       let nextText = "";
-      for (let i = 0; i < take; i++) {
+      for (let i = 0; i < take && queueRef.current.length > 0; i++) {
         nextText += queueRef.current.shift();
       }
 
@@ -85,26 +58,39 @@ export default function ProjectAgent() {
         },
       }));
 
-      const delay = randomBetween(config.minDelay, config.maxDelay);
+      const lastChar = nextText.slice(-1);
+      let delay;
+
+      if ([".", "!", "?"].includes(lastChar)) {
+        delay = randomBetween(160, 260);
+      } else if ([",", ";", ":"].includes(lastChar)) {
+        delay = randomBetween(90, 140);
+      } else if (lastChar === "\n") {
+        delay = randomBetween(120, 200);
+      } else {
+        delay = randomBetween(35, 70);
+      }
+
       timerRef.current = setTimeout(flush, delay);
     };
 
-    timerRef.current = setTimeout(
-      flush,
-      randomBetween(config.minDelay, config.maxDelay)
-    );
+    timerRef.current = setTimeout(flush, randomBetween(40, 80));
   }
+
   function stopFlusher() {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
     }
   }
+
   useEffect(() => {
     return () => stopFlusher();
   }, []);
+
   async function runAgent() {
     if (!file) return;
+
     setLoading(true);
     stopFlusher();
     queueRef.current = [];
@@ -115,6 +101,7 @@ export default function ProjectAgent() {
       INTERVIEW: { interview_questions: "" },
       DOCUMENTATION: { documentation: "" },
     };
+
     setResults((prev) => ({
       ...prev,
       [activeTab]: emptyShape[activeTab],
@@ -156,9 +143,7 @@ export default function ProjectAgent() {
           const data = JSON.parse(line);
 
           if (data.type === activeTab) {
-            for (const char of data.content) {
-              queueRef.current.push(char);
-            }
+            queueRef.current.push(...data.content.split(""));
             scheduleFlush(activeTab);
           }
 
@@ -179,15 +164,13 @@ export default function ProjectAgent() {
   function waitForQueueToDrain() {
     return new Promise((resolve) => {
       const watcher = setInterval(() => {
-        const done =
-          queueRef.current.length === 0 &&
-          !timerRef.current;
+        const done = queueRef.current.length === 0 && !timerRef.current;
 
         if (done) {
           clearInterval(watcher);
           resolve();
         }
-      }, 60);
+      }, 80);
     });
   }
 
