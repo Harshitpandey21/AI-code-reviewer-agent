@@ -8,10 +8,10 @@ load_dotenv()
 
 llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
 
 def load_prompt(path, encoding="utf-8"):
-    return (BASE_DIR / path).read_text(encoding=encoding)
+    return open(path, encoding=encoding).read()
 
 PROJECT_REVIEW_PROMPT = PromptTemplate.from_template(
     load_prompt("prompts/project_review.txt", encoding="utf-8")
