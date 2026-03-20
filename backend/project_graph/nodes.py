@@ -1,14 +1,11 @@
 from pathlib import Path
-
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
-
 load_dotenv()
 
-llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
-
-# BASE_DIR = Path(__file__).resolve().parent.parent
+llm1 = ChatOpenAI(model="gpt-4o", temperature=0.2)
+llm2 = ChatOpenAI(model="gpt-4o-mini", temperature=0.2)
 
 def load_prompt(path, encoding="utf-8"):
     return open(path, encoding=encoding).read()
@@ -42,7 +39,7 @@ def project_review_node(state: dict):
         project_files=files_text
     )
 
-    result = llm.invoke(prompt_text)
+    result = llm1.invoke(prompt_text)
     return {"review_report": result.content}
 
 def project_explain_node(state: dict):
@@ -52,7 +49,7 @@ def project_explain_node(state: dict):
         project_files=files_text
     )
 
-    result = llm.invoke(prompt_text)
+    result = llm1.invoke(prompt_text)
     return {"project_explanation": result.content}
 
 def interview_node(state: dict):
@@ -62,7 +59,7 @@ def interview_node(state: dict):
         project_files=files_text
     )
 
-    result = llm.invoke(prompt_text)
+    result = llm2.invoke(prompt_text)
     return {"interview_questions": result.content}
 
 def documentation_node(state: dict):
@@ -72,11 +69,11 @@ def documentation_node(state: dict):
         project_files=files_text
     )
 
-    result = llm.invoke(prompt_text)
+    result = llm1.invoke(prompt_text)
     return {"documentation_generation": result.content}
 
 def _stream_text(prompt_text: str):
-    for chunk in llm.stream(prompt_text):
+    for chunk in llm1.stream(prompt_text):
         token = chunk.content or ""
         if token:
             yield token
