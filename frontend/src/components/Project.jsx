@@ -2,6 +2,27 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
+const TAB_IDS = [
+  "PROJECT_REVIEW",
+  "PROJECT_EXPLAIN",
+  "INTERVIEW",
+  "DOCUMENTATION",
+];
+
+const EMPTY_RESULTS = {
+  PROJECT_REVIEW: { review_report: "" },
+  PROJECT_EXPLAIN: { project_explanation: "" },
+  INTERVIEW: { interview_questions: "" },
+  DOCUMENTATION: { documentation: "" },
+};
+
+function createPerTabStore(factory) {
+  return TAB_IDS.reduce((acc, tab) => {
+    acc[tab] = factory(tab);
+    return acc;
+  }, {});
+}
+
 export default function ProjectAgent() {
   const [file, setFile] = useState(null);
   const [activeTab, setActiveTab] = useState("PROJECT_REVIEW");
@@ -13,10 +34,17 @@ export default function ProjectAgent() {
     DOCUMENTATION: null,
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loadingByTab, setLoadingByTab] = useState({
+    PROJECT_REVIEW: false,
+    PROJECT_EXPLAIN: false,
+    INTERVIEW: false,
+    DOCUMENTATION: false,
+  });
 
-  const queueRef = useRef([]);
-  const timerRef = useRef(null);
+  const queuesRef = useRef(createPerTabStore(() => []));
+  const timersRef = useRef(createPerTabStore(() => null));
+  const controllersRef = useRef(createPerTabStore(() => null));
+  const runIdsRef = useRef(createPerTabStore(() => 0));
 
   function getStreamConfig(tab) {
     return {
@@ -31,14 +59,23 @@ export default function ProjectAgent() {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  function setTabLoading(tab, value) {
+    setLoadingByTab((prev) => ({
+      ...prev,
+      [tab]: value,
+    }));
+  }
+
   function scheduleFlush(tab) {
     const config = getStreamConfig(tab);
     if (!config) return;
-    if (timerRef.current) return;
+    if (timersRef.current[tab]) return;
 
     const flush = () => {
-      if (queueRef.current.length === 0) {
-        timerRef.current = null;
+      const queue = queuesRef.current[tab];
+
+      if (!queue.length) {
+        timersRef.current[tab] = null;
         return;
       }
 
@@ -46,15 +83,16 @@ export default function ProjectAgent() {
       const take = burst ? randomBetween(3, 6) : randomBetween(1, 2);
 
       let nextText = "";
-      for (let i = 0; i < take && queueRef.current.length > 0; i++) {
-        nextText += queueRef.current.shift();
+      for (let i = 0; i < take && queue.length > 0; i++) {
+        nextText += queue.shift();
       }
 
       setResults((prev) => ({
         ...prev,
         [tab]: {
-          ...prev[tab],
-          [config.key]: (prev[tab]?.[config.key] || "") + nextText,
+          ...(prev[tab] || EMPTY_RESULTS[tab]),
+          [config.key]:
+            ((prev[tab] || EMPTY_RESULTS[tab])[config.key] || "") + nextText,
         },
       }));
 
@@ -71,45 +109,63 @@ export default function ProjectAgent() {
         delay = randomBetween(35, 70);
       }
 
-      timerRef.current = setTimeout(flush, delay);
+      timersRef.current[tab] = setTimeout(flush, delay);
     };
 
-    timerRef.current = setTimeout(flush, randomBetween(40, 80));
+    timersRef.current[tab] = setTimeout(flush, randomBetween(40, 80));
   }
 
-  function stopFlusher() {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
+  function stopFlusher(tab) {
+    if (timersRef.current[tab]) {
+      clearTimeout(timersRef.current[tab]);
+      timersRef.current[tab] = null;
     }
   }
 
+  function stopAllFlushers() {
+    TAB_IDS.forEach((tab) => stopFlusher(tab));
+  }
+
+  function abortTabRequest(tab) {
+    if (controllersRef.current[tab]) {
+      controllersRef.current[tab].abort();
+      controllersRef.current[tab] = null;
+    }
+  }
+
+  function abortAllRequests() {
+    TAB_IDS.forEach((tab) => abortTabRequest(tab));
+  }
+
   useEffect(() => {
-    return () => stopFlusher();
+    return () => {
+      stopAllFlushers();
+      abortAllRequests();
+    };
   }, []);
 
   async function runAgent() {
     if (!file) return;
 
-    setLoading(true);
-    stopFlusher();
-    queueRef.current = [];
+    const tab = activeTab;
+    runIdsRef.current[tab] += 1;
+    const currentRunId = runIdsRef.current[tab];
 
-    const emptyShape = {
-      PROJECT_REVIEW: { review_report: "" },
-      PROJECT_EXPLAIN: { project_explanation: "" },
-      INTERVIEW: { interview_questions: "" },
-      DOCUMENTATION: { documentation: "" },
-    };
-
+    abortTabRequest(tab);
+    stopFlusher(tab);
+    queuesRef.current[tab] = [];
     setResults((prev) => ({
       ...prev,
-      [activeTab]: emptyShape[activeTab],
+      [tab]: { ...EMPTY_RESULTS[tab] },
     }));
+    setTabLoading(tab, true);
 
     const form = new FormData();
     form.append("file", file);
-    form.append("action", activeTab);
+    form.append("action", tab);
+
+    const controller = new AbortController();
+    controllersRef.current[tab] = controller;
 
     try {
       const response = await fetch(
@@ -117,6 +173,7 @@ export default function ProjectAgent() {
         {
           method: "POST",
           body: form,
+          signal: controller.signal,
         }
       );
 
@@ -126,12 +183,16 @@ export default function ProjectAgent() {
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
-
       let buffer = "";
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
+
+        if (runIdsRef.current[tab] !== currentRunId) {
+          await reader.cancel().catch(() => {});
+          return;
+        }
 
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split("\n");
@@ -142,9 +203,9 @@ export default function ProjectAgent() {
 
           const data = JSON.parse(line);
 
-          if (data.type === activeTab) {
-            queueRef.current.push(...data.content.split(""));
-            scheduleFlush(activeTab);
+          if (data.type === tab && typeof data.content === "string") {
+            queuesRef.current[tab].push(...data.content.split(""));
+            scheduleFlush(tab);
           }
 
           if (data.type === "error") {
@@ -153,20 +214,38 @@ export default function ProjectAgent() {
         }
       }
 
-      await waitForQueueToDrain();
+      if (buffer.trim()) {
+        const data = JSON.parse(buffer);
+        if (data.type === tab && typeof data.content === "string") {
+          queuesRef.current[tab].push(...data.content.split(""));
+          scheduleFlush(tab);
+        }
+      }
+
+      await waitForQueueToDrain(tab, currentRunId);
     } catch (error) {
-      console.error(error);
+      if (error.name !== "AbortError") {
+        console.error(error);
+      }
     } finally {
-      setLoading(false);
+      if (controllersRef.current[tab] === controller) {
+        controllersRef.current[tab] = null;
+      }
+
+      if (runIdsRef.current[tab] === currentRunId) {
+        setTabLoading(tab, false);
+      }
     }
   }
 
-  function waitForQueueToDrain() {
+  function waitForQueueToDrain(tab, currentRunId) {
     return new Promise((resolve) => {
       const watcher = setInterval(() => {
-        const done = queueRef.current.length === 0 && !timerRef.current;
+        const isStaleRun = runIdsRef.current[tab] !== currentRunId;
+        const done =
+          queuesRef.current[tab].length === 0 && !timersRef.current[tab];
 
-        if (done) {
+        if (isStaleRun || done) {
           clearInterval(watcher);
           resolve();
         }
@@ -189,9 +268,7 @@ export default function ProjectAgent() {
       );
 
       const blob = new Blob([res.data], { type: "application/pdf" });
-
       const url = window.URL.createObjectURL(blob);
-
       const a = document.createElement("a");
 
       a.href = url;
@@ -211,6 +288,9 @@ export default function ProjectAgent() {
     results.PROJECT_EXPLAIN ||
     results.INTERVIEW ||
     results.DOCUMENTATION;
+
+  const isAnyTabLoading = Object.values(loadingByTab).some(Boolean);
+  const isActiveTabLoading = loadingByTab[activeTab];
 
   return (
     <div className="min-h-screen flex bg-[#020617] text-slate-200 relative overflow-hidden">
@@ -243,10 +323,10 @@ export default function ProjectAgent() {
             </div>
 
             <div className="text-sm font-medium shrink-0">
-              {loading ? (
+              {isAnyTabLoading ? (
                 <div className="flex items-center gap-2 text-blue-400">
                   <div className="h-2.5 w-2.5 rounded-full bg-blue-500 animate-pulse"></div>
-                  Analyzing Project
+                  Analyzing {activeTabLabel(activeTab)}
                 </div>
               ) : (
                 <div className="flex items-center gap-2 text-emerald-400">
@@ -293,17 +373,21 @@ export default function ProjectAgent() {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button
                     onClick={runAgent}
-                    disabled={!file || loading}
+                    disabled={!file || isActiveTabLoading}
                     className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-3.5 text-sm font-semibold shadow-[0_0_30px_rgba(59,130,246,0.28)] transition duration-300 hover:scale-[1.03] hover:shadow-[0_0_45px_rgba(59,130,246,0.40)] disabled:opacity-40"
                   >
-                    {loading ? "Running..." : "Run AI Analysis"}
+                    {isActiveTabLoading ? "Running..." : "Run AI Analysis"}
                   </button>
                 </div>
               </div>
             </div>
           </section>
 
-          <Tabs active={activeTab} setActive={setActiveTab} />
+          <Tabs
+            active={activeTab}
+            setActive={setActiveTab}
+            loadingByTab={loadingByTab}
+          />
 
           {hasAnyResult && (
             <div className="space-y-10">
@@ -368,6 +452,15 @@ export default function ProjectAgent() {
       </div>
     </div>
   );
+}
+
+function activeTabLabel(tab) {
+  return {
+    PROJECT_REVIEW: "Project Review",
+    PROJECT_EXPLAIN: "Architecture Explanation",
+    INTERVIEW: "Interview Q&A",
+    DOCUMENTATION: "Documentation",
+  }[tab] || "Project";
 }
 
 function Sidebar() {
@@ -452,7 +545,7 @@ function NavItem({ children, active, onClick }) {
   );
 }
 
-function Tabs({ active, setActive }) {
+function Tabs({ active, setActive, loadingByTab }) {
   const tabs = [
     { id: "PROJECT_REVIEW", label: "Project Review" },
     { id: "PROJECT_EXPLAIN", label: "Architecture Explanation" },
@@ -472,7 +565,12 @@ function Tabs({ active, setActive }) {
               : "text-slate-400 hover:text-white"
           }`}
         >
-          {tab.label}
+          <span className="inline-flex items-center gap-2">
+            {tab.label}
+            {loadingByTab?.[tab.id] && (
+              <span className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+            )}
+          </span>
 
           {active === tab.id && (
             <div className="absolute left-0 bottom-0 w-full h-[2px] bg-blue-500 rounded-full shadow-blue-500/50 shadow-md"></div>
@@ -492,9 +590,7 @@ function ResultCard({ title, subtitle, children, onDownload, accent }) {
             {title}
           </h3>
 
-          <p className="text-xs text-slate-400 mt-1">
-            {subtitle}
-          </p>
+          <p className="text-xs text-slate-400 mt-1">{subtitle}</p>
         </div>
 
         <button
@@ -537,9 +633,7 @@ function InterviewRenderer({ text }) {
               Q{index + 1}. {question}
             </p>
 
-            <p className="text-slate-300 leading-relaxed text-sm">
-              {answer}
-            </p>
+            <p className="text-slate-300 leading-relaxed text-sm">{answer}</p>
           </div>
         );
       })}
