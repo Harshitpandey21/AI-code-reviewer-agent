@@ -1,6 +1,7 @@
 from pathlib import Path
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
+from typing import AsyncGenerator
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -26,85 +27,72 @@ DOCUMENTATION_PROMPT = PromptTemplate.from_template(
     load_prompt("prompts/documentation.txt", encoding="utf-8")
 )
 
-def stringify_project_files(project_files: dict) -> str:
+def stringify_project_files(project_files: dict[str, str]) -> str:
     output = []
     for name, content in project_files.items():
         output.append(f"\nFile:{name}\n{content}\n")
     return "\n".join(output)
 
-def project_review_node(state: dict):
+async def project_review_node(state: dict):
     files_text = stringify_project_files(state["project_files"])
-
-    prompt_text = PROJECT_REVIEW_PROMPT.format(
-        project_files=files_text
-    )
-
-    result = llm1.invoke(prompt_text)
+    prompt_text = PROJECT_REVIEW_PROMPT.format(project_files=files_text)
+    result = await llm1.ainvoke(prompt_text)
     return {"review_report": result.content}
 
-def project_explain_node(state: dict):
+async def project_explain_node(state: dict):
     files_text = stringify_project_files(state["project_files"])
-
-    prompt_text = PROJECT_EXPLAIN_PROMPT.format(
-        project_files=files_text
-    )
-
-    result = llm1.invoke(prompt_text)
+    prompt_text = PROJECT_EXPLAIN_PROMPT.format(project_files=files_text)
+    result = await llm1.ainvoke(prompt_text)
     return {"project_explanation": result.content}
 
-def interview_node(state: dict):
+async def interview_node(state: dict):
     files_text = stringify_project_files(state["project_files"])
-
-    prompt_text = INTERVIEW_PROMPT.format(
-        project_files=files_text
-    )
-
-    result = llm2.invoke(prompt_text)
+    prompt_text = INTERVIEW_PROMPT.format(project_files=files_text)
+    result = await llm2.ainvoke(prompt_text)
     return {"interview_questions": result.content}
 
-def documentation_node(state: dict):
+async def documentation_node(state: dict):
     files_text = stringify_project_files(state["project_files"])
-
-    prompt_text = DOCUMENTATION_PROMPT.format(
-        project_files=files_text
-    )
-
-    result = llm1.invoke(prompt_text)
+    prompt_text = DOCUMENTATION_PROMPT.format(project_files=files_text)
+    result = await llm1.ainvoke(prompt_text)
     return {"documentation_generation": result.content}
 
-def _stream_text(prompt_text: str):
-    for chunk in llm1.stream(prompt_text):
+async def _stream_text(llm: ChatOpenAI, prompt_text: str) -> AsyncGenerator[str, None]:
+    async for chunk in llm.astream(prompt_text):
         token = chunk.content or ""
         if token:
             yield token
 
-def stream_project_pipeline(state: dict):
+async def stream_project_pipeline(state: dict) -> AsyncGenerator[dict, None]:
     files_text = stringify_project_files(state["project_files"])
     action = state["user_request"]
 
     if action == "PROJECT_REVIEW":
         prompt_text = PROJECT_REVIEW_PROMPT.format(project_files=files_text)
-        for token in _stream_text(prompt_text):
+        async for token in _stream_text(llm1, prompt_text):
             yield {"type": "PROJECT_REVIEW", "content": token}
         yield {"type": "done"}
+        return
 
-    elif action == "PROJECT_EXPLAIN":
+    if action == "PROJECT_EXPLAIN":
         prompt_text = PROJECT_EXPLAIN_PROMPT.format(project_files=files_text)
-        for token in _stream_text(prompt_text):
+        async for token in _stream_text(llm1, prompt_text):
             yield {"type": "PROJECT_EXPLAIN", "content": token}
         yield {"type": "done"}
+        return
 
-    elif action == "INTERVIEW":
+    if action == "INTERVIEW":
         prompt_text = INTERVIEW_PROMPT.format(project_files=files_text)
-        for token in _stream_text(prompt_text):
+        async for token in _stream_text(llm2, prompt_text):
             yield {"type": "INTERVIEW", "content": token}
         yield {"type": "done"}
+        return
 
-    elif action == "DOCUMENTATION":
+    if action == "DOCUMENTATION":
         prompt_text = DOCUMENTATION_PROMPT.format(project_files=files_text)
-        for token in _stream_text(prompt_text):
+        async for token in _stream_text(llm1, prompt_text):
             yield {"type": "DOCUMENTATION", "content": token}
         yield {"type": "done"}
+        return
 
-    else:
-        raise ValueError("Invalid action")
+    raise ValueError("Invalid action")

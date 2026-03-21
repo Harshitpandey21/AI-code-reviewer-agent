@@ -4,7 +4,7 @@ from project_graph.nodes import (
     project_review_node,
     project_explain_node,
     interview_node,
-    documentation_node
+    documentation_node,
 )
 
 def router_node(state):
@@ -30,8 +30,8 @@ graph.add_conditional_edges(
         "PROJECT_REVIEW": "PROJECT_REVIEW",
         "PROJECT_EXPLAIN": "PROJECT_EXPLAIN",
         "INTERVIEW": "INTERVIEW",
-        "DOCUMENTATION": "DOCUMENTATION"
-    }
+        "DOCUMENTATION": "DOCUMENTATION",
+    },
 )
 
 graph.add_edge("PROJECT_REVIEW", END)
