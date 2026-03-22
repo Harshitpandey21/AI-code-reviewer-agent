@@ -103,10 +103,10 @@ export default function Home() {
 
               <h1 className="mt-8 pb-4 text-5xl font-extrabold leading-[1.18] tracking-tight md:text-7xl overflow-visible">
                 <span className="block text-white">
-                  Ship Cleaner Code
+                  Analyze, Understand, and
                 </span>
                 <span className="mt-2 block bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent">
-                  With Real Code Intelligence
+                  Improve Your Codebase
                 </span>
               </h1>
 
