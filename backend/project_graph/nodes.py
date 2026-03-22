@@ -71,28 +71,24 @@ async def stream_project_pipeline(state: dict) -> AsyncGenerator[dict, None]:
         prompt_text = PROJECT_REVIEW_PROMPT.format(project_files=files_text)
         async for token in _stream_text(llm1, prompt_text):
             yield {"type": "PROJECT_REVIEW", "content": token}
-        yield {"type": "done"}
         return
 
     if action == "PROJECT_EXPLAIN":
         prompt_text = PROJECT_EXPLAIN_PROMPT.format(project_files=files_text)
         async for token in _stream_text(llm1, prompt_text):
             yield {"type": "PROJECT_EXPLAIN", "content": token}
-        yield {"type": "done"}
         return
 
     if action == "INTERVIEW":
         prompt_text = INTERVIEW_PROMPT.format(project_files=files_text)
         async for token in _stream_text(llm2, prompt_text):
             yield {"type": "INTERVIEW", "content": token}
-        yield {"type": "done"}
         return
 
     if action == "DOCUMENTATION":
         prompt_text = DOCUMENTATION_PROMPT.format(project_files=files_text)
         async for token in _stream_text(llm1, prompt_text):
             yield {"type": "DOCUMENTATION", "content": token}
-        yield {"type": "done"}
         return
 
     raise ValueError("Invalid action")
