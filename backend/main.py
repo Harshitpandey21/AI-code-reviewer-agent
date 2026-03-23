@@ -51,7 +51,6 @@ async def single_review_stream(file: UploadFile = File(...)):
 
     return StreamingResponse(event_generator(), media_type="text/plain")
 
-
 @app.post("/single-review")
 async def single_review(file: UploadFile = File(...)):
     raw_code = (await file.read()).decode("utf-8", errors="ignore")
