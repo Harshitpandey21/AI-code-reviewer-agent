@@ -8,12 +8,8 @@ load_dotenv()
 
 llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-def load_prompt(path: str) -> str:
-    return (BASE_DIR / path).read_text(encoding="utf-8")
-
+def load_prompt(path, encoding="utf-8"):
+    return open(path, encoding=encoding).read()
 
 PARSER_PROMPT = PromptTemplate.from_template(load_prompt("prompts/parser.txt"))
 REVIEWER_PROMPT = PromptTemplate.from_template(load_prompt("prompts/reviewer.txt"))
