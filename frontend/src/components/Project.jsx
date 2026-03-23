@@ -482,7 +482,7 @@ function Sidebar() {
 
           <div>
             <div className="text-xl font-bold tracking-tight text-white">
-              AI Code Reviewer
+              Codexa
             </div>
             <div className="text-[11px] text-slate-400 tracking-[0.18em] uppercase">
               Workspace

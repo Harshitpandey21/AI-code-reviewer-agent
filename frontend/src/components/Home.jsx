@@ -56,14 +56,14 @@ export default function Home() {
                     scrolled ? "text-lg md:text-xl" : "text-xl md:text-2xl"
                   }`}
                 >
-                  AI Code Reviewer
+                  Codexa
                 </div>
                 <div
                   className={`text-[11px] text-slate-400 tracking-[0.18em] uppercase transition-all duration-300 ${
                     scrolled ? "opacity-80" : "opacity-100"
                   }`}
                 >
-                  Code Intelligence Platform
+                  Smarter Code Decisions
                 </div>
               </div>
             </button>
@@ -238,7 +238,7 @@ export default function Home() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500 shadow-[0_0_30px_rgba(59,130,246,0.30)]">
                     <span className="text-lg">🧠</span>
                   </div>
-                  <div className="text-xl font-bold tracking-tight">AI Code Reviewer</div>
+                  <div className="text-xl font-bold tracking-tight">Codexa</div>
                 </div>
                 <p className="mt-2 text-sm text-slate-400">
                   Built with LangGraph · FastAPI · React
