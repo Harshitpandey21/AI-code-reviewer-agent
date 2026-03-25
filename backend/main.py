@@ -39,11 +39,9 @@ TEXT_FILE_EXTENSIONS = {
     ".sh", ".env", ".sql"
 }
 
-
 def is_text_file(filename: str) -> bool:
     lower = filename.lower()
     return any(lower.endswith(ext) for ext in TEXT_FILE_EXTENSIONS)
-
 
 def extract_project_files_from_zip(zip_content: bytes) -> Dict[str, str]:
     if not zip_content:
@@ -83,7 +81,6 @@ def extract_project_files_from_zip(zip_content: bytes) -> Dict[str, str]:
 
     return extracted_files
 
-
 def validate_graph_output(graph_state, required_key: str) -> str:
     if not isinstance(graph_state, dict):
         raise RuntimeError(
@@ -97,11 +94,9 @@ def validate_graph_output(graph_state, required_key: str) -> str:
 
     return content
 
-
 @app.get("/")
 async def root():
     return {"message": "API is running"}
-
 
 @app.post("/single-review-stream")
 async def single_review_stream(file: UploadFile = File(...)):
