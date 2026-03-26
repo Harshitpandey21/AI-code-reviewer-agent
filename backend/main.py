@@ -108,7 +108,7 @@ async def single_review_stream(file: UploadFile = File(...)):
 
     state = {
         "raw_code": raw_code,
-        "language": "python, go, html, css, java",
+        "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp",
     }
 
     def event_generator():
@@ -139,7 +139,7 @@ async def single_review(file: UploadFile = File(...)):
 
         state = {
             "raw_code": raw_code,
-            "language": "python, go, html, css, java",
+            "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp",
         }
 
         graph_state = await asyncio.to_thread(SingleFileGraph.invoke, state)
@@ -173,7 +173,7 @@ async def single_review_pdf(file: UploadFile = File(...)):
 
         state = {
             "raw_code": raw_code,
-            "language": "python, go, html, css, java",
+            "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp",
         }
 
         graph_state = await asyncio.to_thread(SingleFileGraph.invoke, state)
