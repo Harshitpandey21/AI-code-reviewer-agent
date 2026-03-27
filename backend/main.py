@@ -127,7 +127,6 @@ async def single_review_stream(file: UploadFile = File(...)):
 
     return StreamingResponse(event_generator(), media_type="text/plain")
 
-
 @app.post("/single-review")
 async def single_review(file: UploadFile = File(...)):
     try:
@@ -160,7 +159,6 @@ async def single_review(file: UploadFile = File(...)):
     except Exception as e:
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {str(e)}")
-
 
 @app.post("/single-review/pdf")
 async def single_review_pdf(file: UploadFile = File(...)):
@@ -216,7 +214,6 @@ async def single_review_pdf(file: UploadFile = File(...)):
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {str(e)}")
 
-
 @app.post("/project-review-stream")
 async def project_review_stream(
     file: UploadFile = File(...),
@@ -259,7 +256,6 @@ async def project_review_stream(
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {str(e)}")
 
-
 @app.post("/project-review")
 async def project_review(
     file: UploadFile = File(...),
@@ -294,7 +290,6 @@ async def project_review(
         import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {str(e)}")
-
 
 @app.post("/project-review/pdf")
 async def project_review_pdf(
