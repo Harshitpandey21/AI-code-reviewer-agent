@@ -230,7 +230,6 @@ async def project_review_stream(
             "project_files": project_files,
             "user_request": action,
         }
-
         async def event_generator():
             try:
                 async for event in stream_project_pipeline(state):
@@ -244,12 +243,10 @@ async def project_review_stream(
                     },
                     ensure_ascii=False,
                 ) + "\n"
-
         return StreamingResponse(
             event_generator(),
             media_type="application/x-ndjson",
         )
-
     except HTTPException:
         raise
     except Exception as e:
