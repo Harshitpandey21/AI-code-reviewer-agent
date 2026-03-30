@@ -521,7 +521,7 @@ function Sidebar() {
             Project Intelligence
           </h3>
           <p className="mt-2 text-sm leading-6 text-slate-400">
-            Analyze repository structure, system design, interview readiness,
+            Analyze repository structure, system design, interview questions,
             and documentation from a full project archive.
           </p>
         </div>
