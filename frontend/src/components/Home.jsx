@@ -198,7 +198,7 @@ export default function Home() {
               />
               <ValueCard
                 icon={<InterviewAsset />}
-                title="Interview Readiness"
+                title="Interview Questions"
                 text="Create technical questions and answers based on the real implementation, not generic templates."
               />
             </div>
