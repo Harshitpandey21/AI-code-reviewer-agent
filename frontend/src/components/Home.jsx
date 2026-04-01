@@ -188,7 +188,7 @@ export default function Home() {
               />
               <ValueCard
                 icon={<ArchitectureAsset />}
-                title="System Understanding"
+                title="Architecture Understanding"
                 text="Break down architecture, module responsibilities, and relationships across your codebase."
               />
               <ValueCard
