@@ -127,39 +127,6 @@ async def single_review_stream(file: UploadFile = File(...)):
 
     return StreamingResponse(event_generator(), media_type="text/plain")
 
-@app.post("/single-review")
-async def single_review(file: UploadFile = File(...)):
-    try:
-        raw_bytes = await file.read()
-        if not raw_bytes:
-            raise HTTPException(status_code=400, detail="Uploaded file is empty")
-
-        raw_code = raw_bytes.decode("utf-8", errors="ignore")
-
-        state = {
-            "raw_code": raw_code,
-            "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp",
-        }
-
-        graph_state = await asyncio.to_thread(SingleFileGraph.invoke, state)
-
-        if not isinstance(graph_state, dict):
-            raise RuntimeError(
-                f"SingleFileGraph returned invalid type: {type(graph_state).__name__}"
-            )
-
-        return {
-            "review_code": graph_state.get("review_code", ""),
-            "refactored_code": graph_state.get("refactored_code", ""),
-            "test_report": graph_state.get("test_report", ""),
-        }
-
-    except HTTPException:
-        raise
-    except Exception as e:
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {str(e)}")
-
 @app.post("/single-review/pdf")
 async def single_review_pdf(file: UploadFile = File(...)):
     try:
@@ -250,41 +217,6 @@ async def project_review_stream(
     except HTTPException:
         raise
     except Exception as e:
-        traceback.print_exc()
-        raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {str(e)}")
-
-@app.post("/project-review")
-async def project_review(
-    file: UploadFile = File(...),
-    action: str = Form(...),
-):
-    try:
-        project_files = extract_project_files_from_zip(await file.read())
-        state = {
-            "project_files": project_files,
-            "user_request": action,
-        }
-
-        graph_state = await FinalProjectGraph.ainvoke(state)
-
-        if action == "PROJECT_REVIEW":
-            return {"review_report": graph_state.get("review_report", "")}
-
-        if action == "PROJECT_EXPLAIN":
-            return {"project_explanation": graph_state.get("project_explanation", "")}
-
-        if action == "INTERVIEW":
-            return {"interview_questions": graph_state.get("interview_questions", "")}
-
-        if action == "DOCUMENTATION":
-            return {"documentation": graph_state.get("documentation_generation", "")}
-
-        raise HTTPException(status_code=400, detail="Invalid action")
-
-    except HTTPException:
-        raise
-    except Exception as e:
-        import traceback
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {str(e)}")
 
