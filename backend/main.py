@@ -108,7 +108,7 @@ async def single_review_stream(file: UploadFile = File(...)):
 
     state = {
         "raw_code": raw_code,
-        "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp",
+        "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp"
     }
 
     def event_generator():
@@ -138,7 +138,7 @@ async def single_review_pdf(file: UploadFile = File(...)):
 
         state = {
             "raw_code": raw_code,
-            "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp",
+            "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp"
         }
 
         graph_state = await asyncio.to_thread(SingleFileGraph.invoke, state)
@@ -165,7 +165,6 @@ async def single_review_pdf(file: UploadFile = File(...)):
             test_report,
             refactored_code,
         )
-
         if not pdf_path or not os.path.exists(pdf_path):
             raise RuntimeError("Single review PDF file was not created")
 
@@ -184,8 +183,7 @@ async def single_review_pdf(file: UploadFile = File(...)):
 @app.post("/project-review-stream")
 async def project_review_stream(
     file: UploadFile = File(...),
-    action: str = Form(...),
-):
+    action: str = Form(...),):
     try:
         if action not in ALLOWED_ACTIONS:
             raise HTTPException(status_code=400, detail="Invalid action")
@@ -206,13 +204,13 @@ async def project_review_stream(
                 yield json.dumps(
                     {
                         "type": "error",
-                        "message": f"{type(e).__name__}: {str(e)}",
+                        "message": f"{type(e).__name__}: {str(e)}"
                     },
                     ensure_ascii=False,
                 ) + "\n"
         return StreamingResponse(
             event_generator(),
-            media_type="application/x-ndjson",
+            media_type="application/x-ndjson"
         )
     except HTTPException:
         raise
@@ -223,8 +221,7 @@ async def project_review_stream(
 @app.post("/project-review/pdf")
 async def project_review_pdf(
     file: UploadFile = File(...),
-    action: str = Form(...),
-):
+    action: str = Form(...)):
     try:
         project_files = extract_project_files_from_zip(await file.read())
         state = {
