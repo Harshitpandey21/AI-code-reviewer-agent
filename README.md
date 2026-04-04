@@ -1,4 +1,4 @@
-# 🧠 AI Code Reviewer + Refactor Agent
+# 🧠 Codexa - AI Code Reviewer Agent
 
 An interactive web application that automatically reviews source code, generates improvement suggestions, creates test reports, refactors the code, and visualizes differences — all powered by an AI agent pipeline. The app provides a complete review workflow with iteration cycles and downloadable PDF reports.
 
