@@ -84,12 +84,13 @@ AI_CODE_REVIEWER_AGENT/
 ```
 # requirements.txt
 ```
-langchain
-langchain-openai
+fastapi
+uvicorn
+python-multipart
 langgraph
+langchain-openai
+python-dotenv
 reportlab
-streamlit
-dotenv
 ```
 # ⚙️ Tech Stack
 
