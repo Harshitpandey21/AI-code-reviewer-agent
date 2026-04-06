@@ -112,7 +112,7 @@ pip install -r requirements.txt
 ```
 # 3. Run application
 ```
-streamlit run app.py
+npm run dev
 ```
 # 📄 PDF Report Export
 
