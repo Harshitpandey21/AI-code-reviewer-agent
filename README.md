@@ -37,7 +37,7 @@ An interactive web application that automatically reviews source code, generates
 
 # 1. Upload Code
    
-  Upload a supported source file.
+  Upload a supported source file or ZIP file.
 
   The system reads the code and detects language automatically.
 
