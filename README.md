@@ -4,7 +4,7 @@ An interactive web application that automatically reviews source code, generates
 
 # 🚀 What This Application Does
 
-1. Accepts a source code file upload
+1. Accepts a source code or ZIP file upload
 2. Detects the programming language automatically
 3. Sends code to an AI agent pipeline for:
    - Code review analysis
