@@ -95,6 +95,7 @@ reportlab
 # ⚙️ Tech Stack
 
 * Streamlit — Web UI framework
+* FastAPI - For backend
 * Python — Backend runtime
 * ReportLab — PDF generation
 * difflib — Unified diff generation
