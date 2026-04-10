@@ -54,7 +54,6 @@ An interactive web application that automatically reviews source code, generates
    * Review report
    * Test report
    * Refactored code
-   * Unified diff against original
 
 # 4. Final Approval
 * Approve final code
@@ -98,7 +97,6 @@ reportlab
 * FastAPI - For backend
 * Python — Backend runtime
 * ReportLab — PDF generation
-* difflib — Unified diff generation
 * Custom AI Agent Graph — Code review pipeline
 
 # 🔧 Installation
