@@ -11,8 +11,7 @@ An interactive web application that automatically reviews source code, generates
    - Test report generation
    - Refactored code generation
 4. Displays structured reports in a web UI
-5. Allows approval or iterative improvement cycles
-6. Exports a complete PDF review report
+5. Exports a complete PDF review report
 
 # 🧩 Core Features
 
