@@ -21,8 +21,6 @@ An interactive web application that automatically reviews source code, generates
 
 * Structured review & test reports
 
-* Iterative improvement loop
-
 * PDF export of full report
 
 * Clean multi-page web UI
