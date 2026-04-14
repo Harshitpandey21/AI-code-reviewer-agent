@@ -58,7 +58,7 @@ Each rejection re-runs the agent on the latest refactored code.
 # 📂 Project Structure
 ```
 AI_CODE_REVIEWER_AGENT/
-├── app.py #Streamlit user interface
+├── main.py #Fast API interface
 ├── requirements.txt #Project dependencies
 ├── .env #Environment variables (API keys)
 │
