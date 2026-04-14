@@ -87,7 +87,7 @@ reportlab
 ```
 # ⚙️ Tech Stack
 
-* Streamlit — Web UI framework
+* React — Web UI framework
 * FastAPI - For backend
 * Python — Backend runtime
 * ReportLab — PDF generation
