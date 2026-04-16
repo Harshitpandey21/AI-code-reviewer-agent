@@ -33,7 +33,7 @@ An interactive web application that automatically reviews source code, generates
    
   Upload a supported source file or ZIP file.
 
-  The system reads the code and detects language automatically.
+  The system reads the code and detects language automatically and move on to further process.
 
 # 2. Run AI Review
    
