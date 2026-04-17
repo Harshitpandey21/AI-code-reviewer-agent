@@ -25,7 +25,7 @@ An interactive web application that automatically reviews source code, generates
 
 * Clean multi-page web UI
 
-* Session state managed workflow
+* Generates text like Chat-GPT 
 
 # 🖥️ Application Workflow
 
