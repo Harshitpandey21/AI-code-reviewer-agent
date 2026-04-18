@@ -21,6 +21,8 @@ An interactive web application that automatically reviews source code, generates
 
 * Structured review & test reports
 
+* Generates Readme File 
+
 * PDF export of full report
 
 * Clean multi-page web UI
