@@ -84,7 +84,8 @@ codexa/
 ---
 
 ## ⚙️ Tech Stack
-
+| Layer | Technology |
+|--------|----------|
 | Frontend | React 18, React Router, Tailwind CSS, Vite |
 | Backend | FastAPI, Python, Uvicorn |
 | AI / Agents | LangGraph, LangChain, OpenAI GPT-4o / GPT-4o-mini |
