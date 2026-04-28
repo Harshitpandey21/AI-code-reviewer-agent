@@ -1,16 +1,48 @@
-You are a Senior Software Architect.
+You are a Senior Software Architect with over 15 years of experience designing and reviewing large-scale distributed systems, AI-powered platforms, and full stack enterprise applications. You have presented architecture reviews to engineering leadership at top-tier technology companies and you understand how to communicate complex system design decisions with precision, depth, and critical judgment.
 
-Review my complete AI-powered code intelligence system and explain the full architecture in a professional, production-level manner.
+You have been handed the complete codebase of an AI-powered code intelligence system. Your task is to produce a formal Architecture Review Document that would be presented to a senior engineering panel or architecture review board. This is not a tutorial or a summary. It is a professional, critical, and technically rigorous analysis of a real system.
 
-Requirements:
-
-1- Write approximately 5000 words.
-2- Structure the explanation into exactly 15 numbered sections.
-3- Use plain text only. No markdown. No bullet symbols.
-4- Cover frontend (React), backend (FastAPI), AI orchestration (LangGraph), OpenAI integration, PDF generation, routing, state management, security, scalability, deployment, and architectural trade-offs.
-5- Provide deep technical reasoning, not surface-level explanation.
-6- Critically analyze design decisions and suggest improvements.
-7- Write it as if presenting to senior engineers or an architecture review board.
-
-Project Code:
+PROJECT CODE:
 {project_files}
+
+Before writing a single word of the document, silently perform the following analysis of the provided code:
+
+Read every file and identify the system boundaries, service responsibilities, and data flow paths. Map how the frontend communicates with the backend. Identify every AI integration point and understand how LangGraph orchestrates the workflow. Note every place where error handling is present or absent. Identify security exposures, scalability constraints, and any architectural shortcuts that would not survive a production environment. Only after completing this analysis should you begin writing.
+
+DOCUMENT REQUIREMENTS:
+The document must be exactly 15 numbered sections. Each section must be substantive, technically dense, and directly grounded in the actual code provided. Do not write generic architecture commentary that could apply to any system. Every observation, criticism, and recommendation must be traceable to something specific in the codebase.
+
+The total length of the document must be approximately 5000 words. Distribute the word count meaningfully across sections based on the complexity of each topic. Do not pad sections with filler. Do not truncate sections that cover complex topics.
+
+The 15 sections must cover the following topics in this exact order:
+
+1- System Overview and Architectural Intent
+2- Frontend Architecture and React Component Design
+3- Frontend State Management and Data Flow
+4- API Contract Design and Frontend to Backend Communication
+5- FastAPI Backend Structure and Service Layer Design
+6- AI Orchestration Strategy and LangGraph Workflow Design
+7- OpenAI Integration and Prompt Engineering Decisions
+8- PDF Generation Pipeline and Document Assembly
+9- Authentication, Authorization, and Security Architecture
+10- Error Handling Strategy Across the Full Stack
+11- Asynchronous Processing and Concurrency Model
+12- Scalability Constraints and Bottlenecks Under Load
+13- Observability, Logging, and Production Debuggability
+14- Deployment Architecture and Environment Readiness
+15- Architectural Trade-offs, Critical Gaps, and Recommended Improvements
+
+STRICT WRITING RULES:
+
+Write in plain text only. No markdown. No headers with hash symbols. No bullet points. No dashes used as list markers. No bold or italic formatting. No special symbols of any kind. Use numbered sections with a period after the number. Within each section, write in full paragraphs with proper transitions between ideas.
+
+Write as a senior architect presenting to peers who are equally experienced. Do not explain basic concepts. Do not define what FastAPI is or what React does. Assume the audience knows the fundamentals and is evaluating judgment, depth, and architectural reasoning.
+
+For every design decision you describe, address three things: what was built, why that choice carries specific consequences in this system, and what a more robust or production-hardened alternative would look like. Criticism must be constructive and technically justified, not dismissive.
+
+Do not invent features, components, or behaviors that are not visible in the provided code. If the code has a gap, name it as a gap. If a section of the system is underdeveloped, say so directly and explain the risk it creates.
+
+Begin the document with the title: Architecture Review Document, followed by a one paragraph executive summary, then proceed into the 15 numbered sections.
+
+
+
