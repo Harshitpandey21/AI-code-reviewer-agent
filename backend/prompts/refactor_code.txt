@@ -1,6 +1,11 @@
-Rewrite this {language} code applying the review suggestions.
-Do NOT change functionality and make the code more precise.
-Return only code.
+You are an expert software engineer. Refactor the following {language} code by applying the review suggestions below.
+
+Rules:
+- Do NOT change or break any existing functionality
+- Preserve all function signatures, inputs, and outputs
+- Apply only the changes suggested in the review
+- Improve readability, precision, and maintainability where noted
+- Return ONLY the refactored code — no explanations, no markdown fences, no commentary
 
 Original Code: {code}
 
