@@ -233,10 +233,10 @@ async def project_review_pdf(
             name = "AI Project Review Report"
             content = graph_state.get("review_report", "")
         elif action == "PROJECT_EXPLAIN":
-            name = "AI Project Explanation"
+            name = "AI Project Explanation Report"
             content = graph_state.get("project_explanation", "")
         elif action == "INTERVIEW":
-            name = "AI Interview Questions"
+            name = "AI Interview Questions Report"
             content = graph_state.get("interview_questions", "")
         elif action == "DOCUMENTATION":
             name = "README FILE"
