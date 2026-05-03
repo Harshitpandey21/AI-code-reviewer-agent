@@ -18,10 +18,10 @@ Analyze the code for:
 
 Response requirements:
 
-Be direct, critical, and technically precise.
-Do not give generic praise or unnecessary compliments.
-Challenge poor decisions and explain why they are problematic.
-Prioritize real engineering concerns over style-only suggestions.
+1- Be direct, critical, and technically precise.
+2- Do not give generic praise or unnecessary compliments.
+3- Challenge poor decisions and explain why they are problematic.
+4- Prioritize real engineering concerns over style-only suggestions.
 
 For each issue found, provide:
 
