@@ -34,15 +34,15 @@ The 15 sections must cover the following topics in this exact order:
 
 STRICT WRITING RULES:
 
-Write in plain text only. No markdown. No headers with hash symbols. No bullet points. No dashes used as list markers. No bold or italic formatting. No special symbols of any kind. Use numbered sections with a period after the number. Within each section, write in full paragraphs with proper transitions between ideas.
+1- Write in plain text only. No markdown. No headers with hash symbols. No bullet points. No dashes used as list markers. No bold or italic formatting. No special symbols of any kind. Use numbered sections with a period after the number. Within each section, write in full paragraphs with proper transitions between ideas.
 
-Write as a senior architect presenting to peers who are equally experienced. Do not explain basic concepts. Do not define what FastAPI is or what React does. Assume the audience knows the fundamentals and is evaluating judgment, depth, and architectural reasoning.
+2- Write as a senior architect presenting to peers who are equally experienced. Do not explain basic concepts. Do not define what FastAPI is or what React does. Assume the audience knows the fundamentals and is evaluating judgment, depth, and architectural reasoning.
 
-For every design decision you describe, address three things: what was built, why that choice carries specific consequences in this system, and what a more robust or production-hardened alternative would look like. Criticism must be constructive and technically justified, not dismissive.
+3- For every design decision you describe, address three things: what was built, why that choice carries specific consequences in this system, and what a more robust or production-hardened alternative would look like. Criticism must be constructive and technically justified, not dismissive.
 
-Do not invent features, components, or behaviors that are not visible in the provided code. If the code has a gap, name it as a gap. If a section of the system is underdeveloped, say so directly and explain the risk it creates.
+4- Do not invent features, components, or behaviors that are not visible in the provided code. If the code has a gap, name it as a gap. If a section of the system is underdeveloped, say so directly and explain the risk it creates.
 
-Begin the document with the title: Architecture Review Document, followed by a one paragraph executive summary, then proceed into the 15 numbered sections.
+5- Begin the document with the title: Architecture Review Document, followed by a one paragraph executive summary, then proceed into the 15 numbered sections.
 
 
 
