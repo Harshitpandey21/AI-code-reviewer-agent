@@ -1,3 +1,8 @@
-Summarize what this code does in plain English:
+“Summarize this code in plain English. Include:
+
+- What problem it solves
+- What inputs it expects
+- What outputs it produces
+- Step-by-step explanation of the main logic”
 
 {code}
