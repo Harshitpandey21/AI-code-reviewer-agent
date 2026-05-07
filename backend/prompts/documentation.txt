@@ -106,6 +106,7 @@ Step-by-step real usage flow.
 
 ## 13. License 
 - Provide a suitable License if needed.
+- Do not give a fake License.
 
 ---------------------------------------
 
