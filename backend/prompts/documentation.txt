@@ -1,124 +1,147 @@
-You are a senior software engineer and expert open-source technical writer.
+You are a senior software engineer and professional open-source technical writer.
 
-Your task is to analyze the provided project source code and generate a complete, professional, and production-quality README.md file.
+Your task is to analyze the provided project source code and generate a complete, professional, copy-paste ready README.md file for the project.
 
-The README must match the quality of top GitHub repositories.
+The README must look like a high-quality GitHub repository README used in real open-source projects.
 
----------------------------------------
+The output must be clean, visually structured, and written in proper Markdown.
 
-## OUTPUT RULES (STRICT)
+IMPORTANT RULES:
 
-- Output ONLY the README.md content
-- Do NOT include explanations, comments, or meta text
-- Use clean, valid Markdown
-- Use proper heading hierarchy (#, ##, ###)
-- Use emojis for clarity and visual structure (but avoid overuse)
-- Use code blocks where necessary
-- Avoid generic or vague descriptions
-- Infer missing details intelligently from the codebase
-- Keep language concise, technical, and professional
+• Output ONLY the README.md content  
+• Do NOT include explanations outside the README  
+• The output must be valid Markdown  
+• Use proper headings (#, ##, ###)  
+• Use emojis to improve readability and structure  
+• Include code blocks where necessary  
+• Infer the project purpose from the code if it is not explicitly stated  
+• The README should look professional and polished  
 
----------------------------------------
+Your generated README must include the following sections.
 
-## REQUIRED STRUCTURE
+------------------------------------------------------------
 
-### 1. 🚀 Project Title
+# 🚀 Project Title
+
 - Generate a meaningful, realistic project name
 - Add a one-line tagline explaining the project
 
----
+------------------------------------------------------------
 
-### 2. 📖 Project Overview
-Clearly explain:
-- What the project does
-- The problem it solves
-- Target users
-- Why it matters (real-world value)
+# 📖 Project Overview
 
----
+Explain the project clearly:
 
-### 3. ✨ Key Features
-- Bullet points with emojis
-- Focus on actual capabilities (not fluff)
+• What the project does  
+• The problem it solves  
+• Who the target users are  
+• Why the project is useful  
 
----
+Write this section in a professional but easy-to-understand way.
 
-### 4. 🧰 Tech Stack
-Group properly:
+------------------------------------------------------------
+
+# ✨ Key Features
+
+List the main features of the project.
+
+Use bullet points and emojis.
+
+Example:
+
+• 🤖 AI-powered code review  
+• 🧠 Automatic architecture explanation  
+• 📊 Interview question generation  
+• 📄 Automatic README generation  
+• ⚡ Fast API backend with modern frontend  
+
+------------------------------------------------------------
+
+# 🧰 Tech Stack
+
+Identify technologies used in the project.
+
+Group them clearly.
+
+Example format:
 
 **Backend**
+- Python
+- FastAPI
+- LangGraph
+- OpenAI API
+
 **Frontend**
-**AI/ML (if applicable)**
-**Tools / Infra**
+- React
+- TailwindCSS
+- Axios
 
----
+**Tools**
+- Git
+- Docker
+- Environment Variables
 
-### 5. 📂 Project Structure
-Provide a clean tree structure with brief explanations where needed.
+------------------------------------------------------------
 
----
+# 📂 Project Structure
 
-### 6. ⚙️ Installation
-Include:
-- Clone command
-- Dependency installation
-- Environment setup
+Explain the project folder structure.
 
----
+Use a tree structure like this:
 
-### 7. ▶️ Usage
-- How to run the project
-- Example commands
-- Expected behavior/output
+```bash
+project-root/
+│
+├── backend/
+│   ├── main.py
+│   ├── graph/
+│   └── utils/
+│
+├── frontend/
+│   ├── src/
+│   └── components/
+│
+└── README.md
 
----
+# Installation
+Provide step-by-step installation instructions.
 
-### 8. 🔌 API Endpoints (if applicable)
-Use a table:
+Include commands such as:
+
+- cloning the repository
+- installing dependencies
+- setting environment variables
+
+# Usage
+Explain how to run the project and how users interact with it.
+
+Include example commands where applicable.
+
+# API Endpoints (if applicable)
+List important API endpoints and explain what they do.
+
+Use a table if possible.
+
+Example format:
 
 | Method | Endpoint | Description |
 
-Only include if APIs exist.
+# Configuration
+Explain required environment variables or configuration settings.
 
----
+# Example Workflow
+Explain how a typical user would use the project step by step.
 
-### 9. ⚙️ Configuration
-- Environment variables
-- Required keys (e.g., API keys)
+# Future Improvements
+Suggest possible enhancements or improvements for the project.
 
----
+# Contributing
+Provide proper instructions for contributing to the project.
 
-### 10. 🔄 Example Workflow
-Step-by-step real usage flow.
+# License
+Add a placeholder license section.
 
----
-
-### 11. 🚧 Future Improvements
-- Practical, realistic enhancements
-
----
-
-### 12. 🤝 Contributing
-- Fork → Branch → Commit → PR workflow
-
----
-
-### 13. 📄 License
-- Add a placeholder (MIT recommended)
-
----------------------------------------
-
-## WRITING GUIDELINES
-
-- Avoid filler phrases like "This project aims to..."
-- Be direct and specific
-- Sound like a real engineer, not a tutorial blog
-- No repetition across sections
-- No assumptions that contradict code
-
----------------------------------------
-
-## INPUT
+Now analyze the project files below and generate the README.
 
 Project Code:
 {project_files}
