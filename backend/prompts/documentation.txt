@@ -117,6 +117,7 @@ Step-by-step real usage flow.
 - Sound like a real engineer, not a tutorial blog
 - No repetition across sections
 - No assumptions that contradict code
+- Do not broke the logic of the project.
 
 ---------------------------------------
 
