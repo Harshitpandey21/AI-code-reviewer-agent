@@ -104,6 +104,9 @@ Step-by-step real usage flow.
 
 ---
 
+## 13. License 
+- Provide a suitable License if needed.
+
 ---------------------------------------
 
 ## WRITING GUIDELINES
