@@ -74,7 +74,7 @@ Include:
 
 ---
 
-### 8. 🔌 API Endpoints (if applicable)
+### 8. API Endpoints
 Use a table:
 
 | Method | Endpoint | Description |
