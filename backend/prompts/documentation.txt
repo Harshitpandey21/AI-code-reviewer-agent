@@ -54,7 +54,8 @@ Group properly:
 ---
 
 ### 5. 📂 Project Structure
-Provide a clean tree structure with brief explanations where needed.
+- Provide a clean tree structure.
+- Made the tree structure properly with small description if needed.
 
 ---
 
@@ -102,9 +103,6 @@ Step-by-step real usage flow.
 - Fork → Branch → Commit → PR workflow
 
 ---
-
-### 13. 📄 License
-- Add a placeholder (MIT recommended)
 
 ---------------------------------------
 
