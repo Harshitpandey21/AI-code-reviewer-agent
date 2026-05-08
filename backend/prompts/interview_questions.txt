@@ -33,7 +33,7 @@ Number the questions from 1 to 20.
 
 Question: Write the full technical interview question here.
 
-ANSWER: Provide a structured, detailed, and professional explanation as if evaluating a candidate in a real interview.
+ANSWER: Provide a structured, detailed, and professional explanation as if evaluating a candidate in a real interview. Answer should be precise.
 
 Formatting rules:
 
