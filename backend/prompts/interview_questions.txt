@@ -42,6 +42,7 @@ Formatting rules:
 - No special symbols.
 - Do not shorten answers.
 - Do not provide generic responses.
+- Provide full detailed answer.
 
 Project Code:
 {project_files}
