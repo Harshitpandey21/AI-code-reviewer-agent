@@ -118,6 +118,7 @@ Step-by-step real usage flow.
 - No repetition across sections
 - No assumptions that contradict code
 - Do not broke the logic of the project.
+- Write all the sections precisely.
 
 ---------------------------------------
 
