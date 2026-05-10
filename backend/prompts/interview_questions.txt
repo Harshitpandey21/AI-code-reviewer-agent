@@ -40,9 +40,9 @@ Formatting rules:
 - Plain text only.
 - No markdown.
 - No special symbols.
-- Do not shorten answers.
 - Do not provide generic responses.
 - Provide full detailed answer.
+- Do not provide short answer.
 
 Project Code:
 {project_files}
