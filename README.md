@@ -148,8 +148,6 @@ cd frontend
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173` and the API at `http://localhost:8000`.
-
 ---
 
 ## 🔌 API Endpoints
