@@ -12,7 +12,7 @@ Codexa is a full-stack web application that uses LangGraph-powered AI agent pipe
 - **Full Project Intelligence** — Upload a complete project as a ZIP archive and choose from four AI-powered analysis modes:
   - **Project Review** — Architecture analysis, code quality assessment, and risk identification across the entire codebase.
   - **Project Explanation** — A plain-language walkthrough of how the project works, its modules, and their relationships.
-  - **Interview Questions** — Generates technical interview Q&A grounded in the actual implementation.
+  - **Interview Questions** — Generates technical interview Q&A from the project Zip file.
   - **README / Documentation** — Auto-generates polished, developer-ready documentation from real project files.
 - **Real-Time Streaming** — All AI output streams token-by-token directly into the UI for a responsive, chat-like experience.
 - **PDF Export** — One-click download of complete reports as professionally formatted PDF files.
