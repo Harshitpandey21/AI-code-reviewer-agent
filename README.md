@@ -168,7 +168,7 @@ Pass one of the following as the `action` form field to `/project-review-stream`
 |--------|-------------|
 | `PROJECT_REVIEW` | Full project code quality and architecture review |
 | `PROJECT_EXPLAIN` | Plain-language explanation of the project |
-| `INTERVIEW` | Technical interview questions based on the codebase |
+| `INTERVIEW` | Technical interview questions based on the full Project ZIP File |
 | `DOCUMENTATION` | README and technical documentation generation |
 
 ---
