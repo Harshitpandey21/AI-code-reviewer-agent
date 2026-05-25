@@ -154,7 +154,7 @@ npm run dev
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/` | Server Check |
+| `GET` | `/` | Server Health Check |
 | `POST` | `/single-review-stream` | Stream single-file review (review + test + refactor) |
 | `POST` | `/single-review/pdf` | Generate single-file PDF report |
 | `POST` | `/project-review-stream` | Stream project analysis (action-based) |
