@@ -2,7 +2,7 @@
 
 > Analyze, understand, and improve your codebase with AI agents built for real developer workflows.
 
-Codexa is a full-stack web application that uses LangGraph-powered AI agent pipelines to review source code, explain project architecture, generate documentation, produce test reports, refactor code, and prepare interview questions — all with real-time streaming output and downloadable PDF reports.
+Codexa is a multi-agent full-stack web application that uses LangGraph-powered AI agent pipelines to review source code, explain project architecture, generate documentation, produce test reports, refactor code, and prepare interview questions — all with real-time streaming output and downloadable PDF reports.
 
 ---
 
