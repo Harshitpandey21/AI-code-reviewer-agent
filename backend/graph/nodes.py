@@ -1,12 +1,11 @@
 from pathlib import Path
-
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
 
 load_dotenv()
 
-llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
+llm = ChatOpenAI(model="gpt-4o", temperature=0.2) # uses OpenAI model
 
 def load_prompt(path, encoding="utf-8"):
     return open(path, encoding=encoding).read()
