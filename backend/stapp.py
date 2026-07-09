@@ -5,8 +5,8 @@ import zipfile, io
 from graph.graph_builder import Final as SingleFileGraph
 from project_graph.graph_builder import FinalProjectGraph
 
-st.set_page_config(page_title="AI Agent Studio", layout="wide")
-st.title("🧠 AI Agent Studio")
+st.set_page_config(page_title="Codexa", layout="wide")
+st.title("🧠 Codexa")
 
 def detect_language(filename):
     ext = filename.split(".")[-1].lower()
