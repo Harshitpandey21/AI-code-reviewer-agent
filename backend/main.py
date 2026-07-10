@@ -15,7 +15,7 @@ from utils.pdf_generator import generate_single_review_pdf
 from graph.nodes import stream_single_file_pipeline
 from project_graph.nodes import stream_project_pipeline
 
-app = FastAPI()
+app = FastAPI() # FastAPI server 
 
 app.add_middleware(
     CORSMiddleware,
