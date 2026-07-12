@@ -26,7 +26,7 @@ app.add_middleware(
 
 ALLOWED_ACTIONS = {
     "PROJECT_REVIEW": ("AI Project Review Report", "review_report"), # Project review 
-    "PROJECT_EXPLAIN": ("AI Project Explanation", "project_explanation"),
+    "PROJECT_EXPLAIN": ("AI Project Explanation", "project_explanation"), # Project explain
     "INTERVIEW": ("AI Interview Questions", "interview_questions"),
     "DOCUMENTATION": ("AI Project Documentation", "documentation_generation"),
 }
