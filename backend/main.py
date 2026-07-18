@@ -45,7 +45,7 @@ def is_text_file(filename: str) -> bool:
 
 def extract_project_files_from_zip(zip_content: bytes) -> Dict[str, str]:
     if not zip_content:
-        raise HTTPException(status_code=400, detail="Uploaded ZIP file is empty")
+        raise HTTPException(status_code=400, detail="Uploaded ZIP file is empty") # raise error
 
     zip_buffer = io.BytesIO(zip_content)
 
