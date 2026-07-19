@@ -50,7 +50,7 @@ def extract_project_files_from_zip(zip_content: bytes) -> Dict[str, str]:
     zip_buffer = io.BytesIO(zip_content)
 
     if not zipfile.is_zipfile(zip_buffer):
-        raise HTTPException(status_code=400, detail="Uploaded file is not a valid ZIP archive")
+        raise HTTPException(status_code=400, detail="Uploaded file is not a valid ZIP archive") # error
 
     zip_buffer.seek(0)
     extracted_files: Dict[str, str] = {}
