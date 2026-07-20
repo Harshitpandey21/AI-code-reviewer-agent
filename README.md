@@ -6,7 +6,7 @@ Codexa is a multi-agent full-stack web application that uses LangGraph-powered A
 
 ---
 
-## ✨ Features
+## Features
 
 - **Single File Code Review** — Upload any source file and receive a structured AI review covering code quality, issues, and improvement suggestions, along with a test report and refactored version of the code.
 - **Full Project Intelligence** — Upload a complete project as a ZIP archive and choose from four AI-powered analysis modes:
