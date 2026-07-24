@@ -29,7 +29,7 @@ ALLOWED_ACTIONS = {
     "PROJECT_EXPLAIN": ("AI Project Explanation", "project_explanation"), # Project explanation
     "INTERVIEW": ("AI Interview Questions", "interview_questions"), # interview questions 
     "DOCUMENTATION": ("AI Project Documentation", "documentation_generation"), # Readme document generation
-}
+} # allowed actions 
 
 TEXT_FILE_EXTENSIONS = {
     ".py", ".js", ".ts", ".tsx", ".jsx",
@@ -37,7 +37,7 @@ TEXT_FILE_EXTENSIONS = {
     ".html", ".css", ".scss",
     ".json", ".md", ".txt", ".yml", ".yaml", ".toml", ".xml",
     ".sh", ".env", ".sql"
-}
+} 
 
 def is_text_file(filename: str) -> bool:
     lower = filename.lower()
