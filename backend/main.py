@@ -58,7 +58,7 @@ def extract_project_files_from_zip(zip_content: bytes) -> Dict[str, str]:
     with zipfile.ZipFile(zip_buffer, "r") as zip_file:
         for name in zip_file.namelist():
             if name.endswith("/"):
-                continue
+                continue # continue 
             lower_name = name.lower()
             if "__pycache__" in lower_name or "/.git/" in lower_name or "node_modules/" in lower_name:
                 continue
