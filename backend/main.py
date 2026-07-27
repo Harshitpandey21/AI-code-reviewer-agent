@@ -71,7 +71,7 @@ def extract_project_files_from_zip(zip_content: bytes) -> Dict[str, str]:
                 if content.strip():
                     extracted_files[name] = content
             except Exception:
-                continue
+                continue # continue
 
     if not extracted_files:
         raise HTTPException(
