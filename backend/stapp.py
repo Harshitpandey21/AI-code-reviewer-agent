@@ -46,7 +46,7 @@ mode = st.radio(
 
 if mode == "Single File Code Review":
 
-    st.subheader("📄 Single File Reviewer")
+    st.subheader("📄 Single File Reviewer") # Single file review
 
     uploaded = st.file_uploader(
         "Upload any source code file",
