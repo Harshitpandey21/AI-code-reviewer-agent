@@ -138,7 +138,7 @@ async def single_review_pdf(file: UploadFile = File(...)):
 
         state = {
             "raw_code": raw_code,
-            "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp"
+            "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp" # add any language you want 
         }
 
         graph_state = await asyncio.to_thread(SingleFileGraph.invoke, state)
