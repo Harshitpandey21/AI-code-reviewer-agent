@@ -77,7 +77,7 @@ def extract_project_files_from_zip(zip_content: bytes) -> Dict[str, str]:
         raise HTTPException(
             status_code=400,
             detail="No supported code files were found inside the ZIP archive",
-        )
+        ) # error
 
     return extracted_files
 
