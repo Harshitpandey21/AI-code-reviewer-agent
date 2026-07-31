@@ -229,7 +229,7 @@ async def project_review_pdf(
             "user_request": action,
         }
         graph_state = await FinalProjectGraph.ainvoke(state)
-        if action == "PROJECT_REVIEW":
+        if action == "PROJECT_REVIEW": # project review
             name = "AI Project Review Report"
             content = graph_state.get("review_report", "")
         elif action == "PROJECT_EXPLAIN":
