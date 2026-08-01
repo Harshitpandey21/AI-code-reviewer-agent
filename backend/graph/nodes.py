@@ -10,7 +10,7 @@ llm = ChatOpenAI(model="gpt-4o", temperature=0.2) # uses OpenAI model
 def load_prompt(path, encoding="utf-8"):
     return open(path, encoding=encoding).read()
 
-PARSER_PROMPT = PromptTemplate.from_template(load_prompt("prompts/parser.txt"))
+PARSER_PROMPT = PromptTemplate.from_template(load_prompt("prompts/parser.txt")) # parser prompt
 REVIEWER_PROMPT = PromptTemplate.from_template(load_prompt("prompts/reviewer.txt"))
 REFACTOR_PROMPT = PromptTemplate.from_template(load_prompt("prompts/refactor_code.txt"))
 TEST_PROMPT = PromptTemplate.from_template(load_prompt("prompts/test.txt"))
