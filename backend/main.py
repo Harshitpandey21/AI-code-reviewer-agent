@@ -232,7 +232,7 @@ async def project_review_pdf(
         if action == "PROJECT_REVIEW": # project review
             name = "AI Project Review Report"
             content = graph_state.get("review_report", "")
-        elif action == "PROJECT_EXPLAIN":
+        elif action == "PROJECT_EXPLAIN": # project explanation
             name = "AI Project Explanation Report"
             content = graph_state.get("project_explanation", "")
         elif action == "INTERVIEW":
