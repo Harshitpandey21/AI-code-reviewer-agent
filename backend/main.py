@@ -102,7 +102,7 @@ async def root():
 async def single_review_stream(file: UploadFile = File(...)):
     raw_bytes = await file.read()
     if not raw_bytes:
-        raise HTTPException(status_code=400, detail="Uploaded file is empty")
+        raise HTTPException(status_code=400, detail="Uploaded file is empty") # error 
 
     raw_code = raw_bytes.decode("utf-8", errors="ignore")
 
