@@ -71,7 +71,7 @@ if mode == "Single File Code Review":
         r = st.session_state.single_result
 
         st.divider()
-        st.subheader("📋 Review Report")
+        st.subheader("📋 Review Report") # review report
         st.markdown(r["review_report"])
 
         st.subheader("🧪 Test Suggestions")
