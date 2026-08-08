@@ -37,7 +37,7 @@ TEXT_FILE_EXTENSIONS = {
     ".html", ".css", ".scss",
     ".json", ".md", ".txt", ".yml", ".yaml", ".toml", ".xml",
     ".sh", ".env", ".sql"
-} # allowed extensions 
+} # allowed extensions to work
 
 def is_text_file(filename: str) -> bool:
     lower = filename.lower()
