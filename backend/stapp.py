@@ -74,7 +74,7 @@ if mode == "Single File Code Review":
         st.subheader("📋 Review Report") # review report
         st.markdown(r["review_report"])
 
-        st.subheader("🧪 Test Suggestions")
+        st.subheader("🧪 Test Suggestions") # Test suggestions 
         st.markdown(r["test_report"])
 
         st.subheader("🛠️ Refactored Code")
