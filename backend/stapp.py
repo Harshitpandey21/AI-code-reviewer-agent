@@ -77,7 +77,7 @@ if mode == "Single File Code Review":
         st.subheader("🧪 Test Suggestions") # Test suggestions 
         st.markdown(r["test_report"])
 
-        st.subheader("🛠️ Refactored Code")
+        st.subheader("🛠️ Refactored Code") # Refactored Code
         st.code(r["refactored_code"], language=st.session_state.single_language)
 
         st.subheader("🔍 Code Diff")
