@@ -123,7 +123,7 @@ if mode == "Full Project Intelligence":
             with st.spinner("Analyzing project..."):
 
                 request_map = {
-                    "Project Review": "PROJECT_REVIEW",
+                    "Project Review": "PROJECT_REVIEW", # Project review
                     "Project Explanation": "PROJECT_EXPLAIN",
                     "Interview Questions": "INTERVIEW"
                 }
