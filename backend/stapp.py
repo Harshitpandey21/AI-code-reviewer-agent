@@ -80,7 +80,7 @@ if mode == "Single File Code Review":
         st.subheader("🛠️ Refactored Code") # Refactored Code
         st.code(r["refactored_code"], language=st.session_state.single_language)
 
-        st.subheader("🔍 Code Diff")
+        st.subheader("🔍 Code Diff") # Code difference
         diff_html = generate_diff_html(
             st.session_state.single_original,
             r["refactored_code"]
