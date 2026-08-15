@@ -89,7 +89,7 @@ if mode == "Single File Code Review":
 
 if mode == "Full Project Intelligence":
 
-    st.subheader("📂 Full Project Intelligence")
+    st.subheader("📂 Full Project Intelligence") # Full project intelligence
 
     uploaded_zip = st.file_uploader(
         "Upload Project as ZIP",
