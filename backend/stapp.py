@@ -142,7 +142,7 @@ if mode == "Full Project Intelligence":
         st.divider()
 
         if r.get("review_report"):
-            st.subheader("📋 Project Review Report")
+            st.subheader("📋 Project Review Report") # project review report
             st.markdown(r["review_report"])
 
         if r.get("project_explanation"):
