@@ -146,7 +146,7 @@ if mode == "Full Project Intelligence":
             st.markdown(r["review_report"])
 
         if r.get("project_explanation"):
-            st.subheader("📘 Project Explanation")
+            st.subheader("📘 Project Explanation") # project explanation
             st.markdown(r["project_explanation"])
 
         if r.get("interview_questions"):
