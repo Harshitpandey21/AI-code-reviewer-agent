@@ -41,7 +41,7 @@ def generate_diff_html(original, refactored):
 
 mode = st.radio(
     "Select Mode",
-    ["Single File Code Review", "Full Project Intelligence"],
+    ["Single File Code Review", "Full Project Intelligence"], # Two modes
     horizontal=True
 )
 
