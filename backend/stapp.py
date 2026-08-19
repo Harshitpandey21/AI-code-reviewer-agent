@@ -125,7 +125,7 @@ if mode == "Full Project Intelligence":
 
                 request_map = {
                     "Project Review": "PROJECT_REVIEW", # Project review
-                    "Project Explanation": "PROJECT_EXPLAIN",
+                    "Project Explanation": "PROJECT_EXPLAIN", # Project Explanation
                     "Interview Questions": "INTERVIEW"
                 }
 
