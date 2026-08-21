@@ -88,7 +88,7 @@ if mode == "Single File Code Review":
         )
         st.components.v1.html(diff_html, height=600, scrolling=True)
 
-if mode == "Full Project Intelligence":
+if mode == "Full Project Intelligence": # Full Project Intelligence 
 
     st.subheader("📂 Full Project Intelligence") # Full project intelligence
 
