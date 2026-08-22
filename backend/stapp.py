@@ -93,7 +93,7 @@ if mode == "Full Project Intelligence": # Full Project Intelligence
     st.subheader("📂 Full Project Intelligence") # Full project intelligence
 
     uploaded_zip = st.file_uploader(
-        "Upload Project as ZIP",
+        "Upload Project as ZIP", # upload project ZIP
         type=["zip"],
         key="project_zip_uploader"
     )
