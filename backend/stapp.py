@@ -15,7 +15,7 @@ def detect_language(filename):
         "py":"python","js":"javascript","ts":"typescript","java":"java",
         "cpp":"cpp","c":"c","cs":"csharp","go":"go","rb":"ruby",
         "php":"php","html":"html","css":"css"
-    } # allowed languages
+    } # allowed languages/extensions
     return mapping.get(ext,"text")
 
 
