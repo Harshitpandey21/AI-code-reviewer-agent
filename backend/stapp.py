@@ -7,7 +7,7 @@ from graph.graph_builder import Final as SingleFileGraph
 from project_graph.graph_builder import FinalProjectGraph
 
 st.set_page_config(page_title="Codexa", layout="wide")
-st.title("🧠 Codexa") # project name 
+st.title("🧠 Codexa") # project/title name
 
 def detect_language(filename):
     ext = filename.split(".")[-1].lower()
