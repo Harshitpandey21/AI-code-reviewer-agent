@@ -24,7 +24,7 @@ def generate_diff_html(original, refactored):
     html = differ.make_file(
         original.splitlines(),
         refactored.splitlines(),
-        "Original Code",
+        "Original Code", # Original code 
         "Refactored Code"
     )
 
