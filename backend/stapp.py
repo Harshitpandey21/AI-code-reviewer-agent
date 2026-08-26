@@ -144,7 +144,7 @@ if mode == "Full Project Intelligence": # Full Project Intelligence
 
         if r.get("review_report"):
             st.subheader("📋 Project Review Report") # project review report
-            st.markdown(r["review_report"])
+            st.markdown(r["review_report"]) # review report
 
         if r.get("project_explanation"):
             st.subheader("📘 Project Explanation") # project explanation
