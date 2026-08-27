@@ -2,7 +2,6 @@
 import streamlit as st
 import difflib
 import zipfile, io
-
 from graph.graph_builder import Final as SingleFileGraph
 from project_graph.graph_builder import FinalProjectGraph
 
@@ -25,7 +24,7 @@ def generate_diff_html(original, refactored):
         original.splitlines(),
         refactored.splitlines(),
         "Original Code", # Original code 
-        "Refactored Code"
+        "Refactored Code" #Refactored Code
     )
 
     custom_css = """
