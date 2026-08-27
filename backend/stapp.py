@@ -44,7 +44,7 @@ mode = st.radio(
     horizontal=True
 )
 
-if mode == "Single File Code Review":
+if mode == "Single File Code Review": # Single file code review
 
     st.subheader("📄 Single File Reviewer") # Single file review
 
