@@ -72,7 +72,7 @@ if mode == "Single File Code Review": # Single file code review
 
         st.divider()
         st.subheader("📋 Review Report") # review report
-        st.markdown(r["review_report"])
+        st.markdown(r["review_report"]) # review report
 
         st.subheader("🧪 Test Suggestions") # Test suggestions 
         st.markdown(r["test_report"])
