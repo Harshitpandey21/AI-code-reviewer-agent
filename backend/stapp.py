@@ -151,4 +151,4 @@ if mode == "Full Project Intelligence": # Full Project Intelligence
 
         if r.get("interview_questions"):
             st.subheader("🎯 Interview Questions") # interview questions
-            st.markdown(r["interview_questions"])
+            st.markdown(r["interview_questions"]) # interview questions
