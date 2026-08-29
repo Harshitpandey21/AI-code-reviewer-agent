@@ -120,7 +120,7 @@ if mode == "Full Project Intelligence": # Full Project Intelligence
 
         if st.button("Run Project Agent", key="run_project"):
 
-            with st.spinner("Analyzing project..."):
+            with st.spinner("Analyzing project..."): # A Spinner 
 
                 request_map = {
                     "Project Review": "PROJECT_REVIEW", # Project review
