@@ -109,7 +109,7 @@ async def single_review_stream(file: UploadFile = File(...)):
     state = {
         "raw_code": raw_code,
         "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp"
-    }
+    } # allowed languages 
 
     def event_generator():
         try:
