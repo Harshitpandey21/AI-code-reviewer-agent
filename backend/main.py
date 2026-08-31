@@ -137,7 +137,7 @@ async def single_review_pdf(file: UploadFile = File(...)):
         raw_code = raw_bytes.decode("utf-8", errors="ignore")
 
         state = {
-            "raw_code": raw_code,
+            "raw_code": raw_code, # raw code
             "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp" # add any language you want 
         }
 
