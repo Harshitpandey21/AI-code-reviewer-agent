@@ -99,7 +99,7 @@ if mode == "Full Project Intelligence": # Full Project Intelligence
 
     if uploaded_zip:
 
-        with st.spinner("Extracting ZIP..."):
+        with st.spinner("Extracting ZIP..."): # Extracting ZIP
 
             zip_bytes = io.BytesIO(uploaded_zip.read())
 
