@@ -49,7 +49,7 @@ if mode == "Single File Code Review": # Single file code review
     st.subheader("📄 Single File Reviewer") # Single file review
 
     uploaded = st.file_uploader(
-        "Upload any source code file",
+        "Upload any source code file", # upload any source file 
         key="single_file_uploader"
     )
 
