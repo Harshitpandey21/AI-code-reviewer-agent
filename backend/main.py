@@ -92,7 +92,7 @@ def validate_graph_output(graph_state, required_key: str) -> str:
     if not isinstance(content, str) or not content.strip():
         raise RuntimeError(f"Missing or invalid graph output for key: '{required_key}'")
 
-    return content
+    return content # returning content
 
 @app.get("/")
 async def root():
