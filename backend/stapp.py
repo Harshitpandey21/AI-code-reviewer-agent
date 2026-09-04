@@ -63,7 +63,7 @@ if mode == "Single File Code Review": # Single file code review
                 state = {"raw_code": raw_code, "language": language}
                 result = SingleFileGraph.invoke(state)
 
-                st.session_state.single_result = result
+                st.session_state.single_result = result # result
                 st.session_state.single_original = raw_code # raw code
                 st.session_state.single_language = language
 
