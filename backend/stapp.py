@@ -35,8 +35,8 @@ def generate_diff_html(original, refactored):
         .diff_chg { background-color: #ffe066 !important; }
         .diff_header { background-color: #262730 !important; color: white !important; }
     </style>
-    """
-    return custom_css + html
+    """ 
+    return custom_css + html # custom CSS
 
 mode = st.radio(
     "Select Mode",
