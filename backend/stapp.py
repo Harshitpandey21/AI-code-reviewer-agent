@@ -50,7 +50,7 @@ if mode == "Single File Code Review": # Single file code review
 
     uploaded = st.file_uploader(
         "Upload any source code file", # upload any source file 
-        key="single_file_uploader"
+        key="single_file_uploader" # single file uploader
     )
 
     if uploaded:
