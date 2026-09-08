@@ -111,7 +111,7 @@ async def single_review_stream(file: UploadFile = File(...)):
         "language": "python, go, html, css, java, javascript, typescript, rust, c, cpp"
     } # allowed languages 
 
-    def event_generator():
+    def event_generator(): # event generator function
         try:
             for event in stream_single_file_pipeline(state):
                 yield json.dumps(event, ensure_ascii=False) + "\n"
