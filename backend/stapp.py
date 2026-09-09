@@ -15,7 +15,7 @@ def detect_language(filename): #detect language function
         "cpp":"cpp","c":"c","cs":"csharp","go":"go","rb":"ruby",
         "php":"php","html":"html","css":"css"
     } # allowed languages/extensions
-    return mapping.get(ext,"text")
+    return mapping.get(ext,"text") # return mapping
 
 
 def generate_diff_html(original, refactored):
