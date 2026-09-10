@@ -79,7 +79,7 @@ def extract_project_files_from_zip(zip_content: bytes) -> Dict[str, str]:
             detail="No supported code files were found inside the ZIP archive",
         ) # error
 
-    return extracted_files
+    return extracted_files # return extracted files
 
 def validate_graph_output(graph_state, required_key: str) -> str:
     if not isinstance(graph_state, dict):
