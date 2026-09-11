@@ -83,4 +83,4 @@ def generate_single_review_pdf(review, tests, refactored):
     )
 
     doc.build(content)
-    return path
+    return path # return path
