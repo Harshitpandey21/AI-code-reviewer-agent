@@ -39,7 +39,7 @@ def generate_diff_html(original, refactored):
     return custom_css + html # custom CSS
 
 mode = st.radio(
-    "Select Mode",
+    "Select Mode", # select any Mode
     ["Single File Code Review", "Full Project Intelligence"], # Two modes
     horizontal=True
 )
