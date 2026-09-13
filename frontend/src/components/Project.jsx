@@ -3,11 +3,11 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const TAB_IDS = [
-  "PROJECT_REVIEW", # Project Review Tab
-  "PROJECT_EXPLAIN", # Project Explantion tab 
-  "INTERVIEW", # Project Interview tab
+  "PROJECT_REVIEW", 
+  "PROJECT_EXPLAIN", 
+  "INTERVIEW", 
   "DOCUMENTATION",
-];
+]; # all available tab ids
 
 const EMPTY_RESULTS = {
   PROJECT_REVIEW: { review_report: "" },
