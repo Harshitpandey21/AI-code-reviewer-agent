@@ -25,7 +25,7 @@ def generate_project_pdf(title: str, content: str) -> str:
         fontName="Courier",
         fontSize=9,
         leading=12
-    )
+    ) # Paragraph style 
 
     story = []
     story.append(Paragraph(escape(title), styles["Title"]))
