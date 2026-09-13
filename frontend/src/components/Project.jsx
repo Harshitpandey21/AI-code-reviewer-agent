@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const TAB_IDS = [
   "PROJECT_REVIEW", # Project Review Tab
-  "PROJECT_EXPLAIN",
+  "PROJECT_EXPLAIN", # Project Explantion tab 
   "INTERVIEW",
   "DOCUMENTATION",
 ];
