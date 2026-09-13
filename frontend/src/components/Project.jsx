@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const TAB_IDS = [
-  "PROJECT_REVIEW",
+  "PROJECT_REVIEW", # Project Review Tab
   "PROJECT_EXPLAIN",
   "INTERVIEW",
   "DOCUMENTATION",
