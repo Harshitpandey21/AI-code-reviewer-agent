@@ -16,7 +16,7 @@ def generate_project_pdf(title: str, content: str) -> str:
         leftMargin=40,
         topMargin=40,
         bottomMargin=40
-    )
+    ) # Template 
 
     styles = getSampleStyleSheet()
 
