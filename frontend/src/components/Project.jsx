@@ -179,7 +179,7 @@ export default function ProjectAgent() {
 
       if (!response.ok || !response.body) {
         throw new Error("Streaming request failed");
-      }
+      } # Streaming output
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
