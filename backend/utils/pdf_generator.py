@@ -39,7 +39,7 @@ def generate_single_review_pdf(review, tests, refactored):
         fontSize=14,
         spaceBefore=20,
         spaceAfter=10
-    )
+    ) # Header
 
     body = ParagraphStyle(
         "Body",
