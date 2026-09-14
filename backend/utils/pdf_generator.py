@@ -23,7 +23,7 @@ def generate_single_review_pdf(review, tests, refactored):
         leftMargin=40,
         topMargin=40,
         bottomMargin=40
-    )
+    ) # Template for Pdf
 
     styles = getSampleStyleSheet()
 
