@@ -52,7 +52,7 @@ def generate_single_review_pdf(review, tests, refactored):
         fontName="Courier",
         fontSize=9,
         leading=12
-    )
+    ) # Code
 
     content = []
 
