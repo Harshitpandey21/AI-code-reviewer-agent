@@ -32,7 +32,7 @@ def generate_single_review_pdf(review, tests, refactored):
         fontSize=18,
         spaceAfter=20,
         alignment=1
-    )
+    ) # Title
 
     header = ParagraphStyle(
         "Header",
