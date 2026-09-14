@@ -45,7 +45,7 @@ def generate_single_review_pdf(review, tests, refactored):
         "Body",
         fontSize=10,
         leading=14
-    )
+    ) # Body
 
     code = ParagraphStyle(
         "Code",
