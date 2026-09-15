@@ -98,7 +98,7 @@ def validate_graph_output(graph_state, required_key: str) -> str:
 async def root():
     return {"message": "API is running"} #API is running 
 
-@app.post("/single-review-stream")
+@app.post("/single-review-stream") # post single review stream 
 async def single_review_stream(file: UploadFile = File(...)):
     raw_bytes = await file.read()
     if not raw_bytes:
