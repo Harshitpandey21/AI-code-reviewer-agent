@@ -41,7 +41,7 @@ TEXT_FILE_EXTENSIONS = {
 
 def is_text_file(filename: str) -> bool:
     lower = filename.lower()
-    return any(lower.endswith(ext) for ext in TEXT_FILE_EXTENSIONS)
+    return any(lower.endswith(ext) for ext in TEXT_FILE_EXTENSIONS) # return text file extensions
 
 def extract_project_files_from_zip(zip_content: bytes) -> Dict[str, str]:
     if not zip_content:
