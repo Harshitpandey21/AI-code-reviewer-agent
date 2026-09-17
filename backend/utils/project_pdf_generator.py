@@ -27,7 +27,7 @@ def generate_project_pdf(title: str, content: str) -> str:
         leading=12
     ) # Paragraph style 
 
-    story = []
+    story = [] # story
     story.append(Paragraph(escape(title), styles["Title"]))
     story.append(Spacer(1, 0.3 * inch))
     safe_text = escape(content)
