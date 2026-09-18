@@ -14,7 +14,7 @@ import os
 
 def generate_single_review_pdf(review, tests, refactored):
     filename = f"single_review_{uuid.uuid4().hex}.pdf"
-    path = f"/tmp/{filename}"
+    path = f"/tmp/{filename}" # path
 
     doc = SimpleDocTemplate(
         path,
