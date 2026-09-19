@@ -7,7 +7,7 @@ import uuid, os
 
 def generate_project_pdf(title: str, content: str) -> str:
     filename = f"project_report_{uuid.uuid4().hex}.pdf"
-    path = os.path.join(os.getcwd(), filename)
+    path = os.path.join(os.getcwd(), filename) # path
 
     doc = SimpleDocTemplate(
         path,
