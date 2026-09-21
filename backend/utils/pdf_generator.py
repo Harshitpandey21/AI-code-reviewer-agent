@@ -25,7 +25,7 @@ def generate_single_review_pdf(review, tests, refactored):
         bottomMargin=40
     ) # Template for Pdf
 
-    styles = getSampleStyleSheet()
+    styles = getSampleStyleSheet() # styles
 
     title = ParagraphStyle(
         "Title",
