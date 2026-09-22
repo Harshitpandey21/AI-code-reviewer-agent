@@ -18,7 +18,7 @@ def generate_project_pdf(title: str, content: str) -> str:
         bottomMargin=40
     ) # Template 
 
-    styles = getSampleStyleSheet()
+    styles = getSampleStyleSheet() # styles
 
     code_style = ParagraphStyle(
         "CodeStyle",
