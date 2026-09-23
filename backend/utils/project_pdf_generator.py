@@ -35,6 +35,6 @@ def generate_project_pdf(title: str, content: str) -> str:
     doc.build(story)
 
     if not os.path.exists(path) or os.path.getsize(path) < 1000:
-        raise RuntimeError("PDF generation failed")
+        raise RuntimeError("PDF generation failed") # raise runtime error
 
     return path # returning Path
