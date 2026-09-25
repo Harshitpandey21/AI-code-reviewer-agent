@@ -34,7 +34,7 @@ graph.add_conditional_edges(
     },
 )
 
-graph.add_edge("PROJECT_REVIEW", END)
+graph.add_edge("PROJECT_REVIEW", END)# Project review edge
 graph.add_edge("PROJECT_EXPLAIN", END)
 graph.add_edge("INTERVIEW", END)
 graph.add_edge("DOCUMENTATION", END)
