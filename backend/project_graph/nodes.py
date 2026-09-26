@@ -5,7 +5,7 @@ from typing import AsyncGenerator
 from dotenv import load_dotenv
 load_dotenv()
 
-llm1 = ChatOpenAI(model="gpt-4o", temperature=0.2)
+llm1 = ChatOpenAI(model="gpt-4o", temperature=0.2) #llm1
 llm2 = ChatOpenAI(model="gpt-4o-mini", temperature=0.2)
 
 def load_prompt(path, encoding="utf-8"):
