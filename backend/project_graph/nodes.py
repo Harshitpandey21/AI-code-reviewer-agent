@@ -17,7 +17,7 @@ PROJECT_REVIEW_PROMPT = PromptTemplate.from_template(
 
 PROJECT_EXPLAIN_PROMPT = PromptTemplate.from_template(
     load_prompt("prompts/project_explain.txt", encoding="utf-8")
-)
+) # Loading Prompt for Project Explanation 
 
 INTERVIEW_PROMPT = PromptTemplate.from_template(
     load_prompt("prompts/interview_questions.txt", encoding="utf-8")
