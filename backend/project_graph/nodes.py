@@ -13,7 +13,7 @@ def load_prompt(path, encoding="utf-8"):
 
 PROJECT_REVIEW_PROMPT = PromptTemplate.from_template(
     load_prompt("prompts/project_review.txt", encoding="utf-8")
-)
+)# Loading Prompt for Project Review
 
 PROJECT_EXPLAIN_PROMPT = PromptTemplate.from_template(
     load_prompt("prompts/project_explain.txt", encoding="utf-8")
