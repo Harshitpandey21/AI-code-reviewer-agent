@@ -25,7 +25,7 @@ INTERVIEW_PROMPT = PromptTemplate.from_template(
 
 DOCUMENTATION_PROMPT = PromptTemplate.from_template(
     load_prompt("prompts/documentation.txt", encoding="utf-8")
-)
+) # load prompt for documentation
 
 def stringify_project_files(project_files: dict[str, str]) -> str:
     output = []
