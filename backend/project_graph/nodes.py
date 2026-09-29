@@ -21,7 +21,7 @@ PROJECT_EXPLAIN_PROMPT = PromptTemplate.from_template(
 
 INTERVIEW_PROMPT = PromptTemplate.from_template(
     load_prompt("prompts/interview_questions.txt", encoding="utf-8")
-)
+) # load prompt for interview questions
 
 DOCUMENTATION_PROMPT = PromptTemplate.from_template(
     load_prompt("prompts/documentation.txt", encoding="utf-8")
