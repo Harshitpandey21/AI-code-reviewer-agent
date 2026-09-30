@@ -13,6 +13,7 @@ def router_node(state):
 def route_condition(state):
     return state["user_request"] #return user_request state
 
+
 graph = StateGraph(ProjectState) # graph
 
 graph.add_node("router", router_node)
