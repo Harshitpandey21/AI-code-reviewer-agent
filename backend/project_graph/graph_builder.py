@@ -11,7 +11,7 @@ def router_node(state):
     return {}
 
 def route_condition(state):
-    return state["user_request"]
+    return state["user_request"] #return user_request state
 
 graph = StateGraph(ProjectState) # graph
 
