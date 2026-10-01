@@ -18,7 +18,7 @@ graph = StateGraph(ProjectState) # graph
 
 graph.add_node("router", router_node)
 graph.add_node("PROJECT_REVIEW", project_review_node) # Project review node
-graph.add_node("PROJECT_EXPLAIN", project_explain_node)
+graph.add_node("PROJECT_EXPLAIN", project_explain_node) # project explain node
 graph.add_node("INTERVIEW", interview_node)
 graph.add_node("DOCUMENTATION", documentation_node)
 
