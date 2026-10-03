@@ -5,7 +5,7 @@ from graph.nodes import *
 
 graph = StateGraph(CodeState)
 
-graph.add_node("code_parser", code_parser_node)
+graph.add_node("code_parser", code_parser_node)# code parser node
 graph.add_node("code_reviewer", code_reviewer_node)
 graph.add_node("refactored_code", refactored_code)
 graph.add_node("test_code", test_code)
