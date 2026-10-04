@@ -3,7 +3,7 @@ from graph.state import CodeState
 
 from graph.nodes import *
 
-graph = StateGraph(CodeState)
+graph = StateGraph(CodeState) # graph
 
 graph.add_node("code_parser", code_parser_node)# code parser node
 graph.add_node("code_reviewer", code_reviewer_node)# code reviewer node
