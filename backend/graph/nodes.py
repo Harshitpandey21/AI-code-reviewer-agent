@@ -8,7 +8,7 @@ load_dotenv()
 llm = ChatOpenAI(model="gpt-4o", temperature=0.2) # uses OpenAI model
 
 def load_prompt(path, encoding="utf-8"):
-    return open(path, encoding=encoding).read()
+    return open(path, encoding=encoding).read() # function for loading prompt 
 
 PARSER_PROMPT = PromptTemplate.from_template(load_prompt("prompts/parser.txt")) # parser prompt
 REVIEWER_PROMPT = PromptTemplate.from_template(load_prompt("prompts/reviewer.txt")) # reviewer prompt 
