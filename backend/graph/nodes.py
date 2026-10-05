@@ -11,9 +11,9 @@ def load_prompt(path, encoding="utf-8"):
     return open(path, encoding=encoding).read()
 
 PARSER_PROMPT = PromptTemplate.from_template(load_prompt("prompts/parser.txt")) # parser prompt
-REVIEWER_PROMPT = PromptTemplate.from_template(load_prompt("prompts/reviewer.txt"))
-REFACTOR_PROMPT = PromptTemplate.from_template(load_prompt("prompts/refactor_code.txt"))
-TEST_PROMPT = PromptTemplate.from_template(load_prompt("prompts/test.txt"))
+REVIEWER_PROMPT = PromptTemplate.from_template(load_prompt("prompts/reviewer.txt")) # reviewer prompt 
+REFACTOR_PROMPT = PromptTemplate.from_template(load_prompt("prompts/refactor_code.txt"))# refactor prompt
+TEST_PROMPT = PromptTemplate.from_template(load_prompt("prompts/test.txt"))# test prompt
 
 def code_parser_node(CodeState):
     prompt = PARSER_PROMPT.format(code=CodeState["raw_code"])
