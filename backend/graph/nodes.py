@@ -19,7 +19,7 @@ def code_parser_node(CodeState):
     prompt = PARSER_PROMPT.format(code=CodeState["raw_code"])
     result = llm.invoke(prompt)
     CodeState["parsed_summary"] = result.content
-    return CodeState
+    return CodeState # function for code parser node 
 
 def code_reviewer_node(CodeState):
     prompt = REVIEWER_PROMPT.format(
