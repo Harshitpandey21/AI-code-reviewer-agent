@@ -50,7 +50,7 @@ def test_code(CodeState):
     return CodeState # function for test code 
 
 def human_approval(CodeState):
-    return CodeState
+    return CodeState # function for human approval
 
 def _stream_prompt(prompt_text: str):
     for chunk in llm.stream(prompt_text):
