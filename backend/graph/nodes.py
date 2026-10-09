@@ -36,7 +36,7 @@ def refactored_code(CodeState):
         review=CodeState["review_code"],
         language=CodeState["language"]
     )
-    result = llm.invoke(prompt)
+    result = llm.invoke(prompt) # result
     CodeState["refactored_code"] = result.content
     return CodeState # function for refactored node
 
@@ -56,7 +56,7 @@ def _stream_prompt(prompt_text: str):
     for chunk in llm.stream(prompt_text):
         token = chunk.content or ""
         if token:
-            yield token
+            yield token 
 
 def stream_single_file_pipeline(state: dict):
     parser_prompt = PARSER_PROMPT.format(code=state["raw_code"])
