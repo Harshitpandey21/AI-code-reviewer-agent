@@ -3,7 +3,7 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv() 
 
 llm = ChatOpenAI(model="gpt-4o", temperature=0.2) # uses OpenAI model
 
@@ -52,11 +52,11 @@ def test_code(CodeState):
 def human_approval(CodeState):
     return CodeState # function for human approval
 
-def _stream_prompt(prompt_text: str):
+def _stream_prompt(prompt_text: str): 
     for chunk in llm.stream(prompt_text):
         token = chunk.content or ""
         if token:
-            yield token 
+            yield token # function for stream output
 
 def stream_single_file_pipeline(state: dict):
     parser_prompt = PARSER_PROMPT.format(code=state["raw_code"])
