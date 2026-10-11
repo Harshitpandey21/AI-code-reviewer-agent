@@ -13,7 +13,7 @@ graph.add_node("human_approval", human_approval) # human approval node
 
 graph.set_entry_point("code_parser")
 
-graph.add_edge(START, "code_parser")
+graph.add_edge(START, "code_parser") # code parser edge
 graph.add_edge("code_parser", "code_reviewer")
 graph.add_edge("code_reviewer", "refactored_code")
 graph.add_edge("refactored_code", "test_code")
