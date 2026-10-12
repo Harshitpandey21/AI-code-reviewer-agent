@@ -26,7 +26,7 @@ def code_reviewer_node(CodeState):
         code=CodeState["raw_code"],
         language=CodeState["language"]
     )
-    result = llm.invoke(prompt)
+    result = llm.invoke(prompt) # result
     CodeState["review_code"] = result.content
     return CodeState # function for code reviewer node 
 
